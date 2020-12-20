@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Container from '@material-ui/core/Container';
 import Typography from '../prebuilt/Typography';
+import Link from 'next/link'
 
 const styles = (theme) => ({
   root: {
@@ -91,38 +92,30 @@ function ProductCategories(props) {
       url:
         'https://images.unsplash.com/photo-1584291527908-033f4d6542c8?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
       title: 'Web Development',
+      link: 'web',
       width: '40%',
     },
     {
       url:
         'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
-      title: 'Policy & Technology Consulting',
+      title: 'Consulting & Strategy',
+      link: 'consulting',
       width: '20%',
     },
     {
       url:
       'https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
-      title: 'Data Engineering',
+      title: 'Data Management & Analytics',
+      link: 'data',
       width: '40%',
     },
     {
       url:
         'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
       title: 'Custom Integrations',
+      link: 'integrations',
       width: '38%',
-    },
-    {
-      url:
-      'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
-      title: 'API Development',
-      width: '40%',
-    },
-    {
-      url:
-        'https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
-      title: 'Database Architecture',
-      width: '20%',
-    },
+    }
   ];
 
   return (
@@ -147,6 +140,7 @@ function ProductCategories(props) {
             />
             <div className={classes.imageBackdrop} />
             <div className={classes.imageButton}>
+              <Link style={{color: '#fff'}} href={`/what-we-do/${image.link}`}>
               <Typography
                 component="h3"
                 variant="h6"
@@ -156,6 +150,7 @@ function ProductCategories(props) {
                 {image.title}
                 <div className={classes.imageMarked} />
               </Typography>
+              </Link>
             </div>
           </ButtonBase>
         ))}

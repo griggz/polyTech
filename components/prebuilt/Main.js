@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Markdown from './Markdown';
+import Markdown from '../prebuilt/Markdown';
 
 const useStyles = makeStyles((theme) => ({
   markdown: {
@@ -23,7 +23,7 @@ export default function Main(props) {
   const { posts } = props;
 
   return (
-    <Grid item xs={12} md={12} className={classes.item}>
+    <Grid item xs={12} md={8} className={classes.item}>
       {posts.map((post, index) => (
         <Markdown className={classes.markdown} key={index}>
           {post}

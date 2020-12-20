@@ -50,7 +50,7 @@ function AppAppBar(props) {
             className={classes.title}
             href="/"
           >
-            {'zuul'}
+            {'dac'}
           </Link>
           <div className={classes.right}>
             <Link
