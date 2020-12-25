@@ -20,11 +20,11 @@ const styles = (theme) => ({
 });
 
 function AppForm(props) {
-  const { children, classes } = props;
+  const { children, classes, maxWidth } = props;
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="sm">
+      <Container maxWidth={maxWidth || 'sm'}>
         <Box mt={7} mb={12}>
           <Paper className={classes.paper}>{children}</Paper>
         </Box>

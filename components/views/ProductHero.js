@@ -47,13 +47,13 @@ function ProductHero(props) {
         size="large"
         className={classes.button}
         component="a"
-        href="/premium-themes/onepirate/sign-up/"
+        href="/contact-us/"
       >
         Get Started
       </Button>
       <Typography variant="body2" color="inherit" className={classes.more}>
         Discover what it truly means to work in the 21st century
-      </Typography>
+      </Typography>z
     </ProductHeroLayout>
   );
 }

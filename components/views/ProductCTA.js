@@ -104,7 +104,7 @@ function ProductCTA(props) {
       <Snackbar
         open={open}
         onClose={handleClose}
-        message="We will send you our best offers, once a week."
+        message="Thank you so much! We look forward to interacting with you in the future!"
       />
     </Container>
   );
