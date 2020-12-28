@@ -13,6 +13,9 @@ const rawTheme = createMuiTheme({
       main: '#ff3366',
       dark: '#e62958',
     },
+    accent: {
+      main: '#90f1ef'
+    },
     warning: {
       main: '#ffc071',
       dark: '#ffb25e',
@@ -81,7 +84,7 @@ const theme = {
     },
     h5: {
       ...rawTheme.typography.h5,
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: rawTheme.typography.fontWeightLight,
     },
     h6: {

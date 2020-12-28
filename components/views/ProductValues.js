@@ -7,6 +7,9 @@ import Typography from '../prebuilt/Typography';
 import MultilineChartIcon from '@material-ui/icons/MultilineChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import {Brain} from '@styled-icons/boxicons-regular/Brain';
+import {FlowTree} from '@styled-icons/entypo/FlowTree';
+import {CodeBlock} from '@styled-icons/boxicons-regular/CodeBlock';
 
 const styles = (theme) => ({
   root: {
@@ -17,7 +20,7 @@ const styles = (theme) => ({
   },
   container: {
     marginTop: theme.spacing(15),
-    marginBottom: theme.spacing(30),
+    marginBottom: theme.spacing(15),
     display: 'flex',
     position: 'relative',
   },
@@ -29,7 +32,8 @@ const styles = (theme) => ({
   },
   image: {
     height: 55,
-    fontSize: 60
+    fontSize: 60,
+    color: theme.palette.secondary.main
   },
   title: {
     marginTop: theme.spacing(5),
@@ -41,6 +45,9 @@ const styles = (theme) => ({
     top: 50,
     width: '100%',
     height: '100%'
+  },
+  button: {
+    marginTop: theme.spacing(8),
   },
 });
 
@@ -66,7 +73,7 @@ function ProductValues(props) {
               alt="curvy lines"
             />
               <Typography variant="h6" className={classes.title}>
-                Data Analysis and Reporting
+                Analysis & Reporting
               </Typography>
               <Typography variant="h5">
                 {"We'll make your data useful again by "}
@@ -82,10 +89,9 @@ function ProductValues(props) {
                 alt="graph"
               />
               <Typography variant="h6" className={classes.title}>
-                Interactive Dashboards
+                Visualization
               </Typography>
               <Typography variant="h5">
-                {"Take your data to the next level! "}
                 {"Using modern technologies and elegant web designs, we'll make your data work for you. "}
               </Typography>
             </div>
@@ -102,7 +108,49 @@ function ProductValues(props) {
               </Typography>
               <Typography variant="h5">
                 {"Now more than ever it's critical you have a knowledgeable advocate in your corner. "}
-                {"Whether it's tech, policy, or analysis it's better when we're involved. "}
+              </Typography>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <div className={classes.item}>
+              <CodeBlock
+                className={classes.image}
+                alt="CodeBlock"
+              />
+              <Typography variant="h6" className={classes.title}>
+                Web Development
+              </Typography>
+              <Typography variant="h5">
+                {"We design and develop beautiful, lightning fast, scalable, "}
+                {"and analytics-focused websites tailored to grow your business."}
+              </Typography>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <div className={classes.item}>
+              <FlowTree
+                className={classes.image}
+                alt="FlowTree"
+              />
+              <Typography variant="h6" className={classes.title}>
+                Automation
+              </Typography>
+              <Typography variant="h5">
+                {"We help your business gain leverage and efficiency through smart & focused automation."}
+              </Typography>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <div className={classes.item}>
+              <Brain
+                className={classes.image}
+                alt="brain"
+              />
+              <Typography variant="h6" className={classes.title}>
+                Integrations
+              </Typography>
+              <Typography variant="h5">
+                {"We unify your ideas with your ecosystem, truly making more out of what you have."}
               </Typography>
             </div>
           </Grid>

@@ -20,11 +20,12 @@ function Post(props) {
   const classes = useStyles();
   const {posts, sections, mainFeaturedContent, sidebar} = props
   return (
+    <>
+    <AppAppBar />
+    <Header sections={sections} />
+    <MainFeaturedContent post={mainFeaturedContent} />
     <Container maxWidth="lg">
-      <AppAppBar />
-      <Header sections={sections} />
       <main>
-        <MainFeaturedContent post={mainFeaturedContent} />
         <Grid container spacing={5} className={classes.mainGrid}>
           <Main posts={posts} />
           <Sidebar
@@ -36,6 +37,7 @@ function Post(props) {
         </Grid>
       </main>
   </Container>
+  </>
   )
 }
 

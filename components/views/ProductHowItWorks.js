@@ -7,7 +7,7 @@ import Button from '../prebuilt/Button';
 import Typography from '../prebuilt/Typography';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import {Rocket} from '@styled-icons/icomoon/Rocket';
 
 const styles = (theme) => ({
   root: {
@@ -100,12 +100,12 @@ function ProductHowItWorks(props) {
             <Grid item xs={12} md={4}>
               <div className={classes.item}>
                 <div className={classes.number}>3.</div>
-                <DirectionsRunIcon
+                <Rocket
                   alt="clock"
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  Let's get moving and build something amazing, together.
+                  Let's build something amazing, together.
                 </Typography>
               </div>
             </Grid>

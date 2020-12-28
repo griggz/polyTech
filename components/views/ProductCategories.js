@@ -98,7 +98,7 @@ function ProductCategories(props) {
     {
       url:
         'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format&fit=crop&w=400&q=80',
-      title: 'Consulting & Strategy',
+      title: 'Consulting',
       link: 'consulting',
       width: '20%',
     },
@@ -128,6 +128,8 @@ function ProductCategories(props) {
           <ButtonBase
             key={image.title}
             className={classes.imageWrapper}
+            component="a"
+            href={`/what-we-do/${image.link}/`}
             style={{
               width: image.width,
             }}
@@ -140,17 +142,15 @@ function ProductCategories(props) {
             />
             <div className={classes.imageBackdrop} />
             <div className={classes.imageButton}>
-              <Link style={{color: '#fff'}} href={`/what-we-do/${image.link}`}>
-              <Typography
-                component="h3"
-                variant="h6"
-                color="inherit"
-                className={classes.imageTitle}
-              >
-                {image.title}
-                <div className={classes.imageMarked} />
-              </Typography>
-              </Link>
+                <Typography
+                  component="h3"
+                  variant="h6"
+                  color="inherit"
+                  className={classes.imageTitle}
+                >
+                  {image.title}
+                  <div className={classes.imageMarked} />
+                </Typography>
             </div>
           </ButtonBase>
         ))}

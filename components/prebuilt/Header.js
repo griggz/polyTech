@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Link from '@material-ui/core/Link';
+import AppBar from '../prebuilt/AppBar';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   toolbarSecondary: {
     justifyContent: 'space-between',
     overflowX: 'auto',
+    position: 'sticky'
   },
   toolbarLink: {
     padding: theme.spacing(1),
@@ -27,20 +29,20 @@ export default function Header(props) {
 
   return (
     <React.Fragment>
-      <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-        {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            className={classes.toolbarLink}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
+        <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+          {sections.map((section) => (
+            <Link
+              color="inherit"
+              noWrap
+              key={section.title}
+              variant="body2"
+              href={section.url}
+              className={classes.toolbarLink}
+            >
+              {section.title}
+            </Link>
+          ))}
+        </Toolbar>
     </React.Fragment>
   );
 }
