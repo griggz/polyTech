@@ -5,13 +5,13 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Typography from '../prebuilt/Typography';
 import TextField from '../prebuilt/TextField';
-
+import {TwitterOutline} from '@styled-icons/evaicons-outline/TwitterOutline'
 function Copyright() {
   return (
     <React.Fragment>
       {'© '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        DAC
       </Link>{' '}
       {new Date().getFullYear()}
     </React.Fragment>
@@ -88,11 +88,8 @@ export default function AppFooter() {
               spacing={2}
             >
               <Grid item className={classes.icons}>
-                <a href="https://material-ui.com/" className={classes.icon}>
-                  <img src="/static/themes/onepirate/appFooterFacebook.png" alt="Facebook" />
-                </a>
                 <a href="https://twitter.com/MaterialUI" className={classes.icon}>
-                  <img src="/static/themes/onepirate/appFooterTwitter.png" alt="Twitter" />
+                  <TwitterOutline />
                 </a>
               </Grid>
               <Grid item>
