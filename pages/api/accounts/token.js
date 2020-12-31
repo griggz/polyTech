@@ -1,10 +1,11 @@
 import axios from 'axios'
 
 export default async (req, res) => {
+
   if (req.method === 'POST') {
     try {
       // retrieve payment intent data
-      const {data} = await axios.post('https://unf-datahub-production.herokuapp.com/account/api/token/', req.body)
+      const {data} = await axios.post('https://dac-datahub-staging.herokuapp.com/account/api/token/', req.body)
       res.status(200).send(data)
     } catch (err) {
       console.log(err.response)

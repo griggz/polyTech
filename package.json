@@ -16,7 +16,7 @@
     "@material-ui/styles": "^4.10.0",
     "@mui-treasury/components": "^1.5.2",
     "@mui-treasury/styling": "^0.2.8",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.4",
     "d3": "^5.16.0",
     "d3-scale": "latest",

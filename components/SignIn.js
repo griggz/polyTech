@@ -1,6 +1,6 @@
 import withRoot from './prebuilt/withRoot';
 // --- Post bootstrap -----
-import React from 'react';
+import React, {useState} from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
@@ -12,6 +12,8 @@ import { email, required } from './form/validation';
 import RFTextField from './form/RFTextField';
 import FormButton from './form/FormButton';
 import FormFeedback from './form/FormFeedback';
+import { useSession, signIn } from 'next-auth/client'
+import { useRouter, withRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -26,9 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn() {
+function SignIn({csrfToken}) {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = useState(false);
+
+  const { query: { callbackUrl } } = useRouter();
 
   const validate = (values) => {
     const errors = required(['email', 'password'], values);
@@ -43,15 +47,16 @@ function SignIn() {
     return errors;
   };
 
-  const handleSubmit = () => {
+  const onSubmit = async (values) => {
     setSent(true);
+    await signIn('credentials', { email: values.email, password: values.password, callbackUrl: callbackUrl})
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <AppForm>
-        <React.Fragment>
+        <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             Sign In
           </Typography>
@@ -61,10 +66,14 @@ function SignIn() {
               Sign Up here
             </Link>
           </Typography>
-        </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+        </>
+        <Form
+          onSubmit={onSubmit}
+          subscription={{ submitting: true, pristine: true }}
+          validate={validate}>
+          {({ handleSubmit, values, submitting }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
+            <input name='csrfToken' type='hidden' defaultValue={csrfToken}/>
               <Field
                 autoComplete="email"
                 autoFocus
@@ -117,8 +126,8 @@ function SignIn() {
         </Typography>
       </AppForm>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
 }
 
-export default withRoot(SignIn);
+export default withRouter(withRoot(SignIn));

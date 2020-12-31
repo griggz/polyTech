@@ -5,6 +5,13 @@ import { withStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../prebuilt/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../prebuilt/Toolbar';
+import MuiTooltip from '../prebuilt/Tooltip';
+import {Database} from '@styled-icons/remix-line/Database';
+import {SignOut} from '@styled-icons/octicons/SignOut';
+import { signIn, signOut, useSession } from 'next-auth/client';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 const styles = (theme) => ({
   title: {
@@ -28,15 +35,19 @@ const styles = (theme) => ({
   rightLink: {
     fontSize: 16,
     color: theme.palette.common.white,
-    marginLeft: theme.spacing(3),
+    // marginLeft: theme.spacing(3)
   },
   linkSecondary: {
     color: theme.palette.secondary.main,
   },
+  icon: {
+    width: 30
+  }
 });
 
 function AppAppBar(props) {
   const { classes } = props;
+  const [ session, loading ] = useSession();
 
   return (
     <div>
@@ -53,23 +64,30 @@ function AppAppBar(props) {
             {'dac'}
           </Link>
           <div className={classes.right}>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/sign-in/"
-            >
-              {'Sign In'}
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/sign-up/"
-            >
-              {'Sign Up'}
-            </Link>
+            <ButtonGroup variant="text" aria-label="outlined primary button group">
+              <MuiTooltip text={!session ? 'Sign In': 'DataHub'}>
+                <Button
+                  color="inherit"
+                  component='a'
+                  className={classes.rightLink}
+                  href= {session ? 'https://dac-datahub-staging.herokuapp.com' : undefined}
+                  onClick={!session ? signIn : undefined}
+                >
+                  {!session ? 'Sign In' : <Database className={classes.icon}/>}
+                </Button>
+              </MuiTooltip>
+              <MuiTooltip text={!session ? 'Sign Up': 'Sign Out'}>
+                <Button
+                  color="inherit"
+                  component='a'
+                  className={clsx(classes.rightLink, classes.linkSecondary)}
+                  href= {!session ? "/auth/sign-up/" : undefined}
+                  onClick={session ? signOut : undefined}
+                >
+                  {!session ? 'Sign Up' : <SignOut className={classes.icon}/>}
+                </Button>
+              </MuiTooltip>
+            </ButtonGroup>
           </div>
         </Toolbar>
       </AppBar>
