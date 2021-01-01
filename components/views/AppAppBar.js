@@ -35,13 +35,18 @@ const styles = (theme) => ({
   rightLink: {
     fontSize: 16,
     color: theme.palette.common.white,
-    // marginLeft: theme.spacing(3)
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 11,
+    },
   },
   linkSecondary: {
     color: theme.palette.secondary.main,
   },
   icon: {
-    width: 30
+    width: 30,
+    [theme.breakpoints.down('xs')]: {
+      width: 20,
+    },
   }
 });
 

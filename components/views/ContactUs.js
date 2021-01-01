@@ -1,9 +1,8 @@
 import withRoot from '../prebuilt/withRoot';
 // --- Post bootstrap -----
-import React from 'react';
+import React, {useState} from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '../prebuilt/Typography';
 import AppFooter from './AppFooter';
@@ -14,6 +13,9 @@ import RFTextField from '../form/RFTextField';
 import FormButton from '../form/FormButton';
 import FormFeedback from '../form/FormFeedback';
 import CheckBox from '../prebuilt/CheckBox';
+import axios from 'axios';
+import { useRouter, withRouter } from 'next/router';
+
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,10 +32,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ContactUs() {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = useState(false);
+  const [subscribe, setSubscribe] = useState(true);
+  const router = useRouter();
 
   const validate = (values) => {
-    const errors = required(['email', 'password'], values);
+    const errors = required(['firstName', 'lastName', 'email'], values);
 
     if (!errors.email) {
       const emailError = email(values.email, values);
@@ -41,26 +45,46 @@ function ContactUs() {
         errors.email = email(values.email, values);
       }
     }
-
     return errors;
   };
 
-  const handleSubmit = () => {
+  const onSubmit = async (values) => {
+    console.log('submit!');
     setSent(true);
+    await axios.post('/api/leads/contact_us/', {
+      first_name: values.firstName || '',
+      last_name: values.lastName || '',
+      email: values.email || '',
+      job_title: values.jobTitle || '',
+      organization: values.organization || '',
+      work_phone: +values.workPhone || '',
+      web_site: values.webSite || '',
+      number_of_staff: +values.numberOfStaff || '',
+      industry: values.industry || '',
+      solution_option: values.solutionOption || '',
+      method_of_referral: values.methodOfReferral || '',
+      contact_source: values.contactSource || '',
+      additional_details: values.additionalDetails || '',
+      subscribe: subscribe || ''
+    })
+    router.push('/')
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <AppForm maxWidth={'lg'}>
-        <React.Fragment>
+        <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             Contact Us
           </Typography>
-        </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+        </>
+        <Form
+          onSubmit={onSubmit}
+          subscription={{ submitting: true, pristine: true }}
+          validate={validate}>
+          {({ handleSubmit, values, submitting }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Field
@@ -83,7 +107,7 @@ function ContactUs() {
                   component={RFTextField}
                   disabled={submitting || sent}
                   required
-                  name="Last Name"
+                  name="lastName"
                   autoComplete="lastName"
                   label="Last Name"
                   margin="normal"
@@ -222,9 +246,8 @@ function ContactUs() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <CheckBox text={"Want to stay up to date with what we're up to?"} />
+                <CheckBox checked={subscribe} setChecked={setSubscribe} text={"Want to stay up to date with what we're up to?"} />
               </Grid>
-
             </Grid>
             <FormSpy subscription={{ submitError: true }}>
               {({ submitError }) =>
@@ -249,8 +272,8 @@ function ContactUs() {
         </Form>
       </AppForm>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
 }
 
-export default withRoot(ContactUs);
+export default withRouter(withRoot(ContactUs));

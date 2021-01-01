@@ -4,8 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 
 export default function CheckBox(props) {
-  const [checked, setChecked] = useState(true);
-  const {text} = props;
+  const {text, setChecked, checked} = props;
 
   const handleChange = (event) => {
     setChecked(event.target.checked);

@@ -1,6 +1,6 @@
 import ContactUs from '../../components/views/ContactUs'
 
-export default function Login() {
+export default function Contact() {
 
   return (
     <ContactUs />
