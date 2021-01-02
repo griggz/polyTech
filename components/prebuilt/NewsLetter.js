@@ -1,28 +1,19 @@
+import React, {useState} from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
-import AppForm from '../views/AppForm';
 import { email, required } from '../form/validation';
 import RFTextField from '../form/RFTextField';
 import FormButton from '../form/FormButton';
 import FormFeedback from '../form/FormFeedback';
 import Paper from './Paper';
+import axios from 'axios';
 // MUI
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
-  sidebarSection: {
-    // marginTop: theme.spacing(1),
-    // marginBottom: theme.spacing(4)
-  },
   imageSrc: {
-    // position: 'absolute',
     width: 90,
     height: 90
-    // backgroundSize: 'cover',
-    // backgroundPosition: 'center 40%',
   },
   customPaper: {
     padding: theme.spacing(2),
@@ -32,10 +23,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Topics () {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = useState(false);
+  const [complete, setComplete] = useState()
 
   const validate = (values) => {
-    const errors = required(['email', 'password'], values);
+    const errors = required(['email'], values);
 
     if (!errors.email) {
       const emailError = email(values.email, values);
@@ -47,21 +39,35 @@ export default function Topics () {
     return errors;
   };
 
-  const handleSubmit = () => {
+  const onSubmit = async (values) => {
     setSent(true);
+    await axios.post('/api/leads/subscribe/', {
+      email: values.email
+    }).then( function (res) {
+      setComplete(true)
+    })
   };
 
   return (
     <Paper variant="outlined" className={classes.customPaper}>
-      <Typography variant="h4" gutterBottom className={classes.sidebarSection}>
+      <Typography variant="h4" gutterBottom>
         Email Newsletter
       </Typography>
-      <Typography variant="h5" gutterBottom className={classes.sidebarSection}>
+      {complete ?
+      <Typography variant="h4" gutterBottom className={classes.sidebarSection}>
+        Thank you!
+      </Typography>
+      :
+      <>
+      <Typography variant="h5" gutterBottom>
         Subscribe to our Newsletter for new blog posts, tech tips or news about our latest projects.
       </Typography>
-      <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-        {({ handleSubmit2, submitting }) => (
-          <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+      <Form
+          onSubmit={onSubmit}
+          subscription={{ submitting: true, pristine: true }}
+          validate={validate}>
+          {({ handleSubmit, values, submitting }) => (
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <Field
               autoComplete="email"
               autoFocus
@@ -95,6 +101,8 @@ export default function Topics () {
           </form>
         )}
       </Form>
+      </>
+      }
     </Paper>
   )
 }

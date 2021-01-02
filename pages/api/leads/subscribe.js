@@ -3,11 +3,10 @@ import axios from 'axios'
 export default async (req, res) => {
   if (req.method === 'POST') {
     try {
-      // retrieve payment intent data
-      const {data} = await axios.post('https://dac-datahub-staging.herokuapp.com/account/api/register/', req.body)
+      const {data} = await axios.post('https://dac-datahub-staging.herokuapp.com/api/leads/subscribe/', req.body)
       res.status(200).send(data)
     } catch (err) {
-      console.log(err.response)
+      console.log(err)
       res.status(500).json({ statusCode: 500, message: err.response.data.detail, data: err.response.data })
     }
   } else {

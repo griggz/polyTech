@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Container from '@material-ui/core/Container';
 import Typography from '../prebuilt/Typography';
-import TextField from '../prebuilt/TextField';
 import Snackbar from '../prebuilt/Snackbar';
-import Button from '../prebuilt/Button';
+import axios from 'axios';
+import { Field, Form, FormSpy } from 'react-final-form';
+import { email, required } from '../form/validation';
+import RFTextField from '../form/RFTextField';
+import FormButton from '../form/FormButton';
+import FormFeedback from '../form/FormFeedback';
 
 const styles = (theme) => ({
   root: {
@@ -33,7 +37,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(2),
   },
   button: {
-    width: '100%',
+    width: '100%'
   },
   imagesWrapper: {
     position: 'relative',
@@ -61,10 +65,29 @@ const styles = (theme) => ({
 function ProductCTA(props) {
   const { classes } = props;
   const [open, setOpen] = React.useState(false);
+  const [sent, setSent] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = async (values) => {
+    setSent(true);
+    await axios.post('/api/leads/subscribe/', {
+      email: values.email
+    });
     setOpen(true);
+    values.email = ''
+    setSent(false);
+  };
+
+  const validate = (values) => {
+    const errors = required(['email'], values);
+
+    if (!errors.email) {
+      const emailError = email(values.email, values);
+      if (emailError) {
+        errors.email = email(values.email, values);
+      }
+    }
+
+    return errors;
   };
 
   const handleClose = () => {
@@ -76,18 +99,53 @@ function ProductCTA(props) {
       <Grid container>
         <Grid item xs={12} md={6} className={classes.cardWrapper}>
           <div className={classes.card}>
-            <form onSubmit={handleSubmit} className={classes.cardContent}>
-              <Typography variant="h2" component="h2" gutterBottom>
-                Stay in the know!
-              </Typography>
-              <Typography variant="h5">
-                I promise we won't pester you! But let us brag about what we've done, what we're doing, and where we're going.
-              </Typography>
-              <TextField noBorder className={classes.textField} placeholder="Your email" />
-              <Button type="submit" color="primary" variant="contained" className={classes.button}>
-                Keep me updated
-              </Button>
-            </form>
+              <Form
+                onSubmit={onSubmit}
+                subscription={{ submitting: true, pristine: true }}
+                validate={validate}>
+                {({ handleSubmit, values, form, submitting }) => (
+                  <form onSubmit={handleSubmit}  className={classes.cardContent} noValidate>
+                    <Typography variant="h2" component="h2" gutterBottom>
+                      Stay in the know!
+                    </Typography>
+                    <Typography variant="h5">
+                      I promise we won't pester you! But let us brag about what we've done, what we're doing, and where we're going.
+                    </Typography>
+                    <Field
+                      autoComplete="email"
+                      autoFocus
+                      component={RFTextField}
+                      disabled={submitting || sent}
+                      fullWidth
+                      margin="normal"
+                      placeholder='Your email'
+                      name="email"
+                      required
+                      size="large"
+                      className={classes.textField}
+                    />
+                    <FormSpy subscription={{ submitError: true }}>
+                      {({ submitError }) =>
+                        submitError ? (
+                          <FormFeedback className={classes.feedback} error>
+                            {submitError}
+                          </FormFeedback>
+                        ) : null
+                      }
+                    </FormSpy>
+                    <FormButton
+                      className={classes.button}
+                      disabled={submitting || sent}
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                    >
+                      {submitting || sent ? 'In progress…' : 'Keep Me Updated'}
+                    </FormButton>
+                  </form>
+                )}
+              </Form>
           </div>
         </Grid>
         <Grid item xs={12} md={6} className={classes.imagesWrapper}>
@@ -104,7 +162,7 @@ function ProductCTA(props) {
       <Snackbar
         open={open}
         onClose={handleClose}
-        message="Thank you so much! We look forward to interacting with you in the future!"
+        message="Thank you so much! We look forward to working with you in the future!"
       />
     </Container>
   );
