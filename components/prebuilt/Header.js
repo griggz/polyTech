@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Link from '@material-ui/core/Link';
-import AppBar from '../prebuilt/AppBar';
+import Paper from '../prebuilt/Paper';
+import { useTransition, animated } from 'react-spring';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   toolbarSecondary: {
     justifyContent: 'space-between',
     overflowX: 'auto',
-    position: 'sticky'
   },
   toolbarLink: {
     padding: theme.spacing(1),
@@ -23,18 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header(props) {
+export default function Header({sections, visible}) {
   const classes = useStyles();
-  const { sections } = props;
+  console.log(visible)
+  const transitions = useTransition(visible, null, {
+    from: { opacity: 0, transform: "translate3d(100%, 0 ,0)" },
+    enter: { opacity: 1, transform: "translate3d(0%, 0, 0)" },
+    })
 
   return (
-    <React.Fragment>
+    transitions.map(({ item, key, props }) =>
+      item && <animated.div key={key} style={props}>
+      <Paper variant="outlined">
         <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-          {sections.map((section) => (
+          {sections.map((section, idx) => (
             <Link
               color="inherit"
               noWrap
-              key={section.title}
+              key={idx}
               variant="body2"
               href={section.url}
               className={classes.toolbarLink}
@@ -43,8 +49,9 @@ export default function Header(props) {
             </Link>
           ))}
         </Toolbar>
-    </React.Fragment>
-  );
+      </Paper>
+    </animated.div>
+  ))
 }
 
 Header.propTypes = {

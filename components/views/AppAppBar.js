@@ -11,6 +11,7 @@ import {SignOut} from '@styled-icons/octicons/SignOut';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Header from '../prebuilt/Header';
 
 
 const styles = (theme) => ({
@@ -47,11 +48,25 @@ const styles = (theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: 20,
     },
-  }
+  },
+  toolbar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbarTitle: {
+    flex: 1,
+  },
+  toolbarSecondary: {
+    justifyContent: 'space-betw een',
+    overflowX: 'auto',
+  },
+  toolbarLink: {
+    padding: theme.spacing(1),
+    flexShrink: 0,
+  },
 });
 
 function AppAppBar(props) {
-  const { classes } = props;
+  const { classes, sections, subHeaderVisible } = props;
   const [ session, loading ] = useSession();
 
   return (
@@ -95,6 +110,10 @@ function AppAppBar(props) {
             </ButtonGroup>
           </div>
         </Toolbar>
+        {sections && subHeaderVisible
+          ? <Header sections={sections} visible={subHeaderVisible} />
+          : ''
+        }
       </AppBar>
       <div className={classes.placeholder} />
     </div>

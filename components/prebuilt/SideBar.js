@@ -25,8 +25,8 @@ export default function Sidebar(props) {
       <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
         Social
       </Typography>
-      {social.map((network) => (
-        <Link display="block" variant="body1" href="#" key={network}>
+      {social.map((network, idx) => (
+        <Link display="block" variant="body1" href="#" key={idx}>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
               <network.icon />
@@ -40,8 +40,5 @@ export default function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  archives: PropTypes.array,
-  description: PropTypes.string,
-  social: PropTypes.array,
-  title: PropTypes.string,
+  social: PropTypes.array
 };

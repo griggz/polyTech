@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     background: theme.palette.common.black,
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(0),
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',

@@ -1,17 +1,14 @@
-import React from 'react'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import {useScroll} from 'react-use';
 
-export default function Page() {
-  const [ session, loading ] = useSession()
+export default function Demo () {
+  const scrollRef = React.useRef(null);
+  const {x, y} = useScroll(scrollRef);
 
-  return <>
-    {!session && <>
-      Not signed in <br/>
-      <button onClick={signIn}>Sign in</button>
-    </>}
-    {session && <>
-      Signed in as {session.user.email} <br/>
-      <button onClick={signOut}>Sign out</button>
-    </>}
-  </>
-}
+  console.log(x, y)
+  return (
+    <div ref={scrollRef}>
+      <div>x: {x}</div>
+      <div>y: {y}</div>
+    </div>
+  );
+};

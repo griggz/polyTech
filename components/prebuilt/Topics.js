@@ -57,7 +57,7 @@ export default function Topics () {
         Other Topics
       </Typography>
       <Grid container direction="row" spacing={2} alignItems="center">
-      {topics.map((topic) => (
+      {topics.map((topic, idx) => (
         <>
         <Grid item xs={4}>
           <div className={classes.imageSrc}
@@ -66,7 +66,7 @@ export default function Topics () {
             }} />
         </Grid>
         <Grid item xs={8}>
-          <Link color='secondary' display="block" variant="body1" href={`/what-we-do/${topic.link}/`} key={topic.title}>
+          <Link color='secondary' display="block" variant="body1" href={`/what-we-do/${topic.link}/`} key={idx}>
             {topic.title}
           </Link>
         </Grid>
