@@ -12,7 +12,8 @@ import { signIn, signOut, useSession } from 'next-auth/client';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Header from '../prebuilt/Header';
-
+import {useScroll} from '../hooks/UseScroll';
+import { LocalDining } from 'styled-icons/material-rounded';
 
 const styles = (theme) => ({
   title: {
@@ -24,6 +25,9 @@ const styles = (theme) => ({
   },
   left: {
     flex: 1,
+    [theme.breakpoints.down('md')]: {
+      flex: 0,
+    },
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -37,7 +41,7 @@ const styles = (theme) => ({
     fontSize: 16,
     color: theme.palette.common.white,
     [theme.breakpoints.down('xs')]: {
-      fontSize: 11,
+      fontSize: 12,
     },
   },
   linkSecondary: {
@@ -56,7 +60,7 @@ const styles = (theme) => ({
     flex: 1,
   },
   toolbarSecondary: {
-    justifyContent: 'space-betw een',
+    justifyContent: 'space-between',
     overflowX: 'auto',
   },
   toolbarLink: {
@@ -66,7 +70,7 @@ const styles = (theme) => ({
 });
 
 function AppAppBar(props) {
-  const { classes, sections, subHeaderVisible } = props;
+  const { classes, sections, subHeaderVisible, handleClick } = props;
   const [ session, loading ] = useSession();
 
   return (
@@ -85,28 +89,40 @@ function AppAppBar(props) {
           </Link>
           <div className={classes.right}>
             <ButtonGroup variant="text" aria-label="outlined primary button group">
-              <MuiTooltip text={!session ? 'Sign In': 'DataHub'}>
-                <Button
+              <Button
                   color="inherit"
                   component='a'
                   className={classes.rightLink}
-                  href= {session ? 'https://dac-datahub-staging.herokuapp.com' : undefined}
-                  onClick={!session ? signIn : undefined}
+                  onClick={handleClick ? handleClick.values : ''}
                 >
-                  {!session ? 'Sign In' : <Database className={classes.icon}/>}
-                </Button>
-              </MuiTooltip>
-              <MuiTooltip text={!session ? 'Sign Up': 'Sign Out'}>
-                <Button
+                  {'Our Work'}
+               </Button>
+               <Button
                   color="inherit"
                   component='a'
-                  className={clsx(classes.rightLink, classes.linkSecondary)}
-                  href= {!session ? "/auth/sign-up/" : undefined}
-                  onClick={session ? signOut : undefined}
+                  className={classes.rightLink}
+                  onClick={handleClick ? handleClick.about : ''}
                 >
-                  {!session ? 'Sign Up' : <SignOut className={classes.icon}/>}
-                </Button>
-              </MuiTooltip>
+                  {'About Us'}
+               </Button>
+               <Button
+                  color="inherit"
+                  component='a'
+                  className={classes.rightLink}
+                  onClick={handleClick ? handleClick.contact : ''}
+                >
+                  {'Contact Us'}
+               </Button>
+                <MuiTooltip text={!session && !loading ? 'Sign In': 'Sign Out'}>
+                  <Button
+                    color="inherit"
+                    component='a'
+                    className={clsx(classes.rightLink, classes.linkSecondary)}
+                    onClick={!session ? signIn : signOut}
+                  >
+                    {!session && !loading ? 'Sign In' : <SignOut className={classes.icon}/>}
+                  </Button>
+                </MuiTooltip>
             </ButtonGroup>
           </div>
         </Toolbar>

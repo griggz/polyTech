@@ -1,4 +1,5 @@
 import introduction from '../../components/prebuilt/posts/web_development/introduction.md';
+import our_process from '../../components/prebuilt/posts/web_development/our_process.md';
 import Post from '../../components/views/Post'
 // MUI
 import GitHubIcon from '@material-ui/icons/GitHub';
@@ -6,11 +7,11 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 
 const sections = [
-    { title: 'Our Process', url: '#' },
-    { title: 'Engineering', url: '#' },
-    { title: "Automation", url: '#' },
-    { title: "Data Management", url: '#' },
-    { title: "Visualization", url: '#' },
+    { title: 'Overview', url: '#' },
+    { title: 'What We Do', url: '#' },
+    { title: 'Offerings', url: '#' },
+    { title: "Demos", url: '#' },
+    { title: 'Team', url: '#' },
   ];
 
 const mainFeaturedContent = {
@@ -52,7 +53,7 @@ export default function Data() {
 
   return (
       <Post
-        posts={[introduction]}
+        posts={[introduction, our_process]}
         sections={sections}
         mainFeaturedContent={mainFeaturedContent}
         sidebar={sidebar}

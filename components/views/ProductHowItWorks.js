@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -56,11 +56,12 @@ const styles = (theme) => ({
   },
 });
 
-function ProductHowItWorks(props) {
+const WrappedComponentContact = forwardRef(
+function ProductHowItWorks(props, ref) {
   const { classes } = props;
 
   return (
-    <section className={classes.root}>
+    <section className={classes.root} ref={ref}>
       <Container className={classes.container}>
         <img
           src="/static/themes/onepirate/productCurvyLines.png"
@@ -68,7 +69,7 @@ function ProductHowItWorks(props) {
           alt="curvy lines"
         />
         <Typography variant="h4" marked="center" className={classes.title} component="h2">
-          How it works
+          How we work
         </Typography>
         <div>
           <Grid container spacing={5}>
@@ -124,10 +125,10 @@ function ProductHowItWorks(props) {
       </Container>
     </section>
   );
-}
+})
 
-ProductHowItWorks.propTypes = {
+WrappedComponentContact.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ProductHowItWorks);
+export default withStyles(styles)(WrappedComponentContact);

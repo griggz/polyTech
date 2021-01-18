@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -39,10 +39,11 @@ const styles = (theme) => ({
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(5),
   },
-  curvyLines: {
+  header: {
     pointerEvents: 'none',
     position: 'absolute',
-    top: 50,
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(4),
     width: '100%',
     height: '100%'
   },
@@ -51,20 +52,19 @@ const styles = (theme) => ({
   },
 });
 
-function ProductValues(props) {
+const WrappedComponentValues = forwardRef(
+function ProductValues(props, ref) {
   const { classes } = props;
 
   return (
-    <section className={classes.root}>
-      {/* <Image src="/images/scribble-light.png" alt="me" layout='fill' top="-180" /> */}
-        {/* <img
-          src="/images/scribble.png"
-          className={classes.curvyLines}
-          alt="curvy lines"
-        /> */ }
+    <section className={classes.root} ref={ref}>
+      <Typography className={classes.header} variant="h4" marked="center" align="center" component="h2">
+        What We Do
+      </Typography>
       <Container className={classes.container}>
-        {/* <img src='/images/SGrid.svg' className={classes.curvyLines}/> */}
         <Grid container spacing={5}>
+        <Grid item xs={12}>
+        </Grid>
           <Grid item xs={12} md={4}>
             <div className={classes.item}>
             <MultilineChartIcon
@@ -158,10 +158,10 @@ function ProductValues(props) {
       </Container>
     </section>
   );
-}
+})
 
-ProductValues.propTypes = {
+WrappedComponentValues.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ProductValues);
+export default withStyles(styles)(WrappedComponentValues);

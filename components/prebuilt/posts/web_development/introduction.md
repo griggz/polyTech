@@ -1,16 +1,3 @@
-# Our Process
-___
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
+According to [The Economist (2017)](https://www.economist.com/leaders/2017/05/06/the-worlds-most-valuable-resource-is-no-longer-oil-but-data), data is now the most valuable commodity in the world. How readily available your data is, how accessible it is, and how quickly you can garner insights can make or break a business's ability to adapt and prosper. We provide businesses and organizations the ability to leverage data for insights, predictive outcomes, and growth. Our expertise in data engineering, data visualization, web development, and custom integrations will empower you to turn your ideas into impactful results. We know what the future of business operations looks like; let's work together to prepare.
 
-Curabitur blandit tempus porttitor. **Nullam quis risus eget urna mollis** ornare vel eu leo.
-Nullam id dolor id nibh ultricies vehicula ut id elit.
-
-Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermPRESIDENT’S MESSAGE ON DIVERSITYentum.
-Aenean lacinia bibendum nulla sed consectetur.
-
-Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.

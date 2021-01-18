@@ -10,6 +10,9 @@ module.exports = {
     WORKER_TOKEN: process.env.WORKER_TOKEN,
     WORKER_SESSION_LATEST: process.env.WORKER_SESSION_LATEST
   },
+  images: {
+    domains: ['images.unsplash.com'],
+  },
   target: 'serverless',
   webpack: function(config) {
     config.module.rules.push({
