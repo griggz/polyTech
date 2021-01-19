@@ -11,7 +11,7 @@ function Copyright() {
     <React.Fragment>
       {'© '}
       <Link color="inherit" href="https://material-ui.com/">
-        DAC
+        AVEC
       </Link>{' '}
       {new Date().getFullYear()}
     </React.Fragment>

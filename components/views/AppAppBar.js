@@ -6,14 +6,11 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../prebuilt/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../prebuilt/Toolbar';
 import MuiTooltip from '../prebuilt/Tooltip';
-import {Database} from '@styled-icons/remix-line/Database';
 import {SignOut} from '@styled-icons/octicons/SignOut';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Header from '../prebuilt/Header';
-import {useScroll} from '../hooks/UseScroll';
-import { LocalDining } from 'styled-icons/material-rounded';
 
 const styles = (theme) => ({
   title: {
@@ -42,6 +39,7 @@ const styles = (theme) => ({
     color: theme.palette.common.white,
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
+      visibility: 'hidden'
     },
   },
   linkSecondary: {
@@ -85,7 +83,7 @@ function AppAppBar(props) {
             className={classes.title}
             href="/"
           >
-            {'dac'}
+            {'avec'}
           </Link>
           <div className={classes.right}>
             <ButtonGroup variant="text" aria-label="outlined primary button group">

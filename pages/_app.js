@@ -17,7 +17,7 @@ export default function MyApp(props) {
   return (
       <>
       <Head>
-          <title>DAC</title>
+          <title>AVEC</title>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <Provider session={pageProps.session}>
