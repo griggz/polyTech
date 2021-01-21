@@ -26,7 +26,7 @@ function SignInForm({children}) {
 
   return (
     <>
-      <AppAppBar hideMenu={true}/>
+      <AppAppBar />
       <AppForm>
         <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
@@ -37,7 +37,6 @@ function SignInForm({children}) {
           {children}
         </div>
       </AppForm>
-      <AppFooter />
     </>
   );
 }
