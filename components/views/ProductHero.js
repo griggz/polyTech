@@ -60,7 +60,7 @@ function ProductHero(props) {
       >
         Get Started
       </Button>
-      <Typography variant="body1" color="inherit" className={classes.more}>
+      <Typography variant="body1" align="center" color="inherit" className={classes.more}>
         Let's partner together and engineer your next game-changing idea.
       </Typography>
     </ProductHeroLayout>

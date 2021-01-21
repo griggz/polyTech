@@ -15,7 +15,11 @@ import FormFeedback from '../form/FormFeedback';
 import CheckBox from '../prebuilt/CheckBox';
 import axios from 'axios';
 import { useRouter, withRouter } from 'next/router';
-
+import SelectMenu from '../form/SelectMenu';
+import SelectMenuMultiple from '../form/SelectMenuMultiple'
+import IndustryTypes from '../form/selections/IndustryTypes';
+import OrgSize from '../form/selections/OrgSize';
+import Solutions from '../form/selections/SolutionOptions';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -34,7 +38,15 @@ function ContactUs() {
   const classes = useStyles();
   const [sent, setSent] = useState(false);
   const [subscribe, setSubscribe] = useState(true);
+  const [industry, setIndustry] = useState('');
+  const [orgSize, setOrgSize] = useState('');
+  const [solution, setSolution] = useState('');
+
   const router = useRouter();
+
+  const handleIndustryChange = (event) => setIndustry(event.target.value);
+  const handleOrgSizeChange = (event) => setOrgSize(event.target.value);
+  const handleSolutionChange = (value) => setSolution(value);
 
   const validate = (values) => {
     const errors = required(['firstName', 'lastName', 'email'], values);
@@ -49,7 +61,6 @@ function ContactUs() {
   };
 
   const onSubmit = async (values) => {
-    console.log('submit!');
     setSent(true);
     await axios.post('/api/leads/contact_us/', {
       first_name: values.firstName || '',
@@ -60,9 +71,9 @@ function ContactUs() {
       work_phone: +values.workPhone || '',
       web_site: values.webSite || '',
       number_of_staff: +values.numberOfStaff || '',
-      industry: values.industry || '',
+      industry: industry || '',
       solution_option: values.solutionOption || '',
-      method_of_referral: values.methodOfReferral || '',
+      method_ofy_referral: values.methodOfReferral || '',
       contact_source: values.contactSource || '',
       additional_details: values.additionalDetails || '',
       subscribe: subscribe || ''
@@ -72,7 +83,7 @@ function ContactUs() {
 
   return (
     <>
-      <AppAppBar />
+      <AppAppBar hideMenu={true} />
       <AppForm maxWidth={'lg'}>
         <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
@@ -179,44 +190,45 @@ function ContactUs() {
                 />
               </Grid>
               <Grid item xs={12} sm={2}>
-                <Field
+                <SelectMenu
+                  name="Number of Staff"
                   fullWidth
-                  size="large"
-                  component={RFTextField}
+                  value={orgSize}
+                  values={OrgSize}
+                  type='default'
+                  onChange={handleOrgSizeChange}
+                  variant='standard'
                   disabled={submitting || sent}
-                  required
-                  name="numberOfStaff"
-                  autoComplete="numberOfStaff"
-                  label="Number of Staff"
                   margin="normal"
-                  type='number'
-                />
+                  size="large"
+                  />
               </Grid>
               <Grid item xs={12} sm={5}>
-                <Field
-                  fullWidth
-                  size="large"
-                  component={RFTextField}
-                  disabled={submitting || sent}
-                  required
-                  name="industry"
-                  autoComplete="industry"
-                  label="Industry"
-                  margin="normal"
+              <SelectMenu
+                name="Industry"
+                fullWidth
+                value={industry}
+                values={IndustryTypes}
+                type='default'
+                onChange={handleIndustryChange}
+                variant='standard'
+                disabled={submitting || sent}
+                margin="normal"
+                size="large"
+                sortData={true}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Field
-                  fullWidth
-                  size="large"
-                  component={RFTextField}
-                  disabled={submitting || sent}
-                  required
-                  name="solutionOption"
-                  autoComplete="solutionOption"
-                  label="Solution Request"
-                  margin="normal"
-                />
+              <SelectMenuMultiple
+                fullWidth
+                margin="normal"
+                size="large"
+                label='What solutions are you looking for?'
+                defaultValue="Hello World"
+                value={solution}
+                onChange={handleSolutionChange}
+                values={Solutions}
+              />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Field

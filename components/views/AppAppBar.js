@@ -25,6 +25,9 @@ const styles = (theme) => ({
     [theme.breakpoints.down('md')]: {
       flex: 0,
     },
+    [theme.breakpoints.down('xs')]: {
+      flex: 1,
+    },
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -39,7 +42,7 @@ const styles = (theme) => ({
     color: theme.palette.common.white,
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
-      visibility: 'hidden'
+      display: 'none'
     },
   },
   linkSecondary: {
@@ -68,7 +71,7 @@ const styles = (theme) => ({
 });
 
 function AppAppBar(props) {
-  const { classes, sections, subHeaderVisible, handleClick } = props;
+  const { classes, sections, subHeaderVisible, handleClick, hideMenu} = props;
   const [ session, loading ] = useSession();
 
   return (
@@ -87,6 +90,8 @@ function AppAppBar(props) {
           </Link>
           <div className={classes.right}>
             <ButtonGroup variant="text" aria-label="outlined primary button group">
+              {!hideMenu &&
+              <>
               <Button
                   color="inherit"
                   component='a'
@@ -111,6 +116,8 @@ function AppAppBar(props) {
                 >
                   {'Contact Us'}
                </Button>
+               </>
+              }
                 <MuiTooltip text={!session && !loading ? 'Sign In': 'Sign Out'}>
                   <Button
                     color="inherit"
