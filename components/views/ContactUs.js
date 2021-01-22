@@ -40,13 +40,16 @@ function ContactUs() {
   const [subscribe, setSubscribe] = useState(true);
   const [industry, setIndustry] = useState('');
   const [orgSize, setOrgSize] = useState('');
-  const [solution, setSolution] = useState('');
+  const [solution, setSolution] = useState([]);
 
   const router = useRouter();
 
   const handleIndustryChange = (event) => setIndustry(event.target.value);
   const handleOrgSizeChange = (event) => setOrgSize(event.target.value);
-  const handleSolutionChange = (value) => setSolution(value);
+  const handleSolutionChange = (event) => {
+    console.log(event.target.value)
+    setSolution(event.target.value);
+  }
 
   const validate = (values) => {
     const errors = required(['firstName', 'lastName', 'email'], values);
@@ -63,19 +66,18 @@ function ContactUs() {
   const onSubmit = async (values) => {
     setSent(true);
     await axios.post('/api/leads/contact_us/', {
-      first_name: values.firstName || '',
-      last_name: values.lastName || '',
+      firstName: values.firstName || '',
+      lastName: values.lastName || '',
       email: values.email || '',
-      job_title: values.jobTitle || '',
+      jobTitle: values.jobTitle || '',
       organization: values.organization || '',
-      work_phone: +values.workPhone || '',
-      web_site: values.webSite || '',
-      number_of_staff: +values.numberOfStaff || '',
+      workPhone: values.workPhone || '',
+      webSite: values.webSite || '',
+      orgSize: orgSize || '',
       industry: industry || '',
-      solution_option: values.solutionOption || '',
-      method_ofy_referral: values.methodOfReferral || '',
-      contact_source: values.contactSource || '',
-      additional_details: values.additionalDetails || '',
+      solution: solution || '',
+      leadSource: values.leadSource || '',
+      content: values.content || '',
       subscribe: subscribe || ''
     })
     router.push('/')
@@ -224,7 +226,6 @@ function ContactUs() {
                 margin="normal"
                 size="large"
                 label='What solutions are you looking for?'
-                defaultValue="Hello World"
                 value={solution}
                 onChange={handleSolutionChange}
                 values={Solutions}
@@ -237,8 +238,8 @@ function ContactUs() {
                   component={RFTextField}
                   disabled={submitting || sent}
                   required
-                  name="methodOfReferral"
-                  autoComplete="methodOfReferral"
+                  name="leadSource"
+                  autoComplete="leadSource"
                   label="How Did You Hear About Us?"
                   margin="normal"
                 />
@@ -249,8 +250,8 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  name="additionalDetails"
-                  autoComplete="additionalDetails"
+                  name="content"
+                  autoComplete="content"
                   label="Tell Us A Little More About What You're Looking For!"
                   margin="normal"
                   multiline

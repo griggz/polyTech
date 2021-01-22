@@ -19,17 +19,20 @@ model Leads {
   jobTitle      String?
   organization  String?
   webSite       String?
-  orgSize       Int?
+  orgSize       String?
   industry      String?
-  solutionType  String?
+  solutionType  Solution[]
   leadSource    String?
   content       String
 }
 
+model Solution {
+    id            Int     @default(autoincrement()) @id
+    solution      String
+}
+
 model Subscribe {
   id            Int     @default(autoincrement()) @id
-  firstName     String
-  lastName      String
   email         String
   active        Boolean @default(false)
 }

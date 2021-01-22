@@ -1,35 +1,53 @@
-import axios from 'axios'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 const prep = (data) => ({
-  first_name: data.first_name,
-  last_name: data.last_name,
-  email: data.email,
-  job_title: data.job_title,
-  work_phone: +data.work_phone,
-  web_site: data.web_site,
-  organization: data.organization,
-  number_of_staff: +data.number_of_staff,
-  industry: data.industry,
-  solution_option: data.solution_option,
-  method_of_referral: data.method_of_referral,
-  additional_details: data.additional_details,
-  contact_source: data.contact_source
+  firstName: data.firstName.toLowerCase().trim(),
+  lastName: data.lastName.toLowerCase().trim(),
+  email: data.email.toLowerCase().trim(),
+  workPhone: data.workPhone,
+  jobTitle: data.jobTitle.toLowerCase().trim(),
+  organization: data.organization.toLowerCase().trim(),
+  webSite: data.webSite.toLowerCase().trim(),
+  orgSize: data.orgSize.toLowerCase().trim(),
+  industry: data.industry.toLowerCase().trim(),
+  leadSource: data.leadSource.toLowerCase().trim(),
+  content: data.content.toLowerCase().trim()
 })
 
 export default async (req, res) => {
   if (req.method === 'POST') {
+    const obj = prep(req.body)
     try {
-      const obj = prep(req.body)
-      const {data} = await axios.post('https://dac-datahub-staging.herokuapp.com/api/leads/contact_us/', obj)
-      if (req.body.subscribe) {
-        await axios.post(
-          'https://dac-datahub-staging.herokuapp.com/api/leads/subscribe/',
-          {
-            email: obj.email
-          }
-        )
+      const lead = await prisma.leads.create({
+        data: {
+          firstName: obj.firstName,
+          lastName: obj.lastName,
+          email: obj.email,
+          workPhone: obj.workPhone,
+          jobTitle: obj.jobTitle,
+          organization: obj.organization,
+          webSite: obj.webSite,
+          orgSize: obj.orgSize,
+          industry: obj.industry,
+          leadSource: obj.leadSource,
+          content: obj.content
+        },
+      })
+      // if solutions
+      if (req.body.solution && lead) {
+        req.body.solution.map(async d => {
+          await prisma.solution.create({
+            data: {
+              solution: d.toLowerCase().trim(),
+              Leads: {
+                connect: { id: lead.id },
+              },
+            }
+          })
+        });
       }
-      res.status(200).send(data)
+      res.status(200).send(lead)
     } catch (err) {
       console.log(err)
       res.status(500).json({ statusCode: 500, message: err.response.data.detail, data: err.response.data })

@@ -65,7 +65,7 @@ function ProductValues(props, ref) {
         <Grid container spacing={5}>
         <Grid item xs={12}>
         </Grid>
-          <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4}>
             <div className={classes.item}>
             <MultilineChartIcon
               color="secondary"

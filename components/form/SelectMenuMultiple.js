@@ -6,8 +6,7 @@ import TextField from '../prebuilt/TextField';
 import ListItemText from '@material-ui/core/ListItemText';
 import {
   createMuiTheme,
-  MuiThemeProvider,
-  withStyles
+  MuiThemeProvider
 } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -15,7 +14,6 @@ const StyledTextField = (({ classes, ...other }) => (
   <TextField {...other} />
 ))
 
-const defaultTheme = createMuiTheme();
 const theme = createMuiTheme({
   overrides: {
     MuiTooltip: {
@@ -26,30 +24,32 @@ const theme = createMuiTheme({
   }
 });
 
-export default function ScenarioOptionsMultiple ({ onChange, value, values, ...other }) {
+
+export default function SelectMultiple ({ onChange, value, values, ...other }) {
+
   return (
       <StyledTextField
-          select
           labelId="demo-mutiple-checkbox-label"
           id="demo-mutiple-checkbox"
-          multiple
-          // value={personName}
-          onChange={onChange}
+          select
           input={<Input />}
-          renderValue={(selected) => selected.join(', ')}
-          // MenuProps={MenuProps}
+          SelectProps={{
+            multiple: true,
+            value: value,
+            onChange: onChange,
+            renderValue: (selected) => selected.join(', ')
+          }}
           {...other}
         >
-          {values.sort((a, b) => a.value.localeCompare(b.value)).map((option) => (
-            <MuiThemeProvider theme={theme}>
-              <Tooltip title={option.toolTip} style={{fontSize: '23px'}}>
-                <MenuItem key={option.value} value={option.label}>
-                  <Checkbox checked={value.indexOf(option) > -1} />
+          {values.map((option) => (
+            <MenuItem key={option.value} value={option.label}>
+              <Checkbox checked={value.indexOf(option.label) > -1} />
+              <MuiThemeProvider theme={theme}>
+                <Tooltip title={option.toolTip} style={{fontSize: '23px'}}>
                   <ListItemText primary={option.label} />
-                </MenuItem>
-              </Tooltip>
-            </MuiThemeProvider>
-          ))}
+                </Tooltip>
+              </MuiThemeProvider>
+            </MenuItem>
+          ))}``
         </StyledTextField>
-)
-}
+)}
