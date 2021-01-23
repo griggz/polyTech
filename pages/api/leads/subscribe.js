@@ -1,10 +1,13 @@
-import axios from 'axios'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 export default async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const {data} = await axios.post('https://dac-datahub-staging.herokuapp.com/api/leads/subscribe/', req.body)
-      res.status(200).send(data)
+      const subscribe = await prisma.subscribe.create({
+        data: req.body
+      })
+      res.status(200).send(subscribe)
     } catch (err) {
       console.log(err)
       res.status(500).json({ statusCode: 500, message: err.response.data.detail, data: err.response.data })

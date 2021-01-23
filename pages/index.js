@@ -1,6 +1,7 @@
 import withRoot from '../components/prebuilt/withRoot';
+import { withRouter } from 'next/router';
 // --- Post bootstrap -----
-import React, {createRef, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import ProductAbout from '../components/views/ProductAbout';
 import ProductSmokingHero from '../components/views/ProductSmokingHero';
 import AppFooter from '../components/views/AppFooter';
@@ -9,20 +10,24 @@ import ProductValues from '../components/views/ProductValues';
 import ProductHowItWorks from '../components/views/ProductHowItWorks';
 import ProductCTA from '../components/views/ProductCTA';
 import AppAppBar from '../components/views/AppAppBar';
+import Snackbar from '../components/prebuilt/Snackbar';
 
 const scrollToRef = (ref) => ref.current.scrollIntoView({
   behavior: 'smooth',
   block: 'center',
 });
 
-function Index() {
+function Index(props) {
   const valuesRef = useRef(null);
   const aboutRef = useRef(null);
   const contactRef = useRef(null);
-
-  const handleClickValues = () => scrollToRef(valuesRef)
-  const handleClickAbout = () => scrollToRef(aboutRef)
-  const handleClickContact = () => scrollToRef(contactRef)
+  const {snackMessage, snackOpen} = props.router.query;
+  const [notification, setNotification] = useState(snackOpen || false);
+  const handleClickValues = () => scrollToRef(valuesRef);
+  const handleClickAbout = () => scrollToRef(aboutRef);
+  const handleClickContact = () => scrollToRef(contactRef);
+  // notification
+  const handleNotification = () => setNotification(false)
 
   return (
     <React.Fragment>
@@ -38,8 +43,13 @@ function Index() {
       <ProductCTA />
       <ProductSmokingHero />
       <AppFooter />
+      <Snackbar
+        open={notification}
+        onClose={handleNotification}
+        message={snackMessage}
+      />
     </React.Fragment>
   );
 }
 
-export default withRoot(Index);
+export default withRouter(withRoot(Index));

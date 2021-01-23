@@ -52,7 +52,7 @@ function ContactUs() {
   }
 
   const validate = (values) => {
-    const errors = required(['firstName', 'lastName', 'email'], values);
+    const errors = required(['firstName', 'lastName', 'email', 'content'], values);
 
     if (!errors.email) {
       const emailError = email(values.email, values);
@@ -80,7 +80,13 @@ function ContactUs() {
       content: values.content || '',
       subscribe: subscribe || ''
     })
-    router.push('/')
+    router.push({
+      pathname: '/',
+      query: {
+      snackOpen: true,
+      snackMessage: 'Thank you so much! We look forward to working with you!'
+      }
+    })
   };
 
   return (
@@ -145,7 +151,6 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  required
                   name="workPhone"
                   autoComplete="workPhone"
                   label="Work Phone"
@@ -158,7 +163,6 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  required
                   name="jobTitle"
                   autoComplete="jobTitle"
                   label="Job Title"
@@ -171,7 +175,6 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  required
                   name="organization"
                   autoComplete="organization"
                   label="Organization"
@@ -184,7 +187,6 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  required
                   name="webSite"
                   autoComplete="webSite"
                   label="Web Site"
@@ -237,7 +239,6 @@ function ContactUs() {
                   size="large"
                   component={RFTextField}
                   disabled={submitting || sent}
-                  required
                   name="leadSource"
                   autoComplete="leadSource"
                   label="How Did You Hear About Us?"
@@ -251,6 +252,7 @@ function ContactUs() {
                   component={RFTextField}
                   disabled={submitting || sent}
                   name="content"
+                  required
                   autoComplete="content"
                   label="Tell Us A Little More About What You're Looking For!"
                   margin="normal"

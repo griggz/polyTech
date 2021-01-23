@@ -47,6 +47,15 @@ export default async (req, res) => {
           })
         });
       }
+      // if subscribe
+      if (req.body.subscribe) {
+        await prisma.subscribe.create({
+          data: {
+            email: obj.email,
+            active: true
+          }
+        })
+      }
       res.status(200).send(lead)
     } catch (err) {
       console.log(err)

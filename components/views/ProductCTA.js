@@ -70,7 +70,8 @@ function ProductCTA(props) {
   const onSubmit = async (values) => {
     setSent(true);
     await axios.post('/api/leads/subscribe/', {
-      email: values.email
+      email: values.email,
+      active: true
     });
     setOpen(true);
     values.email = ''
