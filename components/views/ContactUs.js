@@ -46,10 +46,7 @@ function ContactUs() {
 
   const handleIndustryChange = (event) => setIndustry(event.target.value);
   const handleOrgSizeChange = (event) => setOrgSize(event.target.value);
-  const handleSolutionChange = (event) => {
-    console.log(event.target.value)
-    setSolution(event.target.value);
-  }
+  const handleSolutionChange = (event) => {setSolution(event.target.value)};
 
   const validate = (values) => {
     const errors = required(['firstName', 'lastName', 'email', 'content'], values);

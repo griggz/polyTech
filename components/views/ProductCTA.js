@@ -114,7 +114,6 @@ function ProductCTA(props) {
                     </Typography>
                     <Field
                       autoComplete="email"
-                      autoFocus
                       component={RFTextField}
                       disabled={submitting || sent}
                       fullWidth
