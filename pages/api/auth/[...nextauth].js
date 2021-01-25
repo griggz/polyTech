@@ -24,11 +24,11 @@ export default (req, res) =>
         },
         from: process.env.EMAIL_FROM,
       }),
-      Providers.Auth0({
-        clientId: process.env.AUTH0_CLIENT_ID,
-        clientSecret: process.env.Auth0_CLIENT_SECRET,
-        domain: process.env.AUTH0_DOMAIN
-      })
+      // Providers.Auth0({
+      //   clientId: process.env.AUTH0_CLIENT_ID,
+      //   clientSecret: process.env.Auth0_CLIENT_SECRET,
+      //   domain: process.env.AUTH0_DOMAIN
+      // })
     ],
     debug: process.env.NODE_ENV === 'development',
     secret: process.env.AUTH_SECRET,

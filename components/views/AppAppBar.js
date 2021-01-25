@@ -11,6 +11,8 @@ import { signIn, signOut, useSession } from 'next-auth/client';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Header from '../prebuilt/Header';
+import MenuDrop from '../prebuilt/MenuDrop';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = (theme) => ({
   title: {
@@ -42,6 +44,20 @@ const styles = (theme) => ({
     color: theme.palette.common.white,
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
+      display: 'none'
+    },
+  },
+  rightStackedMenu: {
+    [theme.breakpoints.up('xl')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.up('lg')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.up('sm')]: {
       display: 'none'
     },
   },
@@ -89,6 +105,11 @@ function AppAppBar(props) {
             {'avec'}
           </Link>
           <div className={classes.right}>
+            <div className={classes.rightStackedMenu}>
+              <MenuDrop>
+                <MenuItem onClick={!session ? signIn : signOut}>{!session && !loading ? 'Sign In' : 'Sign Out'}</MenuItem>
+              </MenuDrop>
+            </div>
             <ButtonGroup variant="text" aria-label="outlined primary button group">
               {!hideMenu &&
               <>

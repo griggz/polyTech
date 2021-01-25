@@ -5,12 +5,13 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Typography from '../prebuilt/Typography';
 import TextField from '../prebuilt/TextField';
-import {TwitterOutline} from '@styled-icons/evaicons-outline/TwitterOutline'
+import {TwitterOutline} from '@styled-icons/evaicons-outline/TwitterOutline';
+
 function Copyright() {
   return (
     <React.Fragment>
       {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         AVEC
       </Link>{' '}
       {new Date().getFullYear()}
@@ -87,18 +88,18 @@ export default function AppFooter() {
               className={classes.iconsWrapper}
               spacing={2}
             >
-              <Grid item className={classes.icons}>
+              {/* <Grid item className={classes.icons}>
                 <a href="https://twitter.com/MaterialUI" className={classes.icon}>
                   <TwitterOutline />
                 </a>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Copyright />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <Typography variant="h6" marked="left" gutterBottom>
+            {/* <Typography variant="h6" marked="left" gutterBottom>
               Legal
             </Typography>
             <ul className={classes.list}>
@@ -108,9 +109,9 @@ export default function AppFooter() {
               <li className={classes.listItem}>
                 <Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
               </li>
-            </ul>
+            </ul> */}
           </Grid>
-          <Grid item xs={6} sm={8} md={4}>
+          {/* <Grid item xs={6} sm={8} md={4}>
             <Typography variant="h6" marked="left" gutterBottom>
               Language
             </Typography>
@@ -127,8 +128,8 @@ export default function AppFooter() {
                 </option>
               ))}
             </TextField>
-          </Grid>
-          <Grid item>
+          </Grid> */}
+          {/* <Grid item>
             <Typography variant="caption">
               {'Icons made by '}
               <Link href="https://www.freepik.com" rel="sponsored" title="Freepik">
@@ -148,7 +149,7 @@ export default function AppFooter() {
                 CC 3.0 BY
               </Link>
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Typography>

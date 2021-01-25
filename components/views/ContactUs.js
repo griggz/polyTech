@@ -251,7 +251,7 @@ function ContactUs() {
                   name="content"
                   required
                   autoComplete="content"
-                  label="Tell Us A Little More About What You're Looking For!"
+                  label="Tell us more about what you're looking for!"
                   margin="normal"
                   multiline
                   rows={10}
