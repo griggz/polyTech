@@ -104,7 +104,7 @@ function ProductValues(props, ref) {
                 alt="clock"
               />
               <Typography variant="h6" className={classes.title}>
-                Consulting
+                Consulting & Strategy
               </Typography>
               <Typography variant="h5">
                 {"Now more than ever it's critical you have a knowledgeable advocate in your corner. "}

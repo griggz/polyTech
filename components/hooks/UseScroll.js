@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-export function useScroll() {
+export default function useScroll() {
   const [scrolled, setScrolled] = useState(0);
 
   useEffect(() => {
@@ -8,12 +8,8 @@ export function useScroll() {
     function handleScroll() {
       if (requestRunning === null) {
         requestRunning = window.requestAnimationFrame(() => {
-          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-          const height =
-            document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const scrolled = (winScroll / height) * 100;
+          const scrolled = window.pageYOffset;
           setScrolled(scrolled);
-
           requestRunning = null;
         });
       }
@@ -23,5 +19,5 @@ export function useScroll() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return [scrolled, setScrolled];
+  return scrolled;
 }

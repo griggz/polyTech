@@ -21,19 +21,15 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     flexShrink: 0,
   },
+  subBar: {
+    toolbar: theme.mixins.toolbar,
+  }
 }));
 
 export default function Header({sections, visible}) {
   const classes = useStyles();
-  console.log(visible)
-  const transitions = useTransition(visible, null, {
-    from: { opacity: 0, transform: "translate3d(100%, 0 ,0)" },
-    enter: { opacity: 1, transform: "translate3d(0%, 0, 0)" },
-    })
 
   return (
-    transitions.map(({ item, key, props }) =>
-      item && <animated.div key={key} style={props}>
       <Paper variant="outlined">
         <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
           {sections.map((section, idx) => (
@@ -50,8 +46,7 @@ export default function Header({sections, visible}) {
           ))}
         </Toolbar>
       </Paper>
-    </animated.div>
-  ))
+  )
 }
 
 Header.propTypes = {

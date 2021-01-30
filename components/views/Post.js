@@ -5,7 +5,7 @@ import MainFeaturedContent from '../prebuilt/MainFeaturedContent';
 import AppAppBar from '../views/AppAppBar';
 import Header from '../prebuilt/Header';
 import Sidebar from '../prebuilt/SideBar';
-import {useScroll} from '../../components/hooks/UseScroll';
+import useScroll from '../../components/hooks/UseScroll';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
 function Post(props) {
   const classes = useStyles();
   const {posts, sections, mainFeaturedContent, sidebar} = props
-  const [scrolled] = useScroll();
+  const scrolled = useScroll();
 
   return (
     <>
-    <AppAppBar sections={sections} subHeaderVisible={scrolled >= 57}/>
+    <AppAppBar sections={sections} subHeaderVisible={scrolled >= 504}/>
     <MainFeaturedContent post={mainFeaturedContent} />
-    <Header sections={sections} visible={true} />
+    <Header position="sticky" sections={sections} visible={true} />
     <Container maxWidth="lg">
       <main>
         <Grid container spacing={5} className={classes.mainGrid}>

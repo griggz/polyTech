@@ -13,6 +13,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Header from '../prebuilt/Header';
 import MenuDrop from '../prebuilt/MenuDrop';
 import MenuItem from '@material-ui/core/MenuItem';
+import Slide from "@material-ui/core/Slide";
 
 const styles = (theme) => ({
   title: {
@@ -86,6 +87,7 @@ const styles = (theme) => ({
   },
 });
 
+
 function AppAppBar(props) {
   const { classes, sections, subHeaderVisible, handleClick, hideMenu} = props;
   const [ session, loading ] = useSession();
@@ -152,10 +154,12 @@ function AppAppBar(props) {
             </ButtonGroup>
           </div>
         </Toolbar>
-        {sections && subHeaderVisible
-          ? <Header sections={sections} visible={subHeaderVisible} />
-          : ''
-        }
+      {sections && subHeaderVisible
+       ? <Slide direction="down">
+          <Header sections={sections} visible={subHeaderVisible} />
+        </Slide>
+        : ''
+      }
       </AppBar>
       <div className={classes.placeholder} />
     </div>
