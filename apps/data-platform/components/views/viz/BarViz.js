@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import LineChart from "../../prebuilt/LineChart";
+import BarChart from "../../prebuilt/BarChart";
 import theme from "../ui/MaterialTheme";
 import Toolbar from "@material-ui/core/Toolbar";
 import PropTypes from "prop-types";
@@ -29,7 +29,7 @@ const PaperToolbar = () => {
         variant="h6"
         id="tableTitle"
       >
-        Metrics Consolidation
+        States
       </Typography>
     </Toolbar>
   );
@@ -39,11 +39,15 @@ PaperToolbar.propTypes = {
   year: PropTypes.number.isRequired,
 };
 
-export default function RadarVizSlider({ data }) {
+export default function BarViz({ data }) {
   return (
     <>
       <PaperToolbar />
-      <LineChart data={data} />
+      <BarChart data={data} />
     </>
   );
 }
+
+BarViz.propTypes = {
+  data: PropTypes.array.isRequired,
+};

@@ -1,30 +1,30 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
-import Container from '@material-ui/core/Container';
-import Typography from '../prebuilt/Typography';
-import Snackbar from '../prebuilt/Snackbar';
-import axios from 'axios';
-import { Field, Form, FormSpy } from 'react-final-form';
-import { email, required } from '../form/validation';
-import RFTextField from '../form/RFTextField';
-import FormButton from '../form/FormButton';
-import FormFeedback from '../form/FormFeedback';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
+import Container from "@material-ui/core/Container";
+import Typography from "../prebuilt/Typography";
+import Snackbar from "../prebuilt/Snackbar";
+import axios from "axios";
+import { Field, Form, FormSpy } from "react-final-form";
+import { email, required } from "../form/validation";
+import RFTextField from "../form/RFTextField";
+import FormButton from "../form/FormButton";
+import FormFeedback from "../form/FormFeedback";
 
 const styles = (theme) => ({
   root: {
     marginTop: theme.spacing(10),
     marginBottom: 0,
-    display: 'flex',
+    display: "flex",
   },
   cardWrapper: {
     zIndex: 1,
   },
   card: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     backgroundColor: theme.palette.warning.main,
     padding: theme.spacing(8, 3),
   },
@@ -32,32 +32,32 @@ const styles = (theme) => ({
     maxWidth: 400,
   },
   textField: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(2),
   },
   button: {
-    width: '100%'
+    width: "100%",
   },
   imagesWrapper: {
-    position: 'relative',
+    position: "relative",
   },
   imageDots: {
-    position: 'absolute',
+    position: "absolute",
     top: -67,
     left: -67,
     right: 0,
     bottom: 0,
-    width: '100%',
-    background: 'url(/static/onepirate/productCTAImageDots.png)',
+    width: "100%",
+    background: "url(/static/onepirate/productCTAImageDots.png)",
   },
   image: {
-    position: 'absolute',
+    position: "absolute",
     top: -28,
     left: -28,
     right: 0,
     bottom: 0,
-    width: '100%',
+    width: "100%",
     maxWidth: 600,
   },
 });
@@ -69,17 +69,17 @@ function ProductCTA(props) {
 
   const onSubmit = async (values) => {
     setSent(true);
-    await axios.post('/api/leads/subscribe/', {
+    await axios.post("/api/leads/subscribe/", {
       email: values.email,
-      active: true
+      active: true,
     });
     setOpen(true);
-    values.email = ''
+    values.email = "";
     setSent(false);
   };
 
   const validate = (values) => {
-    const errors = required(['email'], values);
+    const errors = required(["email"], values);
 
     if (!errors.email) {
       const emailError = email(values.email, values);
@@ -100,52 +100,58 @@ function ProductCTA(props) {
       <Grid container>
         <Grid item xs={12} md={6} className={classes.cardWrapper}>
           <div className={classes.card}>
-              <Form
-                onSubmit={onSubmit}
-                subscription={{ submitting: true, pristine: true }}
-                validate={validate}>
-                {({ handleSubmit, values, form, submitting }) => (
-                  <form onSubmit={handleSubmit}  className={classes.cardContent} noValidate>
-                    <Typography variant="h2" component="h2" gutterBottom>
-                      Stay in the know!
-                    </Typography>
-                    <Typography variant="h5">
-                      I promise we won't pester you! But let us brag about what we've done, what we're doing, and where we're going.
-                    </Typography>
-                    <Field
-                      autoComplete="email"
-                      component={RFTextField}
-                      disabled={submitting || sent}
-                      fullWidth
-                      margin="normal"
-                      placeholder='Your email'
-                      name="email"
-                      required
-                      size="large"
-                      className={classes.textField}
-                    />
-                    <FormSpy subscription={{ submitError: true }}>
-                      {({ submitError }) =>
-                        submitError ? (
-                          <FormFeedback className={classes.feedback} error>
-                            {submitError}
-                          </FormFeedback>
-                        ) : null
-                      }
-                    </FormSpy>
-                    <FormButton
-                      className={classes.button}
-                      disabled={submitting || sent}
-                      size="large"
-                      color="primary"
-                      variant="contained"
-                      fullWidth
-                    >
-                      {submitting || sent ? 'In progress…' : 'Keep Me Updated'}
-                    </FormButton>
-                  </form>
-                )}
-              </Form>
+            <Form
+              onSubmit={onSubmit}
+              subscription={{ submitting: true, pristine: true }}
+              validate={validate}
+            >
+              {({ handleSubmit, values, form, submitting }) => (
+                <form
+                  onSubmit={handleSubmit}
+                  className={classes.cardContent}
+                  noValidate
+                >
+                  <Typography variant="h2" component="h2" gutterBottom>
+                    Stay in the know!
+                  </Typography>
+                  <Typography variant="h5">
+                    I promise we won't pester you! But let us brag about what
+                    we've done, what we're doing, and where we're going.
+                  </Typography>
+                  <Field
+                    autoComplete="email"
+                    component={RFTextField}
+                    disabled={submitting || sent}
+                    fullWidth
+                    margin="normal"
+                    placeholder="Your email"
+                    name="email"
+                    required
+                    size="large"
+                    className={classes.textField}
+                  />
+                  <FormSpy subscription={{ submitError: true }}>
+                    {({ submitError }) =>
+                      submitError ? (
+                        <FormFeedback className={classes.feedback} error>
+                          {submitError}
+                        </FormFeedback>
+                      ) : null
+                    }
+                  </FormSpy>
+                  <FormButton
+                    className={classes.button}
+                    disabled={submitting || sent}
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >
+                    {submitting || sent ? "In progress…" : "Keep Me Updated"}
+                  </FormButton>
+                </form>
+              )}
+            </Form>
           </div>
         </Grid>
         <Grid item xs={12} md={6} className={classes.imagesWrapper}>

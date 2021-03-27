@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '../prebuilt/Typography';
-import {Lifebuoy} from '@styled-icons/entypo/Lifebuoy'
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "../prebuilt/Typography";
+import { Lifebuoy } from "@styled-icons/entypo/Lifebuoy";
 
 const styles = (theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     marginTop: theme.spacing(9),
     marginBottom: theme.spacing(9),
   },
   button: {
-    border: '4px solid currentColor',
+    border: "4px solid currentColor",
     borderRadius: 0,
-    height: 'auto',
+    height: "auto",
     padding: theme.spacing(2, 5),
   },
   link: {
@@ -26,7 +26,7 @@ const styles = (theme) => ({
   },
   buoy: {
     width: 60,
-    color: theme.palette.accent.main
+    color: theme.palette.accent.main,
   },
 });
 
@@ -35,10 +35,7 @@ function ProductSmokingHero(props) {
 
   return (
     <Container className={classes.root} component="section">
-      <Button
-        className={classes.button}
-        component="a"
-        href="/contact-us/">
+      <Button className={classes.button} component="a" href="/contact-us/">
         <Typography variant="h4" component="span">
           Got any questions? Need help?
         </Typography>
@@ -46,7 +43,7 @@ function ProductSmokingHero(props) {
       <Typography variant="subtitle1" className={classes.link}>
         We are here to help. Get in touch!
       </Typography>
-      <Lifebuoy className={classes.buoy}/>
+      <Lifebuoy className={classes.buoy} />
     </Container>
   );
 }

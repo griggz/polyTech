@@ -1,19 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
-import AppBar from '../prebuilt/AppBar';
-import Toolbar, { styles as toolbarStyles } from '../prebuilt/Toolbar';
-import MuiTooltip from '../prebuilt/Tooltip';
-import {SignOut} from '@styled-icons/octicons/SignOut';
-import { signIn, signOut, useSession } from 'next-auth/client';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Header from '../prebuilt/Header';
-import MenuDrop from '../prebuilt/MenuDrop';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { withStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
+import AppBar from "../prebuilt/AppBar";
+import Toolbar, { styles as toolbarStyles } from "../prebuilt/Toolbar";
+import MuiTooltip from "../prebuilt/Tooltip";
+import { SignOut } from "@styled-icons/octicons/SignOut";
+import { signIn, signOut, useSession } from "next-auth/client";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Header from "../prebuilt/Header";
+import MenuDrop from "../prebuilt/MenuDrop";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import Fade from "@material-ui/core/Fade";
 import Slide from "@material-ui/core/Slide";
+import { useRouter, withRouter } from "next/router";
 
 const styles = (theme) => ({
   title: {
@@ -21,14 +24,14 @@ const styles = (theme) => ({
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   left: {
     flex: 1,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       flex: 0,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       flex: 1,
     },
   },
@@ -37,29 +40,37 @@ const styles = (theme) => ({
   },
   right: {
     flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
   },
   rightLink: {
     fontSize: 16,
     color: theme.palette.common.white,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 12,
-      display: 'none'
+      display: "none",
+    },
+  },
+  rightLinkAlt: {
+    fontSize: 16,
+    color: theme.palette.accent.main,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 12,
+      display: "none",
     },
   },
   rightStackedMenu: {
-    [theme.breakpoints.up('xl')]: {
-      display: 'none'
+    [theme.breakpoints.up("xl")]: {
+      display: "none",
     },
-    [theme.breakpoints.up('lg')]: {
-      display: 'none'
+    [theme.breakpoints.up("lg")]: {
+      display: "none",
     },
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
   },
   linkSecondary: {
@@ -67,7 +78,7 @@ const styles = (theme) => ({
   },
   icon: {
     width: 30,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       width: 20,
     },
   },
@@ -78,8 +89,8 @@ const styles = (theme) => ({
     flex: 1,
   },
   toolbarSecondary: {
-    justifyContent: 'space-between',
-    overflowX: 'auto',
+    justifyContent: "space-between",
+    overflowX: "auto",
   },
   toolbarLink: {
     padding: theme.spacing(1),
@@ -87,10 +98,17 @@ const styles = (theme) => ({
   },
 });
 
-
 function AppAppBar(props) {
-  const { classes, sections, subHeaderVisible, handleClick, hideMenu} = props;
-  const [ session, loading ] = useSession();
+  const { classes, sections, subHeaderVisible, handleClick, hideMenu } = props;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const router = useRouter();
+  const { name } = router.query;
+  const [session, loading] = useSession();
+
+  const handleAppClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   return (
     <div>
@@ -104,62 +122,103 @@ function AppAppBar(props) {
             className={classes.title}
             href="/"
           >
-            {'avec'}
+            {"avec"}
           </Link>
           <div className={classes.right}>
             <div className={classes.rightStackedMenu}>
               <MenuDrop>
-                <MenuItem onClick={!session ? signIn : signOut}>{!session && !loading ? 'Sign In' : 'Sign Out'}</MenuItem>
+                <MenuItem onClick={!session ? signIn : signOut}>
+                  {!session && !loading ? "Sign In" : "Sign Out"}
+                </MenuItem>
               </MenuDrop>
             </div>
-            <ButtonGroup variant="text" aria-label="outlined primary button group">
-              {!hideMenu &&
-              <>
-              <Button
-                  color="inherit"
-                  component='a'
-                  className={classes.rightLink}
-                  onClick={handleClick ? handleClick.values : ''}
-                >
-                  {'Our Work'}
-               </Button>
-               <Button
-                  color="inherit"
-                  component='a'
-                  className={classes.rightLink}
-                  onClick={handleClick ? handleClick.about : ''}
-                >
-                  {'About Us'}
-               </Button>
-               <Button
-                  color="inherit"
-                  component='a'
-                  className={classes.rightLink}
-                  onClick={handleClick ? handleClick.contact : ''}
-                >
-                  {'Contact Us'}
-               </Button>
-               </>
-              }
-                <MuiTooltip text={!session && !loading ? 'Sign In': 'Sign Out'}>
+            <ButtonGroup
+              variant="text"
+              aria-label="outlined primary button group"
+            >
+              {!hideMenu && (
+                <>
                   <Button
                     color="inherit"
-                    component='a'
-                    className={clsx(classes.rightLink, classes.linkSecondary)}
-                    onClick={!session ? signIn : signOut}
+                    component="a"
+                    className={classes.rightLink}
+                    onClick={handleClick ? handleClick.values : ""}
                   >
-                    {!session && !loading ? 'Sign In' : <SignOut className={classes.icon}/>}
+                    {"Our Work"}
                   </Button>
-                </MuiTooltip>
+                  <Button
+                    color="inherit"
+                    component="a"
+                    className={classes.rightLink}
+                    onClick={handleClick ? handleClick.about : ""}
+                  >
+                    {"About Us"}
+                  </Button>
+                  <Button
+                    color="inherit"
+                    component="a"
+                    className={classes.rightLink}
+                    onClick={handleClick ? handleClick.contact : ""}
+                  >
+                    {"Contact Us"}
+                  </Button>
+                  {session && (
+                    <>
+                      <Button
+                        aria-controls="fade-menu"
+                        color="inherit"
+                        aria-haspopup="true"
+                        className={classes.rightLinkAlt}
+                        onClick={handleAppClick}
+                      >
+                        Demos
+                      </Button>
+                      <Menu
+                        id="fade-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={open}
+                        onClose={() => {
+                          setAnchorEl(null);
+                        }}
+                        TransitionComponent={Fade}
+                      >
+                        <Link
+                          underline="none"
+                          color="inherit"
+                          href="/data-platform/portal/"
+                        >
+                          <MenuItem>Data Portal</MenuItem>
+                        </Link>
+                      </Menu>
+                    </>
+                  )}
+                </>
+              )}
+              <MuiTooltip text={!session && !loading ? "Sign In" : "Sign Out"}>
+                <Button
+                  color="inherit"
+                  component="a"
+                  className={clsx(classes.rightLink, classes.linkSecondary)}
+                  onClick={!session ? signIn : signOut}
+                >
+                  {!session && !loading ? (
+                    "Sign In"
+                  ) : (
+                    <SignOut className={classes.icon} />
+                  )}
+                </Button>
+              </MuiTooltip>
             </ButtonGroup>
           </div>
         </Toolbar>
-      {sections && subHeaderVisible
-       ? <Slide direction="down">
-          <Header sections={sections} visible={subHeaderVisible} />
-        </Slide>
-        : ''
-      }
+        {sections && subHeaderVisible ? (
+          <Slide direction="down">
+            <Header sections={sections} visible={subHeaderVisible} />
+          </Slide>
+        ) : (
+          ""
+        )}
       </AppBar>
       <div className={classes.placeholder} />
     </div>

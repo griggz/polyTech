@@ -158,7 +158,10 @@ function HfcApp(props) {
             </IconButton>
           </div>
           <List>
-            <ListItemLink className={classes.list} href="/hfc/">
+            <ListItemLink
+              className={classes.list}
+              href="/data-platform/portal/"
+            >
               <ListItemIcon>
                 <Tooltip id="tip-dashboard" title="Dashboard">
                   <DashboardIcon
@@ -169,23 +172,6 @@ function HfcApp(props) {
               </ListItemIcon>
               <ListItemText background="primary" primary="Dashboard" />
             </ListItemLink>
-            <ListItemLink
-              className={classes.list}
-              href="https://www.usclimatealliance.org/"
-            >
-              <ListItemIcon>
-                <Tooltip id="tip-site" title="usclimatealliance.org">
-                  <LanguageIcon
-                    className={classes.icon}
-                    area-label="usclimatealliance.org"
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                background="primary"
-                primary="usclimatealliance.org"
-              />
-            </ListItemLink>
 
             <Divider className={classes.divider} />
             <ListSubheader
@@ -195,7 +181,10 @@ function HfcApp(props) {
               Tools
             </ListSubheader>
 
-            <ListItemLink className={classes.list} href="/hfc/upload/">
+            <ListItemLink
+              className={classes.list}
+              href="/data-platform/portal/upload/"
+            >
               <ListItemIcon>
                 <Tooltip id="tip-comparison" title="Bulk Upload">
                   <PublishIcon
@@ -209,7 +198,7 @@ function HfcApp(props) {
 
             <ListItemLink
               className={classes.list}
-              href="/hfc/data-comparison-tool"
+              href="/data-platform/portal/data-comparison-tool"
             >
               <ListItemIcon>
                 <Tooltip id="tip-comparison" title="State Comparison">
@@ -224,7 +213,7 @@ function HfcApp(props) {
 
             <ListItemLink
               className={classes.list}
-              href="/hfc/regional-analysis"
+              href="/data-platform/portal/regional-analysis"
             >
               <ListItemIcon>
                 <Tooltip id="tip-regions" title="Region Analysis">

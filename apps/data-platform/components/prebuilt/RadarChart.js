@@ -20,7 +20,7 @@ export default function RadarChart({ data }) {
       dotColor={{ theme: "background" }}
       dotBorderWidth={2}
       dotBorderColor={{ from: "color" }}
-      enableDotLabel={true}
+      enableDotLabel={false}
       dotLabel="value"
       dotLabelYOffset={-12}
       colors={{ scheme: "nivo" }}

@@ -1,46 +1,43 @@
-import React, {useState} from 'react';
-import Main from '../prebuilt/Main';
-import withRoot from '../prebuilt/withRoot';
-import MainFeaturedContent from '../prebuilt/MainFeaturedContent';
-import AppAppBar from '../views/AppAppBar';
-import Header from '../prebuilt/Header';
-import Sidebar from '../prebuilt/SideBar';
-import useScroll from '../../components/hooks/UseScroll';
+import React, { useState } from "react";
+import Main from "../prebuilt/Main";
+import withRoot from "../prebuilt/withRoot";
+import MainFeaturedContent from "../prebuilt/MainFeaturedContent";
+import AppAppBar from "../views/AppAppBar";
+import Header from "../prebuilt/Header";
+import Sidebar from "../prebuilt/SideBar";
+import useScroll from "../../components/hooks/UseScroll";
 
 //MUI
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-    mainGrid: {
-      marginTop: theme.spacing(3),
-    },
-  }));
-
+  mainGrid: {
+    marginTop: theme.spacing(3),
+  },
+}));
 
 function Post(props) {
   const classes = useStyles();
-  const {posts, sections, mainFeaturedContent, sidebar} = props
+  const { posts, sections, mainFeaturedContent, sidebar } = props;
   const scrolled = useScroll();
 
   return (
     <>
-    <AppAppBar sections={sections} subHeaderVisible={scrolled >= 504}/>
-    <MainFeaturedContent post={mainFeaturedContent} />
-    <Header position="sticky" sections={sections} visible={true} />
-    <Container maxWidth="lg">
-      <main>
-        <Grid container spacing={5} className={classes.mainGrid}>
-          <Main posts={posts} />
-          <Sidebar
-            social={sidebar.social}
-          />
-        </Grid>
-      </main>
-  </Container>
-  </>
-  )
+      <AppAppBar sections={sections} subHeaderVisible={scrolled >= 504} />
+      <MainFeaturedContent post={mainFeaturedContent} />
+      <Header position="sticky" sections={sections} visible={true} />
+      <Container maxWidth="lg">
+        <main>
+          <Grid container spacing={5} className={classes.mainGrid}>
+            <Main posts={posts} />
+            <Sidebar social={sidebar.social} />
+          </Grid>
+        </main>
+      </Container>
+    </>
+  );
 }
 
-export default withRoot(Post)
+export default withRoot(Post);

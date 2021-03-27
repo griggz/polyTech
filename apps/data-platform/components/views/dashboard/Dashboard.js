@@ -4,9 +4,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import * as d3 from "d3";
 // My Components;
 import DashboardInline from "./DashboardInline";
-import Numeral from "numeral";
 import Container from "../../prebuilt/Container";
 import Footer from "../ui/Footer";
+import { UpperFirstLetter } from "../../prebuilt/Helper";
+
 // Auth
 import { useSession } from "next-auth/client";
 
@@ -29,55 +30,28 @@ const Dashboard = (props) => {
   const [doneLoading, setDoneLoading] = useState(false);
 
   // Loads data specific to the mode
-  const loadData = async () => {
+  const loadData = async (stateName) => {
     const { lineDataRaw, radarDataRaw } = await axios
       .get(`/api/data-platform/fake_data`)
       .then((r) => r.data);
-    // Structure LineViz
+    // Structure LineData
     const { lineData } = await prepLineVizData(lineDataRaw);
-    // Structure PolarViz
+    // Structure RadarData
     const { radarData } = await prepRadarVizData(radarDataRaw);
-    // // prepping table data => the data that is displayed
-    // const HfcTableData = await prepTabsleData(scenarioData)
-
-    // // STATE DATA
-    // const stateCall = await axios.get(`/api/hfc/metrics/${stateName}`, {
-    //   headers: {
-    //     'Authorization': `Bearer ${window.localStorage.getItem('accessToken').replace(/['"]+/g, '')}`
-    //   }
-    // }).then(r => r.data)
-    // const stateData = stateCall.state_metrics
-    // // prepping metrics => the data that is displayed
-    // const stateTableData = await prepStateMetrics(stateData)
-
-    // // USCA & US DATA
-    // const nationalEndpoints = ['us_climate_alliance', 'united_states']
-    // const nationalMetrics = []
-    // nationalEndpoints.map(async endpoint => {
-    //   const natlData = await axios.get(`/api/hfc/measurements/${endpoint}`, {
-    //     headers: {
-    //       'Authorization': `Bearer ${window.localStorage.getItem('accessToken').replace(/['"]+/g, '')}`
-    //     }
-    //   }).then(r => r.data)
-    //   const filter = filterData(natlData.hfc_metrics, 'category', 'annual_total', 'equals')
-    //   filter.map(d => nationalMetrics.push(d))
-    // })
+    // Structure BumpData
+    const { barData } = await prepBarVizData(lineDataRaw);
     // update state
     setState({
       ...state,
-      // hfcMetrics: HfcTableData,
-      // toggleStateName: { value: stateName, name: UpperFirstLetter(stateName) },
-      // sourceData: sourceData,
+      stateName: stateName,
+      toggleStateName: {
+        value: stateName,
+        name: UpperFirstLetter(stateName),
+      },
       lineVizData: lineData,
       radarVizData: radarData,
-      // mixBarData: stateTableData,
-      // qState: scenarioCall.state,
-      // stateCode: scenarioCall.state_code,
-      // stateMember: scenarioCall.state_member,
-      // allianceMember: scenarioCall.us_climate_alliance,
-      // staff: scenarioCall.staff,
-      // nationalData: nationalMetrics,
-      // stateMetrics: stateTableData
+      barVizData: barData,
+      tableData: radarDataRaw,
     });
   };
 
@@ -157,6 +131,74 @@ const Dashboard = (props) => {
     };
   };
 
+  const prepBarVizData = async (data) => {
+    const data_ = { data: [], keys: null };
+    const colors = [
+      [
+        "hsl(176, 70%, 50%)",
+        "hsl(319, 70%, 50%)",
+        "hsl(88, 70%, 50%)",
+        "hsl(88, 70%, 50%)",
+      ],
+      [
+        "hsl(73, 70%, 50%)",
+        "hsl(321, 70%, 50%)",
+        "hsl(252, 70%, 50%)",
+        "hsl(100, 70%, 50%)",
+      ],
+      [
+        "hsl(73, 70%, 50%)",
+        "hsl(321, 70%, 50%)",
+        "hsl(252, 70%, 50%)",
+        "hsl(100, 70%, 50%)",
+      ],
+
+      [
+        "hsl(214, 70%, 50%)",
+        "hsl(354, 70%, 50%)",
+        "hsl(269, 70%, 50%)",
+        "hsl(147, 70%, 50%)",
+      ],
+
+      [
+        "hsl(93, 70%, 50%)",
+        "hsl(134, 70%, 50%)",
+        "hsl(89, 70%, 50%)",
+        "hsl(189, 70%, 50%)",
+      ],
+    ];
+    const startWith = ["virginia", "alabama", "michigan", "vermont", "florida"];
+    const filterState = await filterData(data, "state", startWith, "equals");
+    const group = groupBy(filterState, "state");
+    const clean = ungroup(group);
+    data_.keys = [
+      "measurementA",
+      "measurementB",
+      "measurementC",
+      "measurementD",
+    ];
+    startWith.map((d) => {
+      clean.map((s) => {
+        if (s.state === d) {
+          data_.data.push({
+            state: s.state,
+            measurementA: s.measurementA,
+            measurementAColor: colors[startWith.indexOf(d)][0],
+            measurementB: s.measurementB,
+            measurementBColor: colors[startWith.indexOf(d)][1],
+            measurementC: s.measurementC,
+            measurementCColor: colors[startWith.indexOf(d)][2],
+            measurementD: s.measurementD,
+            measurementDColor: colors[startWith.indexOf(d)][3],
+          });
+        }
+      });
+    });
+    return {
+      barData: data_,
+    };
+  };
+
   const cleanRadarData = (d) => {
     return {
       category: d.category,
@@ -173,17 +215,10 @@ const Dashboard = (props) => {
       .nest()
       .key((d) => d[key])
       .rollup((v) => ({
-        bau: +d3.sum(v, (d) => d.bau).toFixed(2),
-        rmp: +d3.sum(v, (d) => d.rmp).toFixed(2),
-        kigali: +d3.sum(v, (d) => d.kigali).toFixed(2),
-        snap: +d3.sum(v, (d) => d.snap).toFixed(2),
-        slcp: +d3.sum(v, (d) => d.slcp).toFixed(2),
-        rmp_snap: +d3.sum(v, (d) => d.rmp_snap).toFixed(2),
-        snap_kigali: +d3.sum(v, (d) => d.snap_kigali).toFixed(2),
-        rmp_snap_slcp: +d3.sum(v, (d) => d.rmp_snap_slcp).toFixed(2),
-        rmp_snap_slcp_kigali: +d3
-          .sum(v, (d) => d.rmp_snap_slcp_kigali)
-          .toFixed(2),
+        measurementA: +d3.sum(v, (d) => d.measurementA).toFixed(0),
+        measurementB: +d3.sum(v, (d) => d.measurementB).toFixed(0),
+        measurementC: +d3.sum(v, (d) => d.measurementC).toFixed(0),
+        measurementD: +d3.sum(v, (d) => d.measurementD).toFixed(0),
       }))
       .entries(data);
     return dataRollup;
@@ -193,134 +228,66 @@ const Dashboard = (props) => {
     const arr = [];
     data.forEach(function (keys) {
       arr.push({
-        year: keys.key,
-        bau: keys.value.bau,
-        rmp: keys.value.rmp,
-        snap: keys.value.snap,
-        slcp: keys.value.slcp,
-        kigali: keys.value.kigali,
-        rmp_snap: keys.value.rmp_snap,
-        snap_kigali: keys.value.snap_kigali,
-        rmp_snap_slcp: keys.value.rmp_snap_slcp,
-        rmp_snap_slcp_kigali: keys.value.rmp_snap_slcp_kigali,
+        state: keys.key,
+        measurementA: keys.value.measurementA,
+        measurementB: keys.value.measurementB,
+        measurementC: keys.value.measurementC,
+        measurementD: keys.value.measurementD,
       });
     });
     return arr;
   };
 
-  // Prepare HFC Metrics Data for display
-  const prepTableData = (data) => {
-    // shape Data => creates web formatted fields as well as actual fields
-    const dataPrep = data.map((d) => shapeHfcData(d));
-    // sort data
-    dataPrep.sort((a, b) =>
-      a.category > b.category ? 1 : b.category > a.category ? -1 : 0
-    );
-    dataPrep.sort((a, b) => (a.year < b.year ? 1 : b.year < a.year ? -1 : 0));
+  // // Prepare HFC Metrics Data for display
+  // const prepTableData = (data) => {
+  //   // shape Data => creates web formatted fields as well as actual fields
+  //   const dataPrep = data.map((d) => shapeHfcData(d));
+  //   // sort data
+  //   dataPrep.sort((a, b) =>
+  //     a.category > b.category ? 1 : b.category > a.category ? -1 : 0
+  //   );
+  //   dataPrep.sort((a, b) => (a.year < b.year ? 1 : b.year < a.year ? -1 : 0));
 
-    return dataPrep;
-  };
+  //   return dataPrep;
+  // };
 
-  // Prepare State data for display
-  const prepStateMetrics = (data) => {
-    const dataPrep = data.map((d) => shapeStateData(d));
-    // sort data
-    dataPrep.sort((a, b) => (a.year < b.year ? 1 : b.year < a.year ? -1 : 0));
+  // // Prepare State data for display
+  // const prepStateMetrics = (data) => {
+  //   const dataPrep = data.map((d) => shapeStateData(d));
+  //   // sort data
+  //   dataPrep.sort((a, b) => (a.year < b.year ? 1 : b.year < a.year ? -1 : 0));
 
-    return dataPrep;
-  };
-
-  // Type conversion
-  const shapeHfcData = (d) => {
-    return {
-      state: d.state_name,
-      category: d.category,
-      end_use: d.end_use,
-      year: d.year,
-      slug: d.slug,
-      bau: +d.bau,
-      rmp: +d.rmp,
-      kigali: +d.kigali,
-      snap: +d.snap,
-      slcp: +d.slcp,
-      rmp_snap: +d.rmp_snap,
-      snap_kigali: +d.snap_kigali,
-      rmp_snap_slcp: +d.rmp_snap_slcp,
-      rmp_snap_slcp_kigali: +d.rmp_snap_slcp_kigali,
-      bau_web: +d.bau.toFixed(2),
-      rmp_web: +d.rmp.toFixed(2),
-      kigali_web: +d.kigali.toFixed(2),
-      snap_web: +d.snap.toFixed(2),
-      slcp_web: +d.slcp.toFixed(2),
-      rmp_snap_web: +d.rmp_snap.toFixed(2),
-      snap_kigali_web: +d.snap_kigali.toFixed(2),
-      rmp_snap_slcp_web: +d.rmp_snap_slcp.toFixed(2),
-      rmp_snap_slcp_kigali_web: +d.rmp_snap_slcp_kigali.toFixed(2),
-      id: d.id,
-      modified_date: d.modified_date,
-    };
-  };
-
-  // Type conversion
-  const shapeStateData = (d) => {
-    return {
-      // web formatted columns
-      state_population_web: Numeral(d.state_population).format("0,0"),
-      population_growth_rate_web: Numeral(d.population_growth_rate).format(
-        "0,0.000"
-      ),
-      household_growth_rate_web: Numeral(d.household_growth_rate).format(
-        "0,0.000"
-      ),
-      light_duty_vehicles_web: Numeral(d.light_duty_vehicles).format("0,0"),
-      light_duty_vehicles_growth_rate_web: Numeral(
-        d.light_duty_vehicles_growth_rate
-      ).format("0,0.000"),
-      heat_pump_growth_rate_web: Numeral(d.heat_pump_growth_rate).format(
-        "0,0.000"
-      ),
-      central_ac_growth_rate_web: Numeral(d.central_ac_growth_rate).format(
-        "0,0.000"
-      ),
-      room_ac_growth_rate_web: Numeral(d.room_ac_growth_rate).format("0,0.000"),
-      households_web: Numeral(d.households).format("0,0"),
-      // standard columns
-      year: d.year,
-      state: d.state_name,
-      state_population: +d.state_population,
-      population_growth_rate: +d.population_growth_rate,
-      households: +d.households,
-      household_growth_rate: +d.household_growth_rate,
-      household_heat_pumps: +d.household_heat_pumps,
-      heat_pump_growth_rate: +d.heat_pump_growth_rate,
-      household_central_ac: +d.household_central_ac,
-      central_ac_growth_rate: +d.central_ac_growth_rate,
-      household_room_ac: +d.household_room_ac,
-      room_ac_growth_rate: +d.room_ac_growth_rate,
-      light_duty_vehicles: +d.light_duty_vehicles,
-      light_duty_vehicles_growth_rate: +d.light_duty_vehicles_growth_rate,
-      slug: d.slug,
-      id: d.id,
-      modified_date: d.modified_date,
-    };
-  };
+  //   return dataPrep;
+  // };
 
   // generic filtering function
   const filterData = (data, field, value, operator) => {
-    if (operator === "equals") {
-      return data.filter((d) => {
-        return d[field] === value;
-      });
-    } else if (operator === "not") {
-      return data.filter((d) => {
-        return d[field] !== value;
-      });
+    if (Array.isArray(value)) {
+      if (operator === "equals") {
+        return data.filter((d) => {
+          return value.includes(d[field]);
+        });
+      } else if (operator === "not") {
+        return data.filter((d) => {
+          return !value.includes(d[field]);
+        });
+      }
+    } else {
+      if (operator === "equals") {
+        return data.filter((d) => {
+          return d[field] === value;
+        });
+      } else if (operator === "not") {
+        return data.filter((d) => {
+          return d[field] !== value;
+        });
+      }
     }
   };
 
   useEffect(() => {
     async function load() {
-      await loadData();
+      await loadData("virginia");
       setDoneLoading(true);
     }
     // Load
@@ -329,15 +296,6 @@ const Dashboard = (props) => {
 
   // // Triggard by the view button, this enables you to edit data on the page
   const handleStateToggle = async (stateName) => {
-    await setState({
-      ...state,
-      stateName: stateName.value,
-      toggleStateName: stateName,
-      lineVizData: [],
-      polarVizData: [],
-      mixBarData: [],
-      data: [],
-    });
     await loadData(stateName.value);
   };
 
@@ -348,7 +306,7 @@ const Dashboard = (props) => {
       </Container>
     );
   }
-
+  console.log(state.bumpVizData);
   return (
     <>
       <DashboardInline
@@ -365,8 +323,10 @@ const Dashboard = (props) => {
         // Viz
         lineVizData={state.lineVizData}
         radarVizData={state.radarVizData}
-        mixBarData={state.mixBarData}
-      />{" "}
+        barVizData={state.barVizData}
+        // Table
+        tableData={state.tableData}
+      />
       <Footer />
     </>
   );
