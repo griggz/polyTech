@@ -1,5 +1,4 @@
-const AppVersionText =
-`
+const AppVersionText = `
 # Changelog
 ## v 1.0.0
 
@@ -42,7 +41,6 @@ Released on July 9, 2020.
 - Updated Region data export to export ALL data as opposed to just displayed data - #91
 - All Region Table data mirros whichever region is selected in the chart - #75
 - Redesigned the data comparison tool to enable a more fluid comparison experience *
-- Added Scenerio options for the data comparison chart - #89
 - Added year options for the data comparison table - #89
 - Data Comparison data export now exports ALL relevant data in csv or pdf
 - Data Comparison State toggles are now more distinct and provide a higher number of states to compare *
@@ -132,7 +130,6 @@ Released on May 12, 2020.
 - Email User Backend Task to notify users when they register and are approved
 - Email Admins Backend Task to notify admins when someone has requested access
 - Data Calculations are now performed via celery task
-- Added USCA and US as options to data drop downs
 - Expanded API to create Region data set
 - Added logout icon to navbar
 - Added search to data tables
@@ -146,6 +143,6 @@ None
 
 ### Breaking Changes
 None
-`
+`;
 
-export default AppVersionText
+export default AppVersionText;

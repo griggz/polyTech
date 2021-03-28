@@ -252,7 +252,7 @@ function DashboardInline(props) {
 DashboardInline.propTypes = {
   lineVizData: PropTypes.array.isRequired,
   radarVizData: PropTypes.array.isRequired,
-  barVizData: PropTypes.array.isRequired,
+  barVizData: PropTypes.object.isRequired,
   tableData: PropTypes.array.isRequired,
 };
 

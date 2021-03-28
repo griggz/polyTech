@@ -5,7 +5,7 @@ import * as d3 from "d3";
 // My Components;
 import DashboardInline from "./DashboardInline";
 import Container from "../../prebuilt/Container";
-import Footer from "../ui/Footer";
+import Footer from "../../prebuilt/Footer";
 import { UpperFirstLetter } from "../../prebuilt/Helper";
 
 // Auth
@@ -306,7 +306,7 @@ const Dashboard = (props) => {
       </Container>
     );
   }
-  console.log(state.bumpVizData);
+
   return (
     <>
       <DashboardInline

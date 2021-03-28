@@ -35,10 +35,6 @@ const PaperToolbar = () => {
   );
 };
 
-PaperToolbar.propTypes = {
-  year: PropTypes.number.isRequired,
-};
-
 export default function BarViz({ data }) {
   return (
     <>
@@ -49,5 +45,5 @@ export default function BarViz({ data }) {
 }
 
 BarViz.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
 };

@@ -35,10 +35,6 @@ const PaperToolbar = () => {
   );
 };
 
-PaperToolbar.propTypes = {
-  year: PropTypes.number.isRequired,
-};
-
 export default function BumpViz({ data }) {
   return (
     <>

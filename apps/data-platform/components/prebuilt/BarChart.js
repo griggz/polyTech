@@ -100,5 +100,5 @@ export default function BarChart({ data }) {
 }
 
 BarChart.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
 };

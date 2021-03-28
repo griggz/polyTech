@@ -56,6 +56,9 @@ const PaperToolbar = ({ year, min, max, handlePolarChange }) => {
 
 PaperToolbar.propTypes = {
   year: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  handlePolarChange: PropTypes.func.isRequired,
 };
 
 export default function RadarVizSlider({ data }) {
