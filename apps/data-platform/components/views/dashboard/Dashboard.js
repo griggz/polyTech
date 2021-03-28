@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as d3 from "d3";
+import { useSpring, animated } from "react-spring";
 // My Components;
 import DashboardInline from "./DashboardInline";
 import Container from "../../prebuilt/Container";
@@ -25,6 +26,22 @@ const Dashboard = (props) => {
     stateMetrics: [],
     hfcMetrics: [],
     staff: null,
+  });
+
+  const { transform, opacity, marginTop } = useSpring({
+    from: {
+      scale: 10,
+      opacity: 0,
+      marginTop: -500,
+    },
+    to: {
+      scale: 150,
+      opacity: 1,
+      marginTop: 0,
+    },
+    config: {
+      duration: 1200,
+    },
   });
 
   const [doneLoading, setDoneLoading] = useState(false);

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import csvDownload from "json-to-csv-export";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import { useSpring, animated } from "react-spring";
 // Material UI;
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -125,6 +126,22 @@ function DashboardInline(props) {
   const [modType, setModType] = useState();
   // ROUTER
   const router = useRouter();
+  // Transiton
+  const { transform, opacity, marginTop } = useSpring({
+    from: {
+      scale: 10,
+      opacity: 0,
+      marginTop: 1000,
+    },
+    to: {
+      scale: 150,
+      opacity: 1,
+      marginTop: 0,
+    },
+    config: {
+      duration: 700,
+    },
+  });
   const tableOptions = {
     exportButton: true,
     exportCsv: (columns, data) => {
@@ -175,9 +192,17 @@ function DashboardInline(props) {
         </ButtonGroup>
       </Toolbar>
       <Grid item xs={12}>
-        <Paper className={classes.chart}>
-          <LineViz data={lineVizData} />
-        </Paper>
+        <animated.div
+          style={{
+            transform,
+            opacity,
+            marginTop,
+          }}
+        >
+          <Paper className={classes.chart}>
+            <LineViz data={lineVizData} />
+          </Paper>
+        </animated.div>
       </Grid>
       <Grid item xs={12} md={6}>
         <Paper className={classes.chart}>

@@ -78,7 +78,7 @@ const useStyles = makeStyles(() => ({
 const sampleData = [
   {
     state: "virginia",
-    year: "2030",
+    year: "2029",
     category: "rouge",
     measurementA: 1232,
     measurementB: 3454,
@@ -290,27 +290,26 @@ export default function UploadCsv() {
     const exist = [];
     const notExist = [];
 
-    const HeaderFields = [[...HeaderFields, ["id"]].flat()][0];
-
+    const header = [[...Header, ["id"]].flat()][0];
     uploadData.forEach(function (row) {
       const dbRecordsYear = reducedFilter(
         apiData,
-        Header,
+        header,
         (item) => item.year === row.year
       );
       const dbRecordsCategory = reducedFilter(
         dbRecordsYear,
-        Header,
+        header,
         (item) => item.category === row.category
       );
       const record = reducedFilter(
         dbRecordsCategory,
-        Header,
+        header,
         (item) => item.measurementA === row.measurementA
       );
       const apiRecord = reducedFilterId(
         dbRecordsCategory,
-        Header,
+        header,
         (item) => item.measurementA === row.measurementA
       );
 
@@ -321,7 +320,6 @@ export default function UploadCsv() {
         notExist.push(row);
       }
     });
-
     return { exist, notExist };
   };
 
@@ -331,13 +329,12 @@ export default function UploadCsv() {
   };
 
   const submitData = async () => {
-    await updateRecords(existData);
-    await createRecords(newData);
+    // await updateRecords(existData);
+    // await createRecords(newData);
     setCompleteStatus(true);
   };
 
   const updateRecords = async (data) => {
-    const location = dataSet === "hfc" ? "measurements" : "metrics";
     const recordLength = data.length;
     // If the object exists, update it via API
     if (recordLength > 0) {
@@ -346,7 +343,6 @@ export default function UploadCsv() {
           // Added await here
           return puts({
             row,
-            location,
           }).catch((e) => console.log(`Error updating record: ${row} - ${e}`));
         });
         await Promise.all(requests); // Use this to await all the promises
@@ -355,7 +351,6 @@ export default function UploadCsv() {
   };
   // creates records
   const createRecords = async (data) => {
-    const location = dataSet === "hfc" ? "measurements" : "metrics";
     const recordLength = data.length;
     // If the object exists, update it via API
     if (recordLength > 0) {
@@ -364,7 +359,6 @@ export default function UploadCsv() {
           // added await here
           return posts({
             row,
-            location,
           }).catch((e) => console.log(`Error creating record: ${row} - ${e}`));
         });
         await Promise.all(requests); // Use this to await all the promises
@@ -374,7 +368,7 @@ export default function UploadCsv() {
 
   const puts = async ({ row, location }) => {
     await axios
-      .put(`/api/hfc/${location}/`, {
+      .put(`/api/${location}/`, {
         data: row,
         headers: {
           Authorization: `Token ${window.localStorage
@@ -391,7 +385,7 @@ export default function UploadCsv() {
   };
 
   if (completeStatus) {
-    window.location.href = "/portal/";
+    window.location.reload();
   }
 
   return (
@@ -514,16 +508,13 @@ export default function UploadCsv() {
                       setTimeout(async () => {
                         const cleanNewData = ShapeData(newData);
                         const dataUpdate = [...uploadData, cleanNewData];
-                        const { data, errorRows } = await runChecks(
-                          dataUpdate,
-                          dataSet
-                        );
+                        const { data, errorRows } = await runChecks(dataUpdate);
                         setChecks({ ...checks, errorRows: errorRows });
                         setUploadData(data);
                         setUploadData([...data]);
 
                         resolve();
-                      }, 1000);
+                      }, 500);
                     }),
                   onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
@@ -531,16 +522,13 @@ export default function UploadCsv() {
                         const dataUpdate = [...uploadData];
                         const index = oldData.tableData.id;
                         dataUpdate[index] = newData;
-                        const { data, errorRows } = await runChecks(
-                          dataUpdate,
-                          dataSet
-                        );
+                        const { data, errorRows } = await runChecks(dataUpdate);
                         setChecks({ ...checks, errorRows: errorRows });
                         setUploadData(data);
                         setUploadData([...data]);
 
                         resolve();
-                      }, 1000);
+                      }, 500);
                     }),
                   onRowDelete: (oldData) =>
                     new Promise((resolve, reject) => {
@@ -548,16 +536,12 @@ export default function UploadCsv() {
                         const dataDelete = [...uploadData];
                         const index = oldData.tableData.id;
                         dataDelete.splice(index, 1);
-                        const { data, errorRows } = await runChecks(
-                          dataDelete,
-                          dataSet
-                        );
+                        const { data, errorRows } = await runChecks(dataDelete);
                         setChecks({ ...checks, errorRows: errorRows });
                         setUploadData(data);
                         setUploadData([...data]);
-
                         resolve();
-                      }, 1000);
+                      }, 500);
                     }),
                 }}
               />

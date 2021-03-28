@@ -130,6 +130,15 @@ function AppAppBar(props) {
                 <MenuItem onClick={!session ? signIn : signOut}>
                   {!session && !loading ? "Sign In" : "Sign Out"}
                 </MenuItem>
+                {session && (
+                  <Link
+                    underline="none"
+                    color="inherit"
+                    href="/data-platform/portal/"
+                  >
+                    <MenuItem>Data Portal</MenuItem>
+                  </Link>
+                )}
               </MenuDrop>
             </div>
             <ButtonGroup

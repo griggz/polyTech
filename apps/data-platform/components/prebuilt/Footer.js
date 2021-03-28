@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   footerText: {
     fontFamily: ["Permanent Marker", "serif"].join(","),
     fontSize: "1rem",
-    color: theme.palette.secondary,
+    color: "#ff3366",
   },
 }));
 
@@ -25,11 +25,7 @@ export default function Footer() {
 
   return (
     <div className={classes.footer}>
-      <Typography
-        className={classes.footerText}
-        color="secondary"
-        align="right"
-      >
+      <Typography className={classes.footerText} align="right">
         Engineered by Avec Analytics
       </Typography>
     </div>
