@@ -1,6 +1,6 @@
-import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
-import Adapters from 'next-auth/adapters';
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
+import Adapters from "next-auth/adapters";
 import { PrismaClient } from "@prisma/client";
 
 const site = process.env.NEXTAUTH_URL;
@@ -20,7 +20,7 @@ export default (req, res) =>
           auth: {
             user: process.env.EMAIL_SERVER_USER,
             pass: process.env.EMAIL_SERVER_PASSWORD,
-          }
+          },
         },
         from: process.env.EMAIL_FROM,
       }),
@@ -30,14 +30,14 @@ export default (req, res) =>
       //   domain: process.env.AUTH0_DOMAIN
       // })
     ],
-    debug: process.env.NODE_ENV === 'development',
+    debug: process.env.NODE_ENV === "development",
     secret: process.env.AUTH_SECRET,
     jwt: {
       secret: process.env.JWT_SECRET,
     },
     adapter: Adapters.Prisma.Adapter({ prisma }),
     pages: {
-      signIn: '/auth/sign-in',
+      signIn: "/auth/sign-in",
     },
     callbacks: {
       /**
@@ -46,10 +46,10 @@ export default (req, res) =>
        * @return {string}          URL the client will be redirect to
        */
       redirect: async (url, baseUrl) => {
-        const locateUrl = url.includes('auth') ? baseUrl : url
+        const locateUrl = url.includes("auth") ? baseUrl : url;
         return url.startsWith(baseUrl)
           ? Promise.resolve(locateUrl)
-          : Promise.resolve(baseUrl)
-      }
-    }
+          : Promise.resolve(baseUrl);
+      },
+    },
   });

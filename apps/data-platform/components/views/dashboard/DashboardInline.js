@@ -19,6 +19,7 @@ import LineViz from "../../views/viz/LineViz";
 import RadarViz from "../../views/viz/RadarViz";
 import BarViz from "../../views/viz/BarViz";
 import MetricsForm from "../../prebuilt/MetricsForm";
+import RainbowLoader from "../../prebuilt/RainbowLoader";
 import MeasurementsForm from "../../prebuilt/MeasurementsForm";
 import { UpperFirstLetter } from "../../prebuilt/Helper";
 
@@ -119,6 +120,7 @@ function DashboardInline(props) {
     toggleStateName,
     handleStateToggle,
     doneLoading,
+    reloading,
   } = props;
   const [record, setRecord] = useState();
   const [openMeasurementsForm, setOpenMeasurementsForm] = useState(false);
@@ -183,6 +185,7 @@ function DashboardInline(props) {
         >
           {UpperFirstLetter(stateName)}
         </Typography>
+        {reloading && <RainbowLoader />}
         <ButtonGroup variant="text" color="secondary">
           <StateDropDown
             stateName={stateName}

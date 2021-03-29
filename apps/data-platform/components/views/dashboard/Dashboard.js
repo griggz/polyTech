@@ -23,8 +23,6 @@ const Dashboard = (props) => {
     sourceData: [],
     stateCode: null,
     allianceMember: null,
-    stateMetrics: [],
-    hfcMetrics: [],
     staff: null,
   });
 
@@ -45,6 +43,7 @@ const Dashboard = (props) => {
   });
 
   const [doneLoading, setDoneLoading] = useState(false);
+  const [reloading, setReloading] = useState(false);
 
   // Loads data specific to the mode
   const loadData = async (stateName) => {
@@ -313,7 +312,9 @@ const Dashboard = (props) => {
 
   // // Triggard by the view button, this enables you to edit data on the page
   const handleStateToggle = async (stateName) => {
+    setReloading(true);
     await loadData(stateName.value);
+    setReloading(false);
   };
 
   if (!doneLoading) {
@@ -329,7 +330,8 @@ const Dashboard = (props) => {
       <DashboardInline
         // Data
         data={state.sourceData}
-        doneLoading={state.doneLoading}
+        doneLoading={doneLoading}
+        reloading={reloading}
         // State
         stateName={state.stateName}
         toggleStateName={state.toggleStateName}
