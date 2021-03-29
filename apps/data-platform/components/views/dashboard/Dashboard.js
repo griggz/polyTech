@@ -26,22 +26,6 @@ const Dashboard = (props) => {
     staff: null,
   });
 
-  const { transform, opacity, marginTop } = useSpring({
-    from: {
-      scale: 10,
-      opacity: 0,
-      marginTop: -500,
-    },
-    to: {
-      scale: 150,
-      opacity: 1,
-      marginTop: 0,
-    },
-    config: {
-      duration: 1200,
-    },
-  });
-
   const [doneLoading, setDoneLoading] = useState(false);
   const [reloading, setReloading] = useState(false);
 
@@ -56,6 +40,7 @@ const Dashboard = (props) => {
     const { radarData } = await prepRadarVizData(radarDataRaw);
     // Structure BumpData
     const { barData } = await prepBarVizData(lineDataRaw);
+    console.log(stateName, lineDataRaw, radarDataRaw);
     // update state
     setState({
       ...state,
@@ -313,11 +298,13 @@ const Dashboard = (props) => {
   // // Triggard by the view button, this enables you to edit data on the page
   const handleStateToggle = async (stateName) => {
     setReloading(true);
+    setDoneLoading(false);
     await loadData(stateName.value);
     setReloading(false);
+    setDoneLoading(true);
   };
 
-  if (!doneLoading) {
+  if (!doneLoading && !reloading) {
     return (
       <Container>
         <CircularProgress color="secondary" size="2.5rem" thickness={2} />{" "}

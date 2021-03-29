@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Toolbar from "@material-ui/core/Toolbar";
 // My Components;
@@ -227,25 +226,12 @@ function DashboardInline(props) {
             <CustomMaterialTable
               title="Data"
               columns={Cols}
-              data={tableData}
+              data={tableData || null}
               options={tableOptions}
               components={{
                 Container: (props) => props.children,
               }}
               actions={[
-                {
-                  icon: "edit",
-                  tooltip: "Edit Record",
-                  onClick: (event, rowData) =>
-                    handleModData({ action: "edit", rowData }),
-                },
-                {
-                  icon: "add",
-                  tooltip: "Add Data",
-                  isFreeAction: true,
-                  onClick: (event, rowData) =>
-                    handleModData({ action: "create", rowData }),
-                },
                 {
                   icon: "publish",
                   tooltip: "Bulk Upload",
@@ -282,6 +268,11 @@ DashboardInline.propTypes = {
   radarVizData: PropTypes.array.isRequired,
   barVizData: PropTypes.object.isRequired,
   tableData: PropTypes.array.isRequired,
+  stateName: PropTypes.string.isRequired,
+  toggleStateName: PropTypes.object.isRequired,
+  handleStateToggle: PropTypes.func.isRequired,
+  doneLoading: PropTypes.bool.isRequired,
+  reloading: PropTypes.bool.isRequired,
 };
 
 export default DashboardInline;

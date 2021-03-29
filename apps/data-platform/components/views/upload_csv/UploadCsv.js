@@ -512,7 +512,6 @@ export default function UploadCsv() {
                         setChecks({ ...checks, errorRows: errorRows });
                         setUploadData(data);
                         setUploadData([...data]);
-
                         resolve();
                       }, 500);
                     }),
