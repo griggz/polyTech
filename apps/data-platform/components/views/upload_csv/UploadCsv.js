@@ -12,7 +12,6 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Toolbar from "@material-ui/core/Toolbar";
 // My Componants
 import theme from "../ui/MaterialTheme";
-import Footer from "../../prebuilt/Footer";
 import HelpText from "./HelpText";
 import CustomMaterialTable from "../../prebuilt/CustomMaterialTable";
 import MaterialButton from "../../prebuilt/MaterialButton";
@@ -548,7 +547,6 @@ export default function UploadCsv() {
           )}
         </Grid>
       </Grid>
-      <Footer />
       <UploadPop
         openDialog={openDialog}
         handleDialogClose={handleDialogClose}

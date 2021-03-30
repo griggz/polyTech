@@ -1,8 +1,8 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 const Container = styled.div`
   width: 100%;
-  height: 75%;
+  height: 500px;
   margin: 10px auto;
   padding: 10px;
   border-radius: 4px;
@@ -12,6 +12,6 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
-export default Container
+export default Container;

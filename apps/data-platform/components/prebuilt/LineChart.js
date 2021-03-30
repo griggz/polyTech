@@ -14,6 +14,7 @@ export default function LineViz({ data }) {
       xScale={{
         type: "point",
       }}
+      colors={{ scheme: "category10" }}
       yScale={{
         type: "linear",
         min: "auto",

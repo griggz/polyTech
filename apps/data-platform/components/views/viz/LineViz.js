@@ -18,9 +18,8 @@ const useToolbarStyles = makeStyles(() => ({
 }));
 
 // chart toolbar
-const PaperToolbar = () => {
+const PaperToolbar = ({ title }) => {
   const classes = useToolbarStyles();
-
   return (
     <Toolbar className={classes.root}>
       <Typography
@@ -29,16 +28,16 @@ const PaperToolbar = () => {
         variant="h6"
         id="tableTitle"
       >
-        Metrics Consolidation
+        {title}
       </Typography>
     </Toolbar>
   );
 };
 
-export default function RadarVizSlider({ data }) {
+export default function RadarVizSlider({ data, title }) {
   return (
     <>
-      <PaperToolbar />
+      {title ? <PaperToolbar title={title} /> : ""}
       <LineChart data={data} />
     </>
   );

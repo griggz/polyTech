@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as d3 from "d3";
-import { useSpring, animated } from "react-spring";
 // My Components;
 import DashboardInline from "./DashboardInline";
 import Container from "../../prebuilt/Container";
-import Footer from "../../prebuilt/Footer";
-import { UpperFirstLetter } from "../../prebuilt/Helper";
+import States from "../../prebuilt/States";
 
 // Auth
 import { useSession } from "next-auth/client";
@@ -20,7 +18,6 @@ const Dashboard = (props) => {
     mixBarData: null,
     stateName: "virginia",
     year: 2020,
-    sourceData: [],
     stateCode: null,
     allianceMember: null,
     staff: null,
@@ -40,14 +37,16 @@ const Dashboard = (props) => {
     const { radarData } = await prepRadarVizData(radarDataRaw);
     // Structure BumpData
     const { barData } = await prepBarVizData(lineDataRaw);
-    console.log(stateName, lineDataRaw, radarDataRaw);
+
     // update state
     setState({
       ...state,
       stateName: stateName,
       toggleStateName: {
         value: stateName,
-        name: UpperFirstLetter(stateName),
+        name: States.find((s) => {
+          return s.value === stateName;
+        }).name,
       },
       lineVizData: lineData,
       radarVizData: radarData,
@@ -313,28 +312,25 @@ const Dashboard = (props) => {
   }
 
   return (
-    <>
-      <DashboardInline
-        // Data
-        data={state.sourceData}
-        doneLoading={doneLoading}
-        reloading={reloading}
-        // State
-        stateName={state.stateName}
-        toggleStateName={state.toggleStateName}
-        stateCode={state.stateCode}
-        allianceMember={state.allianceMember}
-        // Functions
-        handleStateToggle={handleStateToggle}
-        // Viz
-        lineVizData={state.lineVizData}
-        radarVizData={state.radarVizData}
-        barVizData={state.barVizData}
-        // Table
-        tableData={state.tableData}
-      />
-      <Footer />
-    </>
+    <DashboardInline
+      // Data
+      data={state.sourceData}
+      doneLoading={doneLoading}
+      reloading={reloading}
+      // State
+      stateName={state.stateName}
+      toggleStateName={state.toggleStateName}
+      stateCode={state.stateCode}
+      allianceMember={state.allianceMember}
+      // Functions
+      handleStateToggle={handleStateToggle}
+      // Viz
+      lineVizData={state.lineVizData}
+      radarVizData={state.radarVizData}
+      barVizData={state.barVizData}
+      // Table
+      tableData={state.tableData}
+    />
   );
 };
 

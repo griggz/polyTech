@@ -13,6 +13,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 // My Components;
 import theme from "../ui/MaterialTheme";
 import StateDropDown from "../../prebuilt/StateOptions";
+import States from "../../prebuilt/States";
 import CustomMaterialTable from "../../prebuilt/CustomMaterialTable";
 import LineViz from "../../views/viz/LineViz";
 import RadarViz from "../../views/viz/RadarViz";
@@ -144,10 +145,15 @@ function DashboardInline(props) {
     },
   });
   const tableOptions = {
-    exportButton: true,
-    exportCsv: (columns, data) => {
-      csvDownload(data, buildFileName(stateName));
-    },
+    columnsButton: true,
+    exportMenu: [
+      {
+        label: "Export CSV",
+        exportFunc: (columns, data) => {
+          csvDownload(data, `${stateName}_comparison_report.csv`);
+        },
+      },
+    ],
     pageSize: 25,
     pageSizeOptions: [25, 50, 75],
   };
@@ -165,7 +171,7 @@ function DashboardInline(props) {
   };
 
   const bulkUpload = () => {
-    router.push("/hfc/upload/");
+    router.push("/data-platform/portal/upload/");
   };
 
   const closeDialogForm = () => {
@@ -182,7 +188,11 @@ function DashboardInline(props) {
           color="secondary"
           align="left"
         >
-          {UpperFirstLetter(stateName)}
+          {
+            States.find((s) => {
+              return s.value === stateName;
+            }).name
+          }
         </Typography>
         {reloading && <RainbowLoader />}
         <ButtonGroup variant="text" color="secondary">
@@ -202,7 +212,7 @@ function DashboardInline(props) {
           }}
         >
           <Paper className={classes.chart}>
-            <LineViz data={lineVizData} />
+            <LineViz data={lineVizData} title="Data Consolidation" />
           </Paper>
         </animated.div>
       </Grid>
@@ -228,9 +238,6 @@ function DashboardInline(props) {
               columns={Cols}
               data={tableData || null}
               options={tableOptions}
-              components={{
-                Container: (props) => props.children,
-              }}
               actions={[
                 {
                   icon: "publish",

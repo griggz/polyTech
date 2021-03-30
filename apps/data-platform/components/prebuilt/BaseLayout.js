@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import axios from "axios";
 import { useRouter } from "next/router";
-
 // My Componants;
 import theme from "../views/ui/MaterialTheme";
 import CustomAppBar from "../prebuilt/AppBar";
+import Footer from "../prebuilt/Footer";
 // Material-UI;
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -23,7 +23,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
-import LanguageIcon from "@material-ui/icons/Language";
 import MapIcon from "@material-ui/icons/Map";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PublishIcon from "@material-ui/icons/Publish";
@@ -243,6 +242,7 @@ function HfcApp(props) {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {childrenWithProps}
+          <Footer />
         </main>
       </div>
     </ThemeProvider>
