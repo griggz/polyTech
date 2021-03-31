@@ -16,35 +16,45 @@ import Container from "../../prebuilt/Container";
 import regions from "../../prebuilt/Regions";
 
 const useStyles = makeStyles(() => ({
-  container: {
-    padding: theme.spacing(1),
-    position: "relative",
-  },
-  pageHeader: {
-    padding: theme.spacing(1),
-    fontWeight: "400",
-    flexGrow: 1,
-  },
-  container_new: {
-    padding: theme.spacing(1),
-    position: "relative",
-    marginTop: "25px",
-  },
-  horizontalPaper: {
+  chart: {
+    height: 725,
     margin: theme.spacing(1),
-    padding: theme.spacing(0),
+    padding: 25,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
   },
-  verticalPaper: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(2),
+  chartPaper: {
     display: "flex",
     overflow: "hidden",
     flexDirection: "column",
     alignItems: "center",
     zIndex: 1,
   },
-  gridItem: {
-    position: "relative",
+  table: {
+    margin: theme.spacing(1),
+    padding: 25,
+  },
+  item: {
+    textAlign: "center",
+    minWidth: 25,
+  },
+  container: {
+    textAlign: "center",
+    height: "100%",
+  },
+  slider: {
+    maxHeight: "30%",
+    marginLeft: 15,
+  },
+  pageHeader: {
+    padding: theme.spacing(2),
+    fontWeight: "400",
+    flexGrow: 1,
+  },
+  title: {
+    flex: "1 1 100%",
   },
 }));
 
@@ -143,28 +153,26 @@ function RegionalAnalysis(props) {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid container className={classes.pageHeader}>
-          <Grid item xs={6} md={6} lg={6}>
-            <Typography variant="h5" color="secondary" align="left">
-              Region Analysis
-            </Typography>
-          </Grid>
+        <Grid item xs={6} className={classes.pageHeader}>
+          <Typography variant="h3" color="secondary" align="left">
+            Region Analysis
+          </Typography>
         </Grid>
       </Grid>
-      <Grid container className={classes.container}>
-        <Grid container className={classes.pageHeader}>
-          <Grid item xs={12} md={12} lg={12}>
+      <Grid item xs={12}>
+        <Paper className={classes.chart}>
+          <div className={classes.chartPaper}>
             <RegionChart
               data={data}
               handleRegion={(region) => defineRegion(region)}
             />
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <Paper className={classes.verticalPaper}>
-              <RegionTable data={data} regionData={regionData} />
-            </Paper>
-          </Grid>
-        </Grid>
+          </div>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={12} lg={12}>
+        <Paper className={classes.table}>
+          <RegionTable data={data} regionData={regionData} />
+        </Paper>
       </Grid>
     </>
   );

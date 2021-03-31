@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
   pageHeader: {
-    padding: theme.spacing(0),
+    padding: theme.spacing(2),
     fontWeight: "400",
     flexGrow: 1,
   },

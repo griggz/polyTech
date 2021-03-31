@@ -119,7 +119,7 @@ const DataCompareInline = (props) => {
   } = props;
   return (
     <Grid container className={classes.container}>
-      <Grid item xs={6}>
+      <Grid item xs={6} className={classes.pageHeader}>
         <Typography variant="h3" color="secondary" align="left">
           State Comparison Tool
         </Typography>

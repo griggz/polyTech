@@ -45,11 +45,19 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     zIndex: 1,
   },
-  gridItem: {
-    position: "relative",
+  chart: {
+    height: 725,
+    margin: theme.spacing(1),
+    padding: 25,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   chartToolbar: {
     width: "100%",
+    textAlign: "left",
+    justifyContent: "left",
+    alignItems: "left",
   },
 }));
 
@@ -252,7 +260,7 @@ export default function RegionChart(props) {
 
   return (
     <>
-      <Paper className={classes.verticalPaper}>
+      <div className={classes.chartToolbar}>
         <ChartToolbar
           measurement={measurement}
           year={year}
@@ -261,29 +269,28 @@ export default function RegionChart(props) {
           toggleYear={toggleYear}
           toggleMeasurement={toggleMeasurement}
         />
-        <Paper className={classes.chartPaper} elevation={0}>
-          <Chart
-            width="950px"
-            height="550px"
-            keepAspectRatio="true"
-            chartType="GeoChart"
-            data={chartData}
-            options={{
-              region: "US",
-              colorAxis: { colors: ["#fff", "#e76f51"] },
-              backgroundColor: "white",
-              datalessRegionColor: "white",
-              defaultColor: "#f5f5f5",
-              displayMode: "regions",
-              resolution: "provinces",
-            }}
-            // Note: you will need to get a mapsApiKey for your project.
-            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-            mapsApiKey={process.env.GOOGLE_CHARTS_AUTH}
-            rootProps={{ "data-testid": "2" }}
-          />
-        </Paper>
-      </Paper>
+      </div>
+
+      <Chart
+        width="950px"
+        height="550px"
+        keepAspectRatio="true"
+        chartType="GeoChart"
+        data={chartData}
+        options={{
+          region: "US",
+          colorAxis: { colors: ["#fff", "#e76f51"] },
+          backgroundColor: "white",
+          datalessRegionColor: "white",
+          defaultColor: "#f5f5f5",
+          displayMode: "regions",
+          resolution: "provinces",
+        }}
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        mapsApiKey={process.env.GOOGLE_CHARTS_AUTH}
+        rootProps={{ "data-testid": "2" }}
+      />
     </>
   );
 }
