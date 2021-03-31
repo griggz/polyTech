@@ -45,10 +45,7 @@ const styles = {
       0: 0,
       full: "100%",
     }),
-    margin: styledBy("margin", {
-      default: theme.spacing(1),
-      0: 0,
-    }),
+    margin: theme.spacing(1),
   },
 };
 
@@ -62,7 +59,6 @@ export default function ScenarioDropDown({
   type,
   variant,
   minwidth,
-  margin,
   ...other
 }) {
   return (
@@ -73,7 +69,6 @@ export default function ScenarioDropDown({
         value={scenario}
         minwidth={minwidth}
         onChange={onChange}
-        margin={margin ? margin : "none"}
         variant={variant}
         label="Scenario"
         id="scenarioChoice"

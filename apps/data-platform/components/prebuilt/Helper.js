@@ -96,15 +96,13 @@ export function GroupBy2(data, key1, key2) {
     .key((d) => d[key1])
     .key((d) => d[key2])
     .rollup((v) => ({
-      bau: d3.sum(v, (d) => d.bau),
-      rmp: d3.sum(v, (d) => d.rmp),
-      kigali: d3.sum(v, (d) => d.kigali),
-      snap: d3.sum(v, (d) => d.snap),
-      slcp: d3.sum(v, (d) => d.slcp),
-      rmp_snap: d3.sum(v, (d) => d.rmp_snap),
-      snap_kigali: d3.sum(v, (d) => d.snap_kigali),
-      rmp_snap_slcp: d3.sum(v, (d) => d.rmp_snap_slcp),
-      rmp_snap_slcp_kigali: d3.sum(v, (d) => d.rmp_snap_slcp_kigali),
+      region: v.map((d) => {
+        return d.region;
+      })[0],
+      measurementA: d3.sum(v, (d) => d.rmp),
+      measurementB: d3.sum(v, (d) => d.kigali),
+      measurementC: d3.sum(v, (d) => d.snap),
+      measurementD: d3.sum(v, (d) => d.slcp),
     }))
     .entries(data);
   return dataRollup;

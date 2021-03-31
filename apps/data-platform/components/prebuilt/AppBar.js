@@ -103,19 +103,14 @@ export default function CustomAppBar(props) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => router.push("/policy/")}>Policy</MenuItem>
-          <MenuItem onClick={() => router.push("/hfc/")}>Data</MenuItem>
+          <MenuItem onClick={() => router.push("/data-platform/portal/")}>
+            Policy
+          </MenuItem>
+          <MenuItem onClick={() => router.push("/data-platform/portal")}>
+            Data
+          </MenuItem>
         </Menu>
         <Feedback />
-        {props.credAdminStatus ? (
-          <IconButtonLink href="https://unf-datahub-staging.herokuapp.com/admin/">
-            <Badge badgeContent={0} color="secondary">
-              <AccountCircleIcon />
-            </Badge>
-          </IconButtonLink>
-        ) : (
-          ""
-        )}
         <ChangeLogDialog />
 
         <IconButtonLink onClick={props.handleLogout}>

@@ -1,10 +1,10 @@
 import React from "react";
-import BaseLayout from "../../../apps/data-platform/components/views/dashboard/Dashboard";
+import BaseLayout from "../../../apps/data-platform/components/prebuilt/BaseLayout";
 import { withRouter } from "next/router";
 
 import RegionalAnalysis from "../../../apps/data-platform/components/views/regional_analysis/RegionalAnalysis";
 
-function RegionalAnalysisPage(props) {
+function RegionalAnalysisPage() {
   return (
     <BaseLayout>
       <RegionalAnalysis />
