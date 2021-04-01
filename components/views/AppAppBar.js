@@ -131,13 +131,22 @@ function AppAppBar(props) {
                   {!session && !loading ? "Sign In" : "Sign Out"}
                 </MenuItem>
                 {session && (
-                  <Link
-                    underline="none"
-                    color="inherit"
-                    href="/data-platform/portal/"
-                  >
-                    <MenuItem>Data Portal</MenuItem>
-                  </Link>
+                  <>
+                    <Link
+                      underline="none"
+                      color="inherit"
+                      href="/data-platform/portal/"
+                    >
+                      <MenuItem>Data Portal</MenuItem>
+                    </Link>
+                    <Link
+                      underline="none"
+                      color="inherit"
+                      href="/stripe-donate/"
+                    >
+                      <MenuItem>Stripe Integration Flow</MenuItem>
+                    </Link>
+                  </>
                 )}
               </MenuDrop>
             </div>
@@ -198,6 +207,13 @@ function AppAppBar(props) {
                           href="/data-platform/portal/"
                         >
                           <MenuItem>Data Portal</MenuItem>
+                        </Link>
+                        <Link
+                          underline="none"
+                          color="inherit"
+                          href="/stripe-donate/"
+                        >
+                          <MenuItem>Stripe Integration Flow</MenuItem>
                         </Link>
                       </Menu>
                     </>

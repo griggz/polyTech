@@ -10,7 +10,7 @@ import States from "../../prebuilt/States";
 // Auth
 import { useSession } from "next-auth/client";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [session, loading] = useSession();
   const [state, setState] = useState({
     stateMember: null,

@@ -21,7 +21,6 @@ import BarViz from "../../views/viz/BarViz";
 import MetricsForm from "../../prebuilt/MetricsForm";
 import RainbowLoader from "../../prebuilt/RainbowLoader";
 import MeasurementsForm from "../../prebuilt/MeasurementsForm";
-import { UpperFirstLetter } from "../../prebuilt/Helper";
 
 const useStyles = makeStyles((theme) => ({
   chart: {
