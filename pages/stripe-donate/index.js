@@ -32,8 +32,8 @@ import Container from "../../apps/stripe-donate/components/prebuilt/Container";
 import theme from "../../apps/stripe-donate/components/ui/Theme";
 import InfoIcon from "@material-ui/icons/Info";
 import { useSpring, animated } from "react-spring";
-import AppAppBar from "../../components/views/AppAppBar";
-import withRoot from "../../components/prebuilt/withRoot";
+import Footer from "../../apps/stripe-donate/components/prebuilt/Footer";
+import DemoDialog from "../../apps/stripe-donate/components/prebuilt/DemoDescription";
 
 // translate
 import {
@@ -388,7 +388,7 @@ const MainPage = ({ language, currency, currencySymbol }) => {
 
   const animatedStyle = useSpring({
     opacity: doneLoading ? 1 : 0,
-    config: { duration: 500 },
+    config: { duration: 250 },
     width: "100% ",
   });
   // Provides the component for associate to each step
@@ -637,7 +637,6 @@ const MainPage = ({ language, currency, currencySymbol }) => {
 
   return (
     <>
-      <AppAppBar />
       <ThemeProvider theme={theme}>
         <I18nProvider locale={personalSettings.locale}>
           <Layout title="Donate" lang={personalSettings.locale}>
@@ -707,9 +706,11 @@ const MainPage = ({ language, currency, currencySymbol }) => {
                   )}
               </Grid>
             </main>
+            <Footer />
           </Layout>
         </I18nProvider>
       </ThemeProvider>
+      <DemoDialog open />
     </>
   );
 };
@@ -720,4 +721,4 @@ MainPage.propTypes = {
   currencySymbol: PropTypes.string.isRequired,
 };
 
-export default withRoot(MainPage);
+export default MainPage;
