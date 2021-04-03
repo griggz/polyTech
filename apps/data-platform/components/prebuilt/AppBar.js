@@ -1,24 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 // My Comps;
-import Feedback from "../views/control_panel/Feedback.js";
 import ChangeLogDialog from "../views/control_panel/ChangeLog.js";
 import theme from "../views/ui/MaterialTheme";
+import PulseButton from "../../../../components/prebuilt/PulseButton";
+import DemoDialog from "../prebuilt/DemoDescription";
 // MUI;
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -55,7 +50,8 @@ function IconButtonLink(props) {
 
 export default function CustomAppBar(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [demoInfo, setDemoInfo] = useState();
   const router = useRouter();
 
   const handleClick = (event) => {
@@ -65,7 +61,7 @@ export default function CustomAppBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  console.log(demoInfo);
   return (
     <AppBar
       position="fixed"
@@ -89,28 +85,8 @@ export default function CustomAppBar(props) {
           Data Portal
         </Typography>
 
-        <Button
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          Apps
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={() => router.push("/data-platform/portal/")}>
-            Policy
-          </MenuItem>
-          <MenuItem onClick={() => router.push("/data-platform/portal")}>
-            Data
-          </MenuItem>
-        </Menu>
-        <Feedback />
+        {/* <Feedback /> */}
+        <PulseButton onClick={() => setDemoInfo(true)} />
         <ChangeLogDialog />
 
         <IconButtonLink onClick={props.handleLogout}>
@@ -119,6 +95,9 @@ export default function CustomAppBar(props) {
           </Tooltip>
         </IconButtonLink>
       </Toolbar>
+      {demoInfo && (
+        <DemoDialog open={demoInfo} handleClose={() => setDemoInfo(false)} />
+      )}
     </AppBar>
   );
 }

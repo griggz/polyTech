@@ -12,7 +12,7 @@
 
 # Process Flow
 
-There are three primary stages within this demo:s
+There are three primary stages within this demo:
 
 1. **Amounts:** Select or Enter the amount you wish to pay/donate
 2. **Billing:** Enter your billing information

@@ -7,13 +7,12 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import theme from "../ui/Theme";
 import Slide from "@material-ui/core/Slide";
 import Markdown from "../../../../components/prebuilt/Markdown";
 import Intro from "../prebuilt/posts/DemoIntroduction.md";
 import Image from "next/image";
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
@@ -54,7 +53,7 @@ const DialogTitle = withStyles(styles)((props) => {
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Image
         priority
-        src="/images/in-app/nextjs_stripe.png"
+        src="/images/in-app/data-portal-logos.png"
         alt="logos"
         width={750}
         height={200}
@@ -88,17 +87,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function DemoDialog(props) {
-  const [open, setOpen] = useState(props.open);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function DemoDialog({ open, handleClose }) {
   return (
     <>
       <Dialog
@@ -117,7 +106,7 @@ export default function DemoDialog(props) {
         }}
       >
         <DialogTitle id="max-width-dialog-title" onClose={handleClose}>
-          Stripe Integration Demo
+          Analytics Portal Demo
         </DialogTitle>
         <DialogContent dividers>
           <Markdown>{Intro}</Markdown>
