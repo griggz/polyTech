@@ -31,7 +31,7 @@ function Index(props) {
   const handleNotification = () => setNotification(false);
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar
         handleClick={{
           values: handleClickValues,
@@ -51,7 +51,7 @@ function Index(props) {
         onClose={handleNotification}
         message={snackMessage}
       />
-    </React.Fragment>
+    </>
   );
 }
 

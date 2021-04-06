@@ -21,6 +21,7 @@ import { useRouter, withRouter } from "next/router";
 const styles = (theme) => ({
   title: {
     fontSize: 24,
+    fontFamily: "Permanent Marker",
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {

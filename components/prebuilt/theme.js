@@ -14,7 +14,7 @@ const rawTheme = createMuiTheme({
       dark: "#e62958",
     },
     accent: {
-      main: "#90f1ef",
+      main: "#7bcbe2",
     },
     warning: {
       main: "#ffc071",
@@ -32,12 +32,12 @@ const rawTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "'Work Sans', sans-serif",
+    fontFamily: "'Raleway', sans-serif",
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 700, // Roboto Condensed
-    fontFamilySecondary: "'Roboto Condensed', sans-serif",
+    fontFamilySecondary: "'Raleway', sans-serif",
   },
 });
 

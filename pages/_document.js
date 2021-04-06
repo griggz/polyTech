@@ -1,9 +1,6 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/styles";
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
-
-const theme = responsiveFontSizes(createMuiTheme());
 
 class MyDocument extends Document {
   render() {
@@ -12,7 +9,7 @@ class MyDocument extends Document {
         <Head>
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Raleway|Roboto|Lato:300,400,700|Permanent+Marker|Open+Sans&display=swap|Material+Icons"
+            href="https://fonts.googleapis.com/css?family=Raleway|Roboto|Lato:300,400,700|Permanent+Marker: 300, 400, 700|Poiret+One|Open+Sans&display=swap|Material+Icons"
           />
           <style jsx global>
             {`
