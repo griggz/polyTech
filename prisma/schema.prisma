@@ -11,34 +11,40 @@ generator client {
 }
 
 model Leads {
-  id            Int     @default(autoincrement()) @id
-  firstName     String
-  lastName      String
-  email         String
-  workPhone     String?
-  jobTitle      String?
-  organization  String?
-  webSite       String?
-  orgSize       String?
-  industry      String?
-  solutionType  Solution[]
-  leadSource    String?
-  content       String
+  id           Int        @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String
+  workPhone    String?
+  jobTitle     String?
+  organization String?
+  webSite      String?
+  orgSize      String?
+  industry     String?
+  solutionType Solution[]
+  leadSource   String?
+  content      String
+  User         User?      @relation(fields: [userId], references: [id])
+  userId       Int?
 }
 
 model Solution {
-    id            Int     @default(autoincrement()) @id
-    solution      String
+  id       Int    @id @default(autoincrement())
+  solution String
+  Leads    Leads? @relation(fields: [leadsId], references: [id])
+  leadsId  Int?
 }
 
 model Subscribe {
-  id            Int     @default(autoincrement()) @id
-  email         String
-  active        Boolean @default(false)
+  id     Int     @id @default(autoincrement())
+  email  String
+  active Boolean @default(false)
+  User   User?   @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 model Account {
-  id                 Int       @default(autoincrement()) @id
+  id                 Int       @id @default(autoincrement())
   compoundId         String    @unique @map(name: "compound_id")
   userId             Int       @map(name: "user_id")
   providerType       String    @map(name: "provider_type")
@@ -50,15 +56,15 @@ model Account {
   createdAt          DateTime  @default(now()) @map(name: "created_at")
   updatedAt          DateTime  @default(now()) @map(name: "updated_at")
 
+
   @@index([providerAccountId], name: "providerAccountId")
   @@index([providerId], name: "providerId")
   @@index([userId], name: "userId")
-
   @@map(name: "accounts")
 }
 
 model Session {
-  id           Int      @default(autoincrement()) @id
+  id           Int      @id @default(autoincrement())
   userId       Int      @map(name: "user_id")
   expires      DateTime
   sessionToken String   @unique @map(name: "session_token")
@@ -70,24 +76,26 @@ model Session {
 }
 
 model User {
-  id            Int       @default(autoincrement()) @id
+  id            Int         @id @default(autoincrement())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map(name: "email_verified")
+  email         String?     @unique
+  emailVerified DateTime?   @map(name: "email_verified")
   image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  leads         Leads[]
+  subscribed    Subscribe[]
+  createdAt     DateTime    @default(now()) @map(name: "created_at")
+  updatedAt     DateTime    @default(now()) @map(name: "updated_at")
 
   @@map(name: "users")
 }
 
 model VerificationRequest {
-  id         Int      @default(autoincrement()) @id
+  id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique
   expires    DateTime
-  createdAt  DateTime  @default(now()) @map(name: "created_at")
-  updatedAt  DateTime  @default(now()) @map(name: "updated_at")
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
 
   @@map(name: "verification_requests")
 }
