@@ -1,8 +1,8 @@
-import ContactUs from '../../components/views/ContactUs'
+import ContactUs from "../../components/views/ContactUs";
+import { withRouter } from "next/router";
 
-export default function Contact() {
-
-  return (
-    <ContactUs />
-  )
+function Contact() {
+  return <ContactUs />;
 }
+
+export default withRouter(Contact);

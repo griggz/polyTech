@@ -1,17 +1,19 @@
+import { PrismaClient } from "@prisma/client";
 import axios from "axios";
+
+const prisma = new PrismaClient();
 
 export default async (req, res) => {
   if (req.method === "POST") {
+    console.log(req.body);
     try {
-      // retrieve payment intent data
-      const config = {
-        headers: req.body.headers,
-      };
-      const { data } = await axios.get(
-        "https://unf-datahub-production.herokuapp.com/account/api/account/",
-        config
-      );
-      res.status(200).send(data);
+      const exists = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      console.log("MADE IT");
+      res.status(200).send("");
     } catch (err) {
       res.status(500).json({
         statusCode: 500,

@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const prep = (data) => ({
   firstName: data.firstName.toLowerCase().trim(),
@@ -12,12 +12,18 @@ const prep = (data) => ({
   orgSize: data.orgSize.toLowerCase().trim(),
   industry: data.industry.toLowerCase().trim(),
   leadSource: data.leadSource.toLowerCase().trim(),
-  content: data.content.toLowerCase().trim()
-})
+  content: data.content.toLowerCase().trim(),
+});
 
 export default async (req, res) => {
-  if (req.method === 'POST') {
-    const obj = prep(req.body)
+  if (req.method === "POST") {
+    const obj = prep(req.body);
+    const exists = await prisma.user.findUnique({
+      where: {
+        email: obj.email,
+      },
+    });
+
     try {
       const lead = await prisma.leads.create({
         data: {
@@ -31,20 +37,23 @@ export default async (req, res) => {
           orgSize: obj.orgSize,
           industry: obj.industry,
           leadSource: obj.leadSource,
-          content: obj.content
+          content: obj.content,
+          User: {
+            connect: { id: exists.id },
+          },
         },
-      })
+      });
       // if solutions
       if (req.body.solution && lead) {
-        req.body.solution.map(async d => {
+        req.body.solution.map(async (d) => {
           await prisma.solution.create({
             data: {
               solution: d.toLowerCase().trim(),
               Leads: {
                 connect: { id: lead.id },
               },
-            }
-          })
+            },
+          });
         });
       }
       // if subscribe
@@ -52,17 +61,24 @@ export default async (req, res) => {
         await prisma.subscribe.create({
           data: {
             email: obj.email,
-            active: true
-          }
-        })
+            active: true,
+            User: {
+              connect: { id: exists.id },
+            },
+          },
+        });
       }
-      res.status(200).send(lead)
+      res.status(200).send(lead);
     } catch (err) {
-      console.log(err)
-      res.status(500).json({ statusCode: 500, message: err.response.data.detail, data: err.response.data })
+      console.log(err);
+      res.status(500).json({
+        statusCode: 500,
+        message: err.response.data.detail,
+        data: err.response.data,
+      });
     }
   } else {
-    res.setHeader('Allow', 'POST')
-    res.status(405).end('Method Not Allowed')
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
   }
-}
+};

@@ -82,14 +82,28 @@ function ContactUs() {
       content: values.content || "",
       subscribe: subscribe || "",
     });
-    router.push({
-      pathname: "/",
-      query: {
-        snackOpen: true,
-        snackMessage: "Thank you so much! We look forward to working with you!",
-      },
-    });
+
+    if (router.asPath.includes("next=")) {
+      router.push({
+        pathname: router.asPath.split("next=")[1],
+        query: { access: true },
+      });
+    } else {
+      router.push({
+        pathname: "/",
+        query: {
+          snackOpen: true,
+          snackMessage:
+            "Thank you so much! We look forward to working with you!",
+        },
+      });
+    }
   };
+
+  // prefetch next page for faster loading
+  if (router.asPath.includes("next=")) {
+    router.prefetch(router.asPath.split("next=")[1]);
+  }
 
   return (
     <>

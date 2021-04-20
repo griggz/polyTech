@@ -34,6 +34,8 @@ import InfoIcon from "@material-ui/icons/Info";
 import { useSpring, animated } from "react-spring";
 import Footer from "../../apps/stripe-donate/components/prebuilt/Footer";
 import DemoDialog from "../../apps/stripe-donate/components/prebuilt/DemoDescription";
+import { useRouter, withRouter } from "next/router";
+import { useSession } from "next-auth/client";
 
 // translate
 import {
@@ -198,7 +200,9 @@ const ExchangeNotification = ({ children }) => {
 };
 
 const MainPage = ({ language, currency, currencySymbol }) => {
+  const router = useRouter();
   const classes = useStyles();
+  const [session, loading] = useSession();
   const [activeStep, setActiveStep] = useState(0);
   const [successStatus, setSuccessStatus] = useState(false);
   const [doneLoading, setDoneLoading] = useState(false);
@@ -616,8 +620,10 @@ const MainPage = ({ language, currency, currencySymbol }) => {
       setDoneLoading(true);
     }
     // Load
+    if (session && !session.user.leads && !router.query.access)
+      location.replace("/contact-us?next=/stripe-donate/");
     load();
-  }, []);
+  }, [session, loading]);
 
   const DonationCardTitle = withStyles({
     root: {
@@ -635,83 +641,89 @@ const MainPage = ({ language, currency, currencySymbol }) => {
     );
   }
 
+  if (loading) return null;
+
+  if (!loading && !session) return <p>Access Denied</p>;
+
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <I18nProvider locale={personalSettings.locale}>
-          <Layout title="Donate" lang={personalSettings.locale}>
-            <CssBaseline />
-            <main className={classes.layout} id="stripe-form-content">
-              {successStatus === true ? (
-                <SuccessDialog open checkoutDetails={checkoutDetails} />
-              ) : (
-                ""
-              )}
-              <Toolbar className={classes.root}>
-                <DonationCardTitle
-                  className={classes.title}
-                  edge="start"
-                  variant="h6"
-                  noWrap
-                >
-                  {translate("donate_now")}
-                </DonationCardTitle>
-                <CurrencyOptions
-                  handleChange={handleCurrencyChange}
-                  currency={cart.currency}
-                />
-                <LocaleDropDown
-                  handleChange={handleLangChange}
-                  lang={personalSettings.language}
-                />
-              </Toolbar>
-              <Grid container className={classes.container}>
-                <Stepper
-                  activeStep={activeStep}
-                  className={classes.stepper}
-                  connector={<QontoConnector />}
-                >
-                  {steps.map((label, index) => (
-                    <Step key={index}>
-                      <StepLabel StepIconComponent={QontoStepIcon}>
-                        {label}
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
-                {getStepContent(activeStep)}
-              </Grid>
-              {activeStep < steps.length - 2 && (
-                <Grid container className={classes.container}>
-                  <MaterialButton
-                    onClick={handleNext}
-                    text={translate("next")}
-                    color="blue"
-                    width="100"
+    ((session && session.user.leads) || router.query.access) && (
+      <>
+        <ThemeProvider theme={theme}>
+          <I18nProvider locale={personalSettings.locale}>
+            <Layout title="Donate" lang={personalSettings.locale}>
+              <CssBaseline />
+              <main className={classes.layout} id="stripe-form-content">
+                {successStatus === true ? (
+                  <SuccessDialog open checkoutDetails={checkoutDetails} />
+                ) : (
+                  ""
+                )}
+                <Toolbar className={classes.root}>
+                  <DonationCardTitle
+                    className={classes.title}
+                    edge="start"
+                    variant="h6"
+                    noWrap
+                  >
+                    {translate("donate_now")}
+                  </DonationCardTitle>
+                  <CurrencyOptions
+                    handleChange={handleCurrencyChange}
+                    currency={cart.currency}
                   />
+                  <LocaleDropDown
+                    handleChange={handleLangChange}
+                    lang={personalSettings.language}
+                  />
+                </Toolbar>
+                <Grid container className={classes.container}>
+                  <Stepper
+                    activeStep={activeStep}
+                    className={classes.stepper}
+                    connector={<QontoConnector />}
+                  >
+                    {steps.map((label, index) => (
+                      <Step key={index}>
+                        <StepLabel StepIconComponent={QontoStepIcon}>
+                          {label}
+                        </StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                  {getStepContent(activeStep)}
                 </Grid>
-              )}
-              <Grid container className={classes.container}>
-                {cart.currency !== "USD" &&
-                  cart.value !== 0 &&
-                  !cart.customValue && (
-                    <ExchangeNotification>
-                      {cart.valueOptions[cart.value].value}{" "}
-                      {translate("exchange_notification", {
-                        exchange: `${personalSettings.currencySymbol}${
-                          cart.valueOptions[cart.value].amount
-                        } = $${cart.value}`,
-                      })}
-                    </ExchangeNotification>
-                  )}
-              </Grid>
-            </main>
-            <Footer />
-          </Layout>
-        </I18nProvider>
-      </ThemeProvider>
-      <DemoDialog open />
-    </>
+                {activeStep < steps.length - 2 && (
+                  <Grid container className={classes.container}>
+                    <MaterialButton
+                      onClick={handleNext}
+                      text={translate("next")}
+                      color="blue"
+                      width="100"
+                    />
+                  </Grid>
+                )}
+                <Grid container className={classes.container}>
+                  {cart.currency !== "USD" &&
+                    cart.value !== 0 &&
+                    !cart.customValue && (
+                      <ExchangeNotification>
+                        {cart.valueOptions[cart.value].value}{" "}
+                        {translate("exchange_notification", {
+                          exchange: `${personalSettings.currencySymbol}${
+                            cart.valueOptions[cart.value].amount
+                          } = $${cart.value}`,
+                        })}
+                      </ExchangeNotification>
+                    )}
+                </Grid>
+              </main>
+              <Footer />
+            </Layout>
+          </I18nProvider>
+        </ThemeProvider>
+        <DemoDialog open />
+      </>
+    )
   );
 };
 
@@ -721,4 +733,4 @@ MainPage.propTypes = {
   currencySymbol: PropTypes.string.isRequired,
 };
 
-export default MainPage;
+export default withRouter(MainPage);

@@ -16,7 +16,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Fade from "@material-ui/core/Fade";
 import Slide from "@material-ui/core/Slide";
-import { useRouter, withRouter } from "next/router";
 
 const styles = (theme) => ({
   title: {
@@ -99,12 +98,36 @@ const styles = (theme) => ({
   },
 });
 
+const MenuLink = ({ title, session, loading, classes }) => {
+  const path = {
+    "Data Portal": "/data-platform/portal/",
+    "Stripe Integration Flow": "/stripe-donate/",
+  };
+  if (session) {
+    return (
+      <Link
+        underline="none"
+        color="inherit"
+        href={
+          session.user.leads ? path[title] : `/contact-us?next=${path[title]}`
+        }
+      >
+        <MenuItem>{title}</MenuItem>
+      </Link>
+    );
+  } else {
+    return (
+      <Link underline="none" color="inherit" onClick={signIn}>
+        <MenuItem>{title}</MenuItem>
+      </Link>
+    );
+  }
+};
+
 function AppAppBar(props) {
   const { classes, sections, subHeaderVisible, handleClick, hideMenu } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const router = useRouter();
-  const { name } = router.query;
   const [session, loading] = useSession();
 
   const handleAppClick = (event) => {
@@ -131,24 +154,18 @@ function AppAppBar(props) {
                 <MenuItem onClick={!session ? signIn : signOut}>
                   {!session && !loading ? "Sign In" : "Sign Out"}
                 </MenuItem>
-                {session && (
-                  <>
-                    <Link
-                      underline="none"
-                      color="inherit"
-                      href="/data-platform/portal/"
-                    >
-                      <MenuItem>Data Portal</MenuItem>
-                    </Link>
-                    <Link
-                      underline="none"
-                      color="inherit"
-                      href="/stripe-donate/"
-                    >
-                      <MenuItem>Stripe Integration Flow</MenuItem>
-                    </Link>
-                  </>
-                )}
+                <MenuLink
+                  title="Data Portal"
+                  session={session}
+                  loading={loading}
+                  classes={classes}
+                />
+                <MenuLink
+                  title="Stripe Integration Flow"
+                  session={session}
+                  loading={loading}
+                  classes={classes}
+                />
               </MenuDrop>
             </div>
             <ButtonGroup
@@ -181,44 +198,40 @@ function AppAppBar(props) {
                   >
                     {"Contact Us"}
                   </Button>
-                  {session && (
-                    <>
-                      <Button
-                        aria-controls="fade-menu"
-                        color="inherit"
-                        aria-haspopup="true"
-                        className={classes.rightLinkAlt}
-                        onClick={handleAppClick}
-                      >
-                        Demos
-                      </Button>
-                      <Menu
-                        id="fade-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={open}
-                        onClose={() => {
-                          setAnchorEl(null);
-                        }}
-                        TransitionComponent={Fade}
-                      >
-                        <Link
-                          underline="none"
-                          color="inherit"
-                          href="/data-platform/portal/"
-                        >
-                          <MenuItem>Data Portal</MenuItem>
-                        </Link>
-                        <Link
-                          underline="none"
-                          color="inherit"
-                          href="/stripe-donate/"
-                        >
-                          <MenuItem>Stripe Integration Flow</MenuItem>
-                        </Link>
-                      </Menu>
-                    </>
-                  )}
+                  <>
+                    <Button
+                      aria-controls="fade-menu"
+                      color="inherit"
+                      aria-haspopup="true"
+                      className={classes.rightLinkAlt}
+                      onClick={handleAppClick}
+                    >
+                      Demos
+                    </Button>
+                    <Menu
+                      id="fade-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={open}
+                      onClose={() => {
+                        setAnchorEl(null);
+                      }}
+                      TransitionComponent={Fade}
+                    >
+                      <MenuLink
+                        title="Data Portal"
+                        session={session}
+                        loading={loading}
+                        classes={classes}
+                      />
+                      <MenuLink
+                        title="Stripe Integration Flow"
+                        session={session}
+                        loading={loading}
+                        classes={classes}
+                      />
+                    </Menu>
+                  </>
                 </>
               )}
               <MuiTooltip text={!session && !loading ? "Sign In" : "Sign Out"}>

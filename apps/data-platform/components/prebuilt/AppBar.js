@@ -61,7 +61,7 @@ export default function CustomAppBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(demoInfo);
+
   return (
     <AppBar
       position="fixed"
