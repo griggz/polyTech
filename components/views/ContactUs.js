@@ -20,6 +20,7 @@ import SelectMenuMultiple from "../form/SelectMenuMultiple";
 import IndustryTypes from "../form/selections/IndustryTypes";
 import OrgSize from "../form/selections/OrgSize";
 import Solutions from "../form/selections/SolutionOptions";
+import { useSession } from "next-auth/client";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ContactUs() {
   const classes = useStyles();
+  const [session, loading] = useSession();
   const [sent, setSent] = useState(false);
   const [subscribe, setSubscribe] = useState(true);
   const [industry, setIndustry] = useState("");
@@ -81,6 +83,7 @@ function ContactUs() {
       leadSource: values.leadSource || "",
       content: values.content || "",
       subscribe: subscribe || "",
+      session: session || "",
     });
 
     if (router.asPath.includes("next=")) {

@@ -18,11 +18,20 @@ const prep = (data) => ({
 export default async (req, res) => {
   if (req.method === "POST") {
     const obj = prep(req.body);
-    const exists = await prisma.user.findUnique({
-      where: {
-        email: obj.email,
-      },
-    });
+    let exists;
+    if (req.body.session) {
+      exists = await prisma.user.findUnique({
+        where: {
+          id: req.body.session.user.id,
+        },
+      });
+    } else {
+      exists = await prisma.user.findUnique({
+        where: {
+          email: obj.email,
+        },
+      });
+    }
 
     try {
       const lead = await prisma.leads.create({
