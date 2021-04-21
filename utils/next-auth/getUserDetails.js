@@ -11,10 +11,10 @@ if (process.env.NODE_ENV === "live") {
   prisma = global.prisma;
 }
 
-export default async function getUserDetails(email) {
+export default async function getUserDetails(id) {
   const exists = await prisma.user.findMany({
     where: {
-      email: email,
+      id: id,
     },
     include: {
       leads: true,

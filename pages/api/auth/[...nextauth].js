@@ -70,14 +70,13 @@ export default (req, res) =>
         //  ...and return it...
         if (account?.accessToken) {
           token.accessToken = account.accessToken;
-          token.userDetails = getUserDetails(user.email);
         }
         return Promise.resolve(token); // ...here
       },
       session: async (session, user) => {
         //  "session" is current session object
         //  below we set "user" param of "session" to value received from "jwt" callback
-        const { leads, isSubscribed } = await getUserDetails(user.email);
+        const { leads, isSubscribed } = await getUserDetails(user.id);
         session.user = user;
         session.user.isSubcribed = isSubscribed;
         session.user.leads = leads;
