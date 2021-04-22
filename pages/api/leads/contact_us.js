@@ -19,39 +19,61 @@ export default async (req, res) => {
   if (req.method === "POST") {
     const obj = prep(req.body);
     let exists;
-    if (req.body.session) {
-      exists = await prisma.user.findUnique({
-        where: {
-          id: req.body.session.user.id,
-        },
-      });
-    } else {
-      exists = await prisma.user.findUnique({
-        where: {
-          email: obj.email,
-        },
-      });
-    }
-
     try {
-      const lead = await prisma.leads.create({
-        data: {
-          firstName: obj.firstName,
-          lastName: obj.lastName,
-          email: obj.email,
-          workPhone: obj.workPhone,
-          jobTitle: obj.jobTitle,
-          organization: obj.organization,
-          webSite: obj.webSite,
-          orgSize: obj.orgSize,
-          industry: obj.industry,
-          leadSource: obj.leadSource,
-          content: obj.content,
-          User: {
-            connect: { id: exists.id },
+      if (req.body.session) {
+        exists = await prisma.user.findUnique({
+          where: {
+            id: req.body.session.user.id,
           },
-        },
-      });
+        });
+      } else {
+        exists = await prisma.user.findUnique({
+          where: {
+            email: obj.email,
+          },
+        });
+      }
+    } catch (err) {
+      exists = null;
+    }
+    try {
+      let lead;
+      if (exists) {
+        lead = await prisma.leads.create({
+          data: {
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            email: obj.email,
+            workPhone: obj.workPhone,
+            jobTitle: obj.jobTitle,
+            organization: obj.organization,
+            webSite: obj.webSite,
+            orgSize: obj.orgSize,
+            industry: obj.industry,
+            leadSource: obj.leadSource,
+            content: obj.content,
+            User: {
+              connect: { id: exists.id },
+            },
+          },
+        });
+      } else {
+        lead = await prisma.leads.create({
+          data: {
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            email: obj.email,
+            workPhone: obj.workPhone,
+            jobTitle: obj.jobTitle,
+            organization: obj.organization,
+            webSite: obj.webSite,
+            orgSize: obj.orgSize,
+            industry: obj.industry,
+            leadSource: obj.leadSource,
+            content: obj.content,
+          },
+        });
+      }
       // if solutions
       if (req.body.solution && lead) {
         req.body.solution.map(async (d) => {
@@ -67,15 +89,24 @@ export default async (req, res) => {
       }
       // if subscribe
       if (req.body.subscribe) {
-        await prisma.subscribe.create({
-          data: {
-            email: obj.email,
-            active: true,
-            User: {
-              connect: { id: exists.id },
+        if (exists) {
+          await prisma.subscribe.create({
+            data: {
+              email: obj.email,
+              active: true,
+              User: {
+                connect: { id: exists.id },
+              },
             },
-          },
-        });
+          });
+        } else {
+          await prisma.subscribe.create({
+            data: {
+              email: obj.email,
+              active: true,
+            },
+          });
+        }
       }
       res.status(200).send(lead);
     } catch (err) {

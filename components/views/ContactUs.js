@@ -103,11 +103,6 @@ function ContactUs() {
     }
   };
 
-  // prefetch next page for faster loading
-  if (router.asPath.includes("next=")) {
-    router.prefetch(router.asPath.split("next=")[1]);
-  }
-
   return (
     <>
       <AppAppBar hideMenu={true} />
