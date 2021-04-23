@@ -76,10 +76,11 @@ export default (req, res) =>
       session: async (session, user) => {
         //  "session" is current session object
         //  below we set "user" param of "session" to value received from "jwt" callback
-        const { leads, isSubscribed } = await getUserDetails(user.id);
+        const { leads, isSubscribed, groups } = await getUserDetails(user.id);
         session.user = user;
         session.user.isSubcribed = isSubscribed;
         session.user.leads = leads;
+        session.user.groups = groups;
         return Promise.resolve(session);
       },
       redirect: async (url, baseUrl) => {

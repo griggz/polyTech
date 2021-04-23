@@ -85,6 +85,8 @@ model User {
   subscribed    Subscribe[]
   createdAt     DateTime    @default(now()) @map(name: "created_at")
   updatedAt     DateTime    @default(now()) @map(name: "updated_at")
+  groups        Groups[]
+  posts         Posts[]
 
   @@map(name: "users")
 }
@@ -98,4 +100,28 @@ model VerificationRequest {
   updatedAt  DateTime @default(now()) @map(name: "updated_at")
 
   @@map(name: "verification_requests")
+}
+
+model Groups {
+  id        Int      @id @default(autoincrement())
+  group     String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  User      User[]
+
+  @@map(name: "groups")
+}
+
+model Posts {
+  id          Int       @id @default(autoincrement())
+  title       String    @unique
+  content     String?
+  draft       Boolean?
+  publishedAt DateTime? @map(name: "publishedAt")
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @default(now()) @map(name: "updated_at")
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  @@map(name: "posts")
 }
