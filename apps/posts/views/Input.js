@@ -1,8 +1,9 @@
 import withRoot from "../../../components/prebuilt/withRoot";
 // --- Post bootstrap -----
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Typography from "../../../components/prebuilt/Typography";
 import AppFooter from "../../../components/views/AppFooter";
@@ -14,6 +15,7 @@ import FormButton from "../../../components/form/FormButton";
 import FormFeedback from "../../../components/form/FormFeedback";
 import Markdown from "../../../components/prebuilt/Markdown";
 import Snackbar from "../../../components/prebuilt/Snackbar";
+import Container from "../../../components/prebuilt/Container";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,14 +42,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Input({ post }) {
   const classes = useStyles();
+  const [doneLoading, setDoneLoading] = useState();
   const [sent, setSent] = useState(false);
   const [notification, setNotification] = useState();
   const [submitMessage, setSubmitMessage] = useState("");
+  const [existingPosts, setExistingPosts] = useState();
 
   const handleNotification = () => setNotification(false);
 
   const validate = (values) => {
     const errors = required(["title", "content"], values);
+    // validate title
+    if (values.title) {
+      const newTitle = values.title
+        .replace(/\s+/g, " ")
+        .trim()
+        .split(" ")
+        .join("_")
+        .toLowerCase()
+        .trim();
+      if (existingPosts.includes(newTitle)) {
+        errors.title = "Post already exists!";
+      }
+    }
+
     return errors;
   };
 
@@ -77,6 +95,33 @@ function Input({ post }) {
     }
   };
 
+  const loadPosts = async () => {
+    const existingPosts = await axios.get("/api/posts").then((r) => r.data);
+    if (existingPosts) {
+      const allPosts = existingPosts.map((d) => {
+        return d.title;
+      });
+      setExistingPosts(allPosts);
+    }
+  };
+
+  useEffect(() => {
+    async function load() {
+      await loadPosts();
+      setDoneLoading(true);
+    }
+    // Load
+    load();
+  }, []);
+
+  if (!doneLoading) {
+    return (
+      <Container>
+        <CircularProgress color="secondary" size="2.5rem" thickness={2} />
+      </Container>
+    );
+  }
+
   return (
     <>
       <AppAppBar hideMenu={true} />
@@ -89,12 +134,14 @@ function Input({ post }) {
         <Form
           onSubmit={onSubmit}
           validate={validate}
-          render={({ handleSubmit, submitting, values, form }) => {
+          render={({ handleSubmit, submitting, values, form, errors }) => {
             return (
               <form
                 onSubmit={async (e) => {
                   await handleSubmit(e);
-                  form.reset();
+                  if (Object.keys(errors).length === 0) {
+                    form.reset();
+                  }
                 }}
                 className={classes.form}
                 noValidate

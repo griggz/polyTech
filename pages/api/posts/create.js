@@ -4,7 +4,13 @@ import { getSession } from "next-auth/client";
 const prisma = new PrismaClient();
 
 const prep = (data, session) => ({
-  title: data.title.split(" ").join("_").toLowerCase().trim(),
+  title: data.title
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .join("_")
+    .toLowerCase()
+    .trim(),
   content: data.content.trim(),
   User: {
     connect: { id: session.user.id },
