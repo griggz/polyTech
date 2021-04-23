@@ -3,7 +3,7 @@ import { getSession } from "next-auth/client";
 
 const prisma = new PrismaClient();
 
-const prep = (data, session) => ({
+const prep = (data, session, tags) => ({
   title: data.title
     .replace(/\s+/g, " ")
     .trim()
@@ -15,17 +15,30 @@ const prep = (data, session) => ({
   User: {
     connect: { id: session.user.id },
   },
+  tags: {
+    connect: tags,
+  },
 });
 
 export default async (req, res) => {
   const session = await getSession({ req });
   if (session && session.user.groups.includes("admin")) {
     if (req.method === "POST") {
-      const obj = prep(req.body, session);
+      const tags = [];
+      if (req.body.tags) {
+        const tagObjs = await prisma.tags.findMany({
+          where: {
+            title: { in: req.body.tags },
+          },
+        });
+        tagObjs.map((t) => tags.push({ id: t.id }));
+      }
+      const obj = prep(req.body, session, tags);
       try {
         const post = await prisma.posts.create({
           data: obj,
         });
+
         res.status(200).send(post);
       } catch (err) {
         console.log(err);

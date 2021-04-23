@@ -16,6 +16,7 @@ import FormFeedback from "../../../components/form/FormFeedback";
 import Markdown from "../../../components/prebuilt/Markdown";
 import Snackbar from "../../../components/prebuilt/Snackbar";
 import Container from "../../../components/prebuilt/Container";
+import Chips from "../../../components/prebuilt/Chips";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +48,31 @@ function Input({ post }) {
   const [notification, setNotification] = useState();
   const [submitMessage, setSubmitMessage] = useState("");
   const [existingPosts, setExistingPosts] = useState();
+  const [tagOptions, setTagOptions] = useState();
+  const [tags, setTags] = useState([]);
+  const [defaultTags, setDefaultTags] = useState();
+
+  const handleChipClick = (option) => {
+    // manages the functionality of the tag chips
+    if (option && option.value === false) {
+      setTagOptions({
+        ...tagOptions,
+        [option.label]: { label: option.label, value: true },
+      });
+      setTags([...tags, option.label]);
+    } else {
+      setTagOptions({
+        ...tagOptions,
+        [option.label]: { label: option.label, value: false },
+      });
+      const currTags = [...tags];
+      const tagIndex = currTags.indexOf(option.label);
+      if (tagIndex !== -1) {
+        currTags.splice(tagIndex, 1);
+        setTags(currTags);
+      }
+    }
+  };
 
   const handleNotification = () => setNotification(false);
 
@@ -81,6 +107,7 @@ function Input({ post }) {
       const posted = await axios.post("/api/posts/create/", {
         title: values.title || "",
         content: values.content || "",
+        tags: tags,
       });
       if (posted.data) {
         setSubmitMessage(`Post submitted succesfully => id: ${posted.data.id}`);
@@ -97,10 +124,20 @@ function Input({ post }) {
 
   const loadPosts = async () => {
     const existingPosts = await axios.get("/api/posts").then((r) => r.data);
+    const tags = await axios.get("/api/posts/tags/").then((r) => r.data);
     if (existingPosts) {
       const allPosts = existingPosts.map((d) => {
         return d.title;
       });
+      // build tags object
+      const tags_ = tags.map((t) => {
+        return t.title;
+      });
+      const tagsObj = {};
+      tags_.forEach((key, i) => (tagsObj[key] = { label: key, value: false }));
+      // setState
+      setDefaultTags(tagsObj);
+      setTagOptions(tagsObj);
       setExistingPosts(allPosts);
     }
   };
@@ -122,6 +159,11 @@ function Input({ post }) {
     );
   }
 
+  const resetForm = () => {
+    setTagOptions(defaultTags);
+    setTags([]);
+  };
+
   return (
     <>
       <AppAppBar hideMenu={true} />
@@ -140,6 +182,7 @@ function Input({ post }) {
                 onSubmit={async (e) => {
                   await handleSubmit(e);
                   if (Object.keys(errors).length === 0) {
+                    resetForm();
                     form.reset();
                   }
                 }}
@@ -182,6 +225,12 @@ function Input({ post }) {
                     {values.content || ""}
                   </Markdown>
                 </Grid>
+                {tagOptions && (
+                  <Chips
+                    handleClick={handleChipClick}
+                    chipOptions={tagOptions}
+                  />
+                )}
                 <FormSpy subscription={{ submitError: true }}>
                   {({ submitError }) =>
                     submitError ? (
