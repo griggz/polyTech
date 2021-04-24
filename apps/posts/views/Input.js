@@ -1,6 +1,7 @@
 import withRoot from "../../../components/prebuilt/withRoot";
 // --- Post bootstrap -----
 import React, { useState, useEffect } from "react";
+import { useRouter, withRouter } from "next/router";
 import { Field, Form, FormSpy } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -17,6 +18,7 @@ import Markdown from "../../../components/prebuilt/Markdown";
 import Snackbar from "../../../components/prebuilt/Snackbar";
 import Container from "../../../components/prebuilt/Container";
 import Chips from "../../../components/prebuilt/Chips";
+import { UpperFirstLetter } from "../../../utils/StringHelper";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,16 +43,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Input({ post }) {
+const getDateTime = () => {
+  const today = new Date();
+  const time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+  return time;
+};
+
+function Input() {
   const classes = useStyles();
+  const [post, setPost] = useState();
   const [doneLoading, setDoneLoading] = useState();
   const [sent, setSent] = useState(false);
   const [notification, setNotification] = useState();
   const [submitMessage, setSubmitMessage] = useState("");
   const [existingPosts, setExistingPosts] = useState();
   const [tagOptions, setTagOptions] = useState();
-  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [defaultTags, setDefaultTags] = useState();
+
+  const router = useRouter();
 
   const handleChipClick = (option) => {
     // manages the functionality of the tag chips
@@ -59,23 +72,22 @@ function Input({ post }) {
         ...tagOptions,
         [option.label]: { label: option.label, value: true },
       });
-      setTags([...tags, option.label]);
+      setSelectedTags([...selectedTags, option.label]);
     } else {
       setTagOptions({
         ...tagOptions,
         [option.label]: { label: option.label, value: false },
       });
-      const currTags = [...tags];
+      const currTags = [...selectedTags];
       const tagIndex = currTags.indexOf(option.label);
       if (tagIndex !== -1) {
         currTags.splice(tagIndex, 1);
-        setTags(currTags);
+        setSelectedTags(currTags);
       }
     }
   };
 
   const handleNotification = () => setNotification(false);
-
   const validate = (values) => {
     const errors = required(["title", "content"], values);
     // validate title
@@ -87,7 +99,13 @@ function Input({ post }) {
         .join("_")
         .toLowerCase()
         .trim();
-      if (existingPosts.includes(newTitle)) {
+      if (existingPosts.includes(newTitle) && !router.query.id) {
+        errors.title = "Post already exists!";
+      } else if (
+        existingPosts.includes(newTitle) &&
+        post &&
+        post.title !== values.title
+      ) {
         errors.title = "Post already exists!";
       }
     }
@@ -97,47 +115,93 @@ function Input({ post }) {
 
   const onSubmit = async (values) => {
     setSent(true);
+    let posted;
     if (post) {
-      await axios.post("/api/posts/[id]/", {
+      setPost({ ...post, title: values.title, content: values.content });
+      posted = await axios.put(`/api/posts/${post.id}/`, {
         title: values.title || "",
         content: values.content || "",
-        postId: post.id,
+        tags: selectedTags,
       });
     } else {
-      const posted = await axios.post("/api/posts/create/", {
+      posted = await axios.post("/api/posts/create/", {
         title: values.title || "",
         content: values.content || "",
-        tags: tags,
+        tags: selectedTags,
       });
-      if (posted.data) {
-        setSubmitMessage(`Post submitted succesfully => id: ${posted.data.id}`);
-        setSent(false);
-        // scroll to top
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        setNotification(true);
-      }
+    }
+    if (posted.data) {
+      setSubmitMessage(
+        `Post saved via => id: ${posted.data.id} @ ${getDateTime()}`
+      );
+      setSent(false);
+      // scroll to top
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setNotification(true);
     }
   };
 
   const loadPosts = async () => {
+    // check if update request
+    let post;
+    let tags;
+    if (router.query.id) {
+      post = await axios
+        .get(`/api/posts/${router.query.id}`)
+        .then((r) => r.data);
+      // update post state
+      setPost({
+        id: post.id,
+        title: post.title
+          .split("_")
+          .map((s) => {
+            return UpperFirstLetter(s);
+          })
+          .join(" "),
+        content: post.content,
+        tags: post.tags,
+      });
+      tags = post.tags;
+    }
+
     const existingPosts = await axios.get("/api/posts").then((r) => r.data);
-    const tags = await axios.get("/api/posts/tags/").then((r) => r.data);
+    const allTags = await axios.get("/api/posts/tags/").then((r) => r.data);
     if (existingPosts) {
       const allPosts = existingPosts.map((d) => {
         return d.title;
       });
       // build tags object
-      const tags_ = tags.map((t) => {
+      const tagTitles = allTags.map((t) => {
         return t.title;
       });
       const tagsObj = {};
-      tags_.forEach((key, i) => (tagsObj[key] = { label: key, value: false }));
+      if (tags) {
+        const existingTags = tags.map((t) => {
+          return t.title;
+        });
+        // set existing tags
+        tagTitles.forEach(
+          (key, i) =>
+            (tagsObj[key] = {
+              label: key,
+              value: existingTags.includes(key) ? true : false,
+            })
+        );
+        setSelectedTags(existingTags);
+        setDefaultTags(tagsObj);
+        setTagOptions(tagsObj);
+      } else {
+        // set default and existing tags
+        tagTitles.forEach(
+          (key, i) => (tagsObj[key] = { label: key, value: false })
+        );
+        setDefaultTags(tagsObj);
+        setTagOptions(tagsObj);
+      }
       // setState
-      setDefaultTags(tagsObj);
-      setTagOptions(tagsObj);
       setExistingPosts(allPosts);
     }
   };
@@ -160,8 +224,10 @@ function Input({ post }) {
   }
 
   const resetForm = () => {
-    setTagOptions(defaultTags);
-    setTags([]);
+    if (!router.query.id) {
+      setTagOptions(defaultTags);
+      setSelectedTags([]);
+    }
   };
 
   return (
@@ -170,11 +236,12 @@ function Input({ post }) {
       <AppForm maxWidth={"xl"}>
         <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
-            Post Create
+            {!post ? "Post Create" : "Post Update"}
           </Typography>
         </>
         <Form
           onSubmit={onSubmit}
+          initialValues={post ? post : { title: "", content: "" }}
           validate={validate}
           render={({ handleSubmit, submitting, values, form, errors }) => {
             return (
@@ -264,4 +331,4 @@ function Input({ post }) {
   );
 }
 
-export default withRoot(Input);
+export default withRouter(withRoot(Input));

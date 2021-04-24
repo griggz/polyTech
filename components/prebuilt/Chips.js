@@ -24,7 +24,7 @@ export default function Chips({ handleClick, chipOptions }) {
           <Chip
             key={index}
             label={chipOptions[k].label}
-            icon={chipOptions[k].value ? <DoneIcon /> : ""}
+            icon={chipOptions[k].value ? <DoneIcon /> : null}
             clickable
             color="primary"
             onClick={() => handleClick(chipOptions[k])}
