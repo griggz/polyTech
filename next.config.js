@@ -22,7 +22,7 @@ module.exports = {
     EXCHANGE_API_KEY: process.env.EXCHANGE_API_KEY,
   },
   images: {
-    domains: ["images.unsplash.com"],
+    domains: ["images.unsplash.com", "source.unsplash.com"],
   },
   target: "serverless",
   webpack: function (config) {

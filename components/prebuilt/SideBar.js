@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Topics from './Topics';
-import NewsLetter from './NewsLetter';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import Topics from "./Topics";
+import NewsLetter from "./NewsLetter";
 
 const useStyles = makeStyles((theme) => ({
   sidebarSection: {
@@ -40,5 +40,5 @@ export default function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  social: PropTypes.array
+  social: PropTypes.array,
 };

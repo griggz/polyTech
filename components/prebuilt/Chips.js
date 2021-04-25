@@ -14,22 +14,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Chips({ handleClick, chipOptions }) {
+export default function Chips({ handleClick, chipOptions, styles, ...other }) {
   const classes = useStyles();
 
   return (
     chipOptions && (
-      <div className={classes.root}>
+      <div className={styles ? styles : classes.root}>
         {Object.keys(chipOptions).map((k, index) => (
           <Chip
             key={index}
             label={chipOptions[k].label}
             icon={chipOptions[k].value ? <DoneIcon /> : null}
-            clickable
             color="primary"
-            onClick={() => handleClick(chipOptions[k])}
+            onClick={handleClick ? () => handleClick(chipOptions[k]) : null}
             variant="outlined"
-            size="medium"
+            {...other}
           />
         ))}
       </div>

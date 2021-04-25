@@ -78,7 +78,6 @@ export default function Topics() {
               <form onSubmit={handleSubmit} className={classes.form} noValidate>
                 <Field
                   autoComplete="email"
-                  autoFocus
                   component={RFTextField}
                   disabled={submitting || sent}
                   fullWidth

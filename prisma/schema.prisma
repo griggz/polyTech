@@ -118,6 +118,7 @@ model Posts {
   content     String?
   draft       Boolean?
   tags        Tags[]
+  image       String?
   publishedAt DateTime? @map(name: "publishedAt")
   createdAt   DateTime  @default(now()) @map(name: "created_at")
   updatedAt   DateTime  @default(now()) @map(name: "updated_at")

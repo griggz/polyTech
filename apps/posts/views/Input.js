@@ -117,16 +117,23 @@ function Input() {
     setSent(true);
     let posted;
     if (post) {
-      setPost({ ...post, title: values.title, content: values.content });
+      setPost({
+        ...post,
+        title: values.title,
+        content: values.content,
+        image: values.image,
+      });
       posted = await axios.put(`/api/posts/${post.id}/`, {
         title: values.title || "",
         content: values.content || "",
+        image: values.image || "",
         tags: selectedTags,
       });
     } else {
       posted = await axios.post("/api/posts/create/", {
         title: values.title || "",
         content: values.content || "",
+        image: values.image || "",
         tags: selectedTags,
       });
     }
@@ -162,6 +169,7 @@ function Input() {
           })
           .join(" "),
         content: post.content,
+        image: post.image,
         tags: post.tags,
       });
       tags = post.tags;
@@ -241,7 +249,7 @@ function Input() {
         </>
         <Form
           onSubmit={onSubmit}
-          initialValues={post ? post : { title: "", content: "" }}
+          initialValues={post ? post : { title: "", content: "", image: "" }}
           validate={validate}
           render={({ handleSubmit, submitting, values, form, errors }) => {
             return (
@@ -271,6 +279,20 @@ function Input() {
                       autoFocus
                     />
                   </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <Field
+                      fullWidth
+                      size="small"
+                      component={RFTextField}
+                      disabled={submitting || sent}
+                      required
+                      name="image"
+                      autoComplete="image"
+                      label="Image"
+                      margin="normal"
+                      autoFocus
+                    />
+                  </Grid>
                   <Grid item xs={12}>
                     <Field
                       fullWidth
@@ -296,6 +318,8 @@ function Input() {
                   <Chips
                     handleClick={handleChipClick}
                     chipOptions={tagOptions}
+                    size="medium"
+                    clickable
                   />
                 )}
                 <FormSpy subscription={{ submitError: true }}>

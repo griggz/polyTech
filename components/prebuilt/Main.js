@@ -16,17 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Main(props) {
+export default function Main({ posts }) {
   const classes = useStyles();
-  const { posts } = props;
 
   return (
     <Grid item xs={12} md={8} className={classes.item}>
-      {posts.map((post, index) => (
-        <Markdown className={classes.markdown} key={index}>
-          {post}
-        </Markdown>
-      ))}
+      <Markdown className={classes.markdown}>{posts.content}</Markdown>
     </Grid>
   );
 }

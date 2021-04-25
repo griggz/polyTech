@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Main from "../prebuilt/Main";
+import MainList from "../prebuilt/MainList";
 import withRoot from "../prebuilt/withRoot";
 import MainFeaturedContent from "../prebuilt/MainFeaturedContent";
 import AppAppBar from "../views/AppAppBar";
@@ -18,9 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Post(props) {
+function Post({ posts, sections, mainFeaturedContent, sidebar, list }) {
   const classes = useStyles();
-  const { posts, sections, mainFeaturedContent, sidebar } = props;
   const scrolled = useScroll();
 
   return (
@@ -28,10 +28,10 @@ function Post(props) {
       <AppAppBar sections={sections} subHeaderVisible={scrolled >= 504} />
       <MainFeaturedContent post={mainFeaturedContent} />
       <Header position="sticky" sections={sections} visible={true} />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <main>
           <Grid container spacing={5} className={classes.mainGrid}>
-            <Main posts={posts} />
+            {list ? <MainList posts={posts} /> : <Main posts={posts} />}
             <Sidebar social={sidebar.social} />
           </Grid>
         </main>

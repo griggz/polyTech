@@ -21,6 +21,7 @@ const prep = (data, session, tags) => ({
     .toLowerCase()
     .trim(),
   content: data.content.trim(),
+  image: data.image.trim(),
   User: {
     connect: { id: session.user.id },
   },
