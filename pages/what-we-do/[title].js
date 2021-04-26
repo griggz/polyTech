@@ -10,13 +10,6 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const sections = [
-  { title: "Our Process", url: "#" },
-  { title: "Apps", url: "#" },
-  { title: "Dashboards", url: "#" },
-  { title: "Tailored Solutions", url: "#" },
-];
-
 const sidebar = {
   social: [
     { name: "GitHub", icon: GitHubIcon },
@@ -57,8 +50,6 @@ function Article() {
       article = await axios
         .get(`/api/posts/post/${router.query.title}`)
         .then((r) => r.data);
-    } else {
-      console.log(router);
     }
     // build tags obj for each post
     // post.tagChips = buildTags(post.tags);
@@ -96,7 +87,6 @@ function Article() {
   return (
     <Post
       posts={post}
-      sections={sections}
       mainFeaturedContent={featuredContent}
       sidebar={sidebar}
       list={false}
