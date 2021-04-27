@@ -27,7 +27,7 @@ function Post({ posts, tags, mainFeaturedContent, sidebar, list }) {
 
   return (
     <div className={classes.container}>
-      <AppAppBar />
+      <AppAppBar hideMenu={true} />
       {list ? (
         <Carousel>
           {mainFeaturedContent.map((d, index) => (

@@ -232,24 +232,22 @@ function AppAppBar(props) {
                       />
                     </Menu>
                   </>
-                  <MuiTooltip
-                    text={!session && !loading ? "Sign In" : "Sign Out"}
-                  >
-                    <Button
-                      color="inherit"
-                      component="a"
-                      className={clsx(classes.rightLink, classes.linkSecondary)}
-                      onClick={!session ? signIn : signOut}
-                    >
-                      {!session && !loading ? (
-                        "Sign In"
-                      ) : (
-                        <SignOut className={classes.icon} />
-                      )}
-                    </Button>
-                  </MuiTooltip>
                 </>
               )}
+              <MuiTooltip text={!session && !loading ? "Sign In" : "Sign Out"}>
+                <Button
+                  color="inherit"
+                  component="a"
+                  className={clsx(classes.rightLink, classes.linkSecondary)}
+                  onClick={!session ? signIn : signOut}
+                >
+                  {!session && !loading ? (
+                    "Sign In"
+                  ) : (
+                    <SignOut className={classes.icon} />
+                  )}
+                </Button>
+              </MuiTooltip>
             </ButtonGroup>
           </div>
         </Toolbar>

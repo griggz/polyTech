@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 25,
   },
   item: {
-    // margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
   },
   image: {
@@ -42,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     "& > *": {
       margin: theme.spacing(0.5),
+    },
+  },
+  excerpt: {
+    fontSize: 18,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
     },
   },
 }));
@@ -67,8 +72,8 @@ const LineItem = ({ post, classes, router }) => (
         {post.image ? (
           <Image
             src={`https://source.unsplash.com/${post.image}`}
-            width={100}
-            height={100}
+            width={150}
+            height={150}
           />
         ) : (
           ""
@@ -80,7 +85,7 @@ const LineItem = ({ post, classes, router }) => (
             <Link href={`what-we-do/${post.title}`}>
               <StyledLink>
                 {post.title
-                  .split("_")
+                  .split("-")
                   .map((s) => {
                     return UpperFirstLetter(s);
                   })
@@ -91,7 +96,9 @@ const LineItem = ({ post, classes, router }) => (
         }
         secondary={
           <>
-            {truncString(post.content, 100)}
+            <div className={classes.excerpt}>
+              {truncString(post.excerpt, 500)}
+            </div>
             {post.tags.length > 0 && (
               <Chips
                 chipOptions={post.tagChips}
@@ -169,9 +176,17 @@ function MainList({ posts, tags }) {
         title={"Topics"}
       />
       {postsDisplay.length > 0 ? (
-        postsDisplay.map((post, index) => (
-          <LineItem post={post} classes={classes} router={router} key={index} />
-        ))
+        postsDisplay.map(
+          (post, index) =>
+            !post.draft && (
+              <LineItem
+                post={post}
+                classes={classes}
+                router={router}
+                key={index}
+              />
+            )
+        )
       ) : (
         <p>No articles meet the filter criteria</p>
       )}

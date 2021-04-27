@@ -7,6 +7,7 @@ import Typography from "../prebuilt/Typography";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
+import Button from "@material-ui/core/Button";
 import { Brain } from "@styled-icons/boxicons-regular/Brain";
 import { FlowTree } from "@styled-icons/entypo/FlowTree";
 import { CodeBlock } from "@styled-icons/boxicons-regular/CodeBlock";
@@ -50,6 +51,16 @@ const styles = (theme) => ({
   button: {
     marginTop: theme.spacing(8),
   },
+  button2: {
+    border: ".5px solid currentColor",
+    width: "100%",
+    borderRadius: 0,
+    height: "auto",
+    marginTop: theme.spacing(4),
+    marginBottom: "-25px",
+    padding: theme.spacing(2, 2),
+    margin: 0,
+  },
 });
 
 const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
@@ -79,7 +90,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Analysis & Reporting
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {"We'll make your data useful again by "}
                 {
                   "consolidating, cleaning, and transforming it into something beautiful."
@@ -97,7 +108,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Visualization
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {
                   "Using modern technologies and elegant web designs, we'll make your data work for you. "
                 }
@@ -114,7 +125,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Consulting & Strategy
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {
                   "Now more than ever it's critical you have a knowledgeable advocate in your corner. "
                 }
@@ -127,7 +138,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Web Development
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {"We design and develop beautiful, lightning fast, scalable, "}
                 {
                   "and analytics-focused websites tailored to grow your business."
@@ -141,7 +152,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Automation
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {
                   "We help your business gain leverage and efficiency through smart & focused automation."
                 }
@@ -154,11 +165,22 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               <Typography variant="h6" className={classes.title}>
                 Integrations
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" marked="center" align="center">
                 {
                   "We unify your ideas with your ecosystem, truly making more out of what you have."
                 }
               </Typography>
+            </div>
+          </Grid>
+          <Grid xs={12}>
+            <div className={classes.item}>
+              <Button
+                className={classes.button2}
+                component="a"
+                href="/what-we-do/"
+              >
+                Read More
+              </Button>
             </div>
           </Grid>
         </Grid>

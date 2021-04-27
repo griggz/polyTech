@@ -18,6 +18,7 @@ import Markdown from "../../../components/prebuilt/Markdown";
 import Snackbar from "../../../components/prebuilt/Snackbar";
 import Container from "../../../components/prebuilt/Container";
 import Chips from "../../../components/prebuilt/Chips";
+import CheckBox from "../../../components/prebuilt/CheckBox";
 import { UpperFirstLetter } from "../../../utils/StringHelper";
 import axios from "axios";
 
@@ -62,6 +63,7 @@ function Input() {
   const [tagOptions, setTagOptions] = useState();
   const [selectedTags, setSelectedTags] = useState([]);
   const [defaultTags, setDefaultTags] = useState();
+  const [draft, setDraft] = useState(false);
 
   const router = useRouter();
 
@@ -96,7 +98,7 @@ function Input() {
         .replace(/\s+/g, " ")
         .trim()
         .split(" ")
-        .join("_")
+        .join("-")
         .toLowerCase()
         .trim();
       if (existingPosts.includes(newTitle) && !router.query.id) {
@@ -122,19 +124,25 @@ function Input() {
         title: values.title,
         content: values.content,
         image: values.image,
+        excerpt: values.excerpt,
+        draft: draft,
       });
       posted = await axios.put(`/api/posts/${post.id}/`, {
         title: values.title || "",
         content: values.content || "",
         image: values.image || "",
+        excerpt: values.excerpt || "",
         tags: selectedTags,
+        draft: draft,
       });
     } else {
       posted = await axios.post("/api/posts/create/", {
         title: values.title || "",
         content: values.content || "",
         image: values.image || "",
+        excerpt: values.excerpt || "",
         tags: selectedTags,
+        draft: draft,
       });
     }
     if (posted.data) {
@@ -163,7 +171,7 @@ function Input() {
       setPost({
         id: post.id,
         title: post.title
-          .split("_")
+          .split("-")
           .map((s) => {
             return UpperFirstLetter(s);
           })
@@ -171,6 +179,7 @@ function Input() {
         content: post.content,
         image: post.image,
         tags: post.tags,
+        excerpt: post.excerpt,
       });
       tags = post.tags;
     }
@@ -249,7 +258,9 @@ function Input() {
         </>
         <Form
           onSubmit={onSubmit}
-          initialValues={post ? post : { title: "", content: "", image: "" }}
+          initialValues={
+            post ? post : { title: "", content: "", image: "", excerpt: "" }
+          }
           validate={validate}
           render={({ handleSubmit, submitting, values, form, errors }) => {
             return (
@@ -266,6 +277,11 @@ function Input() {
               >
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12}>
+                    <CheckBox
+                      text={"Draft"}
+                      checked={draft}
+                      setChecked={setDraft}
+                    />
                     <Field
                       fullWidth
                       size="large"
@@ -279,7 +295,7 @@ function Input() {
                       autoFocus
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid item xs={12}>
                     <Field
                       fullWidth
                       size="small"
@@ -291,6 +307,21 @@ function Input() {
                       label="Image"
                       margin="normal"
                       autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      size="large"
+                      component={RFTextField}
+                      disabled={submitting || sent}
+                      required
+                      name="excerpt"
+                      autoComplete="excerpt"
+                      label="Excerpt"
+                      margin="normal"
+                      multiline
+                      rows={5}
                     />
                   </Grid>
                   <Grid item xs={12}>

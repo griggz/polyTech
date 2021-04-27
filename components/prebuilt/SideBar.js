@@ -19,7 +19,7 @@ export default function Sidebar(props) {
 
   return (
     <Grid item xs={12} md={4}>
-      <Topics />
+      {/* <Topics /> */}
       <NewsLetter />
       <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
         Social

@@ -8,11 +8,13 @@ const prep = (data, session, tags) => ({
     .replace(/\s+/g, " ")
     .trim()
     .split(" ")
-    .join("_")
+    .join("-")
     .toLowerCase()
     .trim(),
   content: data.content.trim(),
   image: data.image.trim(),
+  draft: data.draft,
+  excerpt: data.excerpt.trim(),
   User: {
     connect: { id: session.user.id },
   },

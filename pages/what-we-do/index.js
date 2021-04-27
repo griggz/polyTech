@@ -28,7 +28,7 @@ const mainFeaturedContent = [
       "We do charts too :).",
     ].join(" "),
     image:
-      "https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixid=MXwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8&ixlib=rb-1.2.1?auto=format",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixid=MnwxOTA4MTR8MHwxfGFsbHx8fHx8fHx8fDE2MTk0ODMyNjk&ixlib=rb-1.2.1?auto=format",
     imgText: "main image description",
     // linkText: "Continue reading…",
   },

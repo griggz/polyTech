@@ -4,6 +4,8 @@ import { useRouter, withRouter } from "next/router";
 import Post from "../../components/views/Post";
 import Container from "../../components/prebuilt/Container";
 import { UpperFirstLetter } from "../../utils/StringHelper";
+import { useSession } from "next-auth/client";
+
 // MUI
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -41,6 +43,7 @@ function Article() {
   const [tags, setTags] = useState();
   const [featuredContent, setFeaturedContent] = useState();
   const [doneLoading, setDoneLoading] = useState();
+  const [session, loading] = useSession();
 
   const router = useRouter();
 
@@ -56,7 +59,7 @@ function Article() {
     // setState
     const featured = {
       title: article.title
-        .split("_")
+        .split("-")
         .map((s) => {
           return UpperFirstLetter(s);
         })
@@ -85,12 +88,18 @@ function Article() {
     );
   }
   return (
-    <Post
-      posts={post}
-      mainFeaturedContent={featuredContent}
-      sidebar={sidebar}
-      list={false}
-    />
+    <>
+      {!post.draft || (session && session.user.groups.includes("admin")) ? (
+        <Post
+          posts={post}
+          mainFeaturedContent={featuredContent}
+          sidebar={sidebar}
+          list={false}
+        />
+      ) : (
+        <p>Post does not exist or is under revision</p>
+      )}
+    </>
   );
 }
 
