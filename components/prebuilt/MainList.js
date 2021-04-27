@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     margin: `auto ${theme.spacing(1)}px`,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   root: {
     width: "100%",

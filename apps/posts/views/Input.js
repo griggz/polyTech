@@ -180,6 +180,7 @@ function Input() {
         image: post.image,
         tags: post.tags,
         excerpt: post.excerpt,
+        draft: post.draft,
       });
       tags = post.tags;
     }

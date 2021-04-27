@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     top: "100%",
     padding: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      top: "50%",
+    },
   },
 }));
 
@@ -59,7 +62,7 @@ export default function MainFeaturedPost({ post, center }) {
       }
       <div className={classes.overlay} />
       <Grid container>
-        <Grid item xs={center ? 12 : 6}>
+        <Grid item xs={12} md={center ? 12 : 6}>
           <div
             className={
               !center
