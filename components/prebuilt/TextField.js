@@ -1,27 +1,27 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import MuiTextField from '@material-ui/core/TextField';
-import { capitalize } from '@material-ui/core/utils';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import MuiTextField from "@material-ui/core/TextField";
+import { capitalize } from "@material-ui/core/utils";
 
 const styles = (theme) => ({
   root: {
     padding: 0,
-    'label + &': {
+    "label + &": {
       marginTop: theme.spacing(3),
     },
   },
   input: {
     minWidth: theme.spacing(6),
     backgroundColor: theme.palette.common.white,
-    '&$disabled': {
+    "&$disabled": {
       backgroundColor: theme.palette.divider,
     },
   },
   inputBorder: {
-    border: '1px solid #e9ddd0',
-    '&:focus': {
+    border: "1px solid #e9ddd0",
+    "&:focus": {
       borderColor: theme.palette.secondary.main,
     },
   },
@@ -50,11 +50,11 @@ const styles = (theme) => ({
     fontSize: 18,
   },
   select: {
-    height: 'auto',
+    height: "auto",
     borderRadius: 0,
   },
   selectIcon: {
-    top: '50%',
+    top: "50%",
     marginTop: -12,
   },
 });
@@ -65,7 +65,7 @@ function TextField(props) {
     InputProps = {},
     InputLabelProps,
     noBorder = false,
-    size = 'medium',
+    size = "medium",
     SelectProps,
     ...other
   } = props;
@@ -87,7 +87,7 @@ function TextField(props) {
             {
               [classes.inputBorder]: !noBorder,
             },
-            InputPropsClassesInput,
+            InputPropsClassesInput
           ),
           disabled: classes.disabled,
           ...InputPropsClassesOther,
@@ -117,7 +117,7 @@ TextField.propTypes = {
   InputProps: PropTypes.object,
   noBorder: PropTypes.bool,
   SelectProps: PropTypes.object,
-  size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge']),
+  size: PropTypes.oneOf(["small", "medium", "large", "xlarge"]),
 };
 
 export default withStyles(styles)(TextField);

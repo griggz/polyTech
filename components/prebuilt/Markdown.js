@@ -23,7 +23,11 @@ const options = {
     },
     p: {
       component: (props) => (
-        <Typography paragraph style={{ fontSize: 20 }} {...props} />
+        <Typography
+          paragraph
+          style={{ fontSize: 20, display: "inline-block" }}
+          {...props}
+        />
       ),
     },
     a: { component: (props) => <Link {...props} /> },

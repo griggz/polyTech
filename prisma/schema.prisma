@@ -26,6 +26,7 @@ model Leads {
   content      String
   User         User?      @relation(fields: [userId], references: [id])
   userId       Int?
+  createdAt    DateTime   @default(now()) @map(name: "created_at")
 }
 
 model Solution {
