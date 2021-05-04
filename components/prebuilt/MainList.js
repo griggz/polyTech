@@ -100,7 +100,7 @@ const LineItem = ({ post, classes, router }) => (
         secondary={
           <>
             <div className={classes.excerpt}>
-              {truncString(post.excerpt, 500)}
+              {truncString(post.excerpt, 300)}
             </div>
             {post.tags.length > 0 && (
               <Chips
