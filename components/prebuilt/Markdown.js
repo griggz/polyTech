@@ -30,7 +30,11 @@ const options = {
         />
       ),
     },
-    a: { component: (props) => <Link {...props} /> },
+    a: {
+      component: (props) => (
+        <Link color="secondary" style={{ fontWeight: "bold" }} {...props} />
+      ),
+    },
     ul: {
       component: (props) => <ul style={{ marginLeft: 25 }} {...props} />,
     },

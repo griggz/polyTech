@@ -30,10 +30,10 @@ const fancyContent = ({ content, classes }) => {
   const intro = content.match(re)[0];
   const outro = content.split(intro)[1];
 
-  const fancy = `<div><p style="font-family: Permanent Marker; font-size: 150px; margin-top: -110px; height: 150px; float: left; padding: 10px">${intro.slice(
+  const fancy = `<div><p style="font-family: Permanent Marker; font-size: 150px; margin-top: -110px; height: 155px; float: left; padding: 10px">${intro.slice(
     0,
     1
-  )}</p><p style="">${intro.slice(1)}</p></div>`;
+  )}</p><p style="font-size: 20px">${intro.slice(1)}</p></div>`;
 
   return fancy + outro;
 };
