@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Link from "@material-ui/core/Link";
 import Paper from "../prebuilt/Paper";
-import { useTransition, animated } from "react-spring";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

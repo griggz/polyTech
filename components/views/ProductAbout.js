@@ -50,15 +50,6 @@ const styles = (theme) => ({
     "&:hover": {
       zIndex: 1,
     },
-    "&:hover $imageBackdrop": {
-      opacity: 0.15,
-    },
-    "&:hover $imageMarked": {
-      opacity: 0,
-    },
-    "&:hover $imageTitle": {
-      border: "4px solid currentColor",
-    },
   },
   imageButton: {
     position: "absolute",

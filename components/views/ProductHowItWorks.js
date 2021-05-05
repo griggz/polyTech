@@ -65,11 +65,6 @@ const WrappedComponentContact = forwardRef(function ProductHowItWorks(
   return (
     <section className={classes.root} ref={ref}>
       <Container className={classes.container}>
-        <img
-          src="/static/themes/onepirate/productCurvyLines.png"
-          className={classes.curvyLines}
-          alt="curvy lines"
-        />
         <Typography
           variant="h4"
           marked="center"
@@ -92,13 +87,9 @@ const WrappedComponentContact = forwardRef(function ProductHowItWorks(
             <Grid item xs={12} md={4}>
               <div className={classes.item}>
                 <div className={classes.number}>2.</div>
-                <EmojiPeopleIcon
-                  src="/static/themes/onepirate/productHowItWorks2.svg"
-                  alt="graph"
-                  className={classes.image}
-                />
+                <EmojiPeopleIcon alt="graph" className={classes.image} />
                 <Typography variant="h5" align="center">
-                  Let's chat and learn more about how we can help you!
+                  {"Let's chat and learn more about how we can help you!"}
                 </Typography>
               </div>
             </Grid>
@@ -107,7 +98,7 @@ const WrappedComponentContact = forwardRef(function ProductHowItWorks(
                 <div className={classes.number}>3.</div>
                 <Rocket alt="clock" className={classes.image} />
                 <Typography variant="h5" align="center">
-                  Let's build something amazing, together.
+                  {"Let's build something amazing, together."}
                 </Typography>
               </div>
             </Grid>

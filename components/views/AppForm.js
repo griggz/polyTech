@@ -8,11 +8,12 @@ import Paper from "../prebuilt/Paper";
 const styles = (theme) => ({
   root: {
     display: "flex",
-    backgroundImage: "url(/static/onepirate/appCurvyLines.png)",
-    backgroundRepeat: "no-repeat",
+    overflow: "hidden",
   },
   paper: {
     padding: theme.spacing(4, 3),
+    backgroundImage: "url(" + "/images/SGrid.svg" + ")",
+    backgroundColor: theme.palette.secondary.light,
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(8, 6),
     },

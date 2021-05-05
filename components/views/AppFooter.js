@@ -21,6 +21,8 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    overflow: "hidden",
+    backgroundImage: "url(" + "/images/SGrid.svg" + ")",
     backgroundColor: theme.palette.secondary.light,
   },
   container: {

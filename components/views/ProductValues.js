@@ -57,7 +57,7 @@ const styles = (theme) => ({
     borderRadius: 0,
     height: "auto",
     marginTop: theme.spacing(4),
-    marginBottom: "-25px",
+    marginBottom: "-50px",
     padding: theme.spacing(2, 2),
     margin: 0,
   },
@@ -172,7 +172,7 @@ const WrappedComponentValues = forwardRef(function ProductValues(props, ref) {
               </Typography>
             </div>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <div className={classes.item}>
               <Button
                 className={classes.button2}

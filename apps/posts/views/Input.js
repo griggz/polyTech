@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "../../../components/prebuilt/Typography";
 import AppFooter from "../../../components/views/AppFooter";
 import AppAppBar from "../../../components/views/AppAppBar";
-import AppForm from "../../../components/views/AppForm";
 import { required } from "../../../components/form/validation";
 import RFTextField from "../../../components/form/RFTextField";
 import FormButton from "../../../components/form/FormButton";
@@ -23,6 +22,12 @@ import { UpperFirstLetter } from "../../../utils/StringHelper";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(4),
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4),
+  },
   form: {
     marginTop: theme.spacing(6),
   },
@@ -251,12 +256,10 @@ function Input() {
   return (
     <>
       <AppAppBar hideMenu={true} />
-      <AppForm maxWidth={"xl"}>
-        <>
-          <Typography variant="h3" gutterBottom marked="center" align="center">
-            {!post ? "Post Create" : "Post Update"}
-          </Typography>
-        </>
+      <Container className={classes.root} component="section">
+        <Typography variant="h3" gutterBottom marked="center" align="center">
+          {!post ? "Post Create" : "Post Update"}
+        </Typography>
         <Form
           onSubmit={onSubmit}
           initialValues={
@@ -376,7 +379,7 @@ function Input() {
             );
           }}
         />
-      </AppForm>
+      </Container>
       <AppFooter />
       <Snackbar
         open={notification}

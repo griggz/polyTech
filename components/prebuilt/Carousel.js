@@ -1,5 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
+import PropTypes from "prop-types";
 
 // Css
 import "slick-carousel/slick/slick.css";
@@ -17,3 +18,7 @@ export default function Carousel({ children }) {
   };
   return <Slider {...settings}>{children}</Slider>;
 }
+
+Carousel.propTypes = {
+  children: PropTypes.array.isRequired,
+};

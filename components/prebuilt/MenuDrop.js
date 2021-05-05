@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const ITEM_HEIGHT = 48;
 
-export default function MenuDrop({options, children}) {
+export default function MenuDrop({ options, children }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -24,7 +24,7 @@ export default function MenuDrop({options, children}) {
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
-        color='secondary'
+        color="secondary"
         onClick={handleClick}
       >
         <MoreVertIcon />
@@ -38,19 +38,17 @@ export default function MenuDrop({options, children}) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: '20ch',
+            width: "20ch",
           },
         }}
       >
         {options
-        ? options.map((option) => (
-          <MenuItem key={option} onClick={handleClose}>
-            {option}
-          </MenuItem>
-        ))
-        :
-        [children]
-        }
+          ? options.map((option) => (
+              <MenuItem key={option} onClick={handleClose}>
+                {option}
+              </MenuItem>
+            ))
+          : [children]}
       </Menu>
     </div>
   );

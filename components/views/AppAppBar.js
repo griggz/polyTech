@@ -168,87 +168,83 @@ function AppAppBar(props) {
                 />
               </MenuDrop>
             </div>
-            <ButtonGroup
-              variant="text"
-              aria-label="outlined primary button group"
-            >
-              {!hideMenu && (
-                <>
-                  <Button
-                    color="inherit"
-                    component="a"
-                    className={classes.rightLink}
-                    onClick={handleClick ? handleClick.values : ""}
-                  >
-                    {"Our Work"}
-                  </Button>
-                  <Button
-                    color="inherit"
-                    component="a"
-                    className={classes.rightLink}
-                    onClick={handleClick ? handleClick.about : ""}
-                  >
-                    {"About Us"}
-                  </Button>
-                  <Button
-                    color="inherit"
-                    component="a"
-                    className={classes.rightLink}
-                    onClick={handleClick ? handleClick.contact : ""}
-                  >
-                    {"Contact Us"}
-                  </Button>
-                  <>
-                    <Button
-                      aria-controls="fade-menu"
-                      color="inherit"
-                      aria-haspopup="true"
-                      className={classes.rightLinkAlt}
-                      onClick={handleAppClick}
-                    >
-                      Demos
-                    </Button>
-                    <Menu
-                      id="fade-menu"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={open}
-                      onClose={() => {
-                        setAnchorEl(null);
-                      }}
-                      TransitionComponent={Fade}
-                    >
-                      <MenuLink
-                        title="Data Portal"
-                        session={session}
-                        loading={loading}
-                        classes={classes}
-                      />
-                      <MenuLink
-                        title="Stripe Integration Flow"
-                        session={session}
-                        loading={loading}
-                        classes={classes}
-                      />
-                    </Menu>
-                  </>
-                </>
-              )}
-              <MuiTooltip text={!session && !loading ? "Sign In" : "Sign Out"}>
+            {!hideMenu && (
+              <ButtonGroup
+                variant="text"
+                aria-label="outlined primary button group"
+              >
                 <Button
                   color="inherit"
                   component="a"
-                  className={clsx(classes.rightLink, classes.linkSecondary)}
-                  onClick={!session ? signIn : signOut}
+                  className={classes.rightLink}
+                  onClick={handleClick ? handleClick.values : ""}
                 >
-                  {!session && !loading ? (
-                    "Sign In"
-                  ) : (
-                    <SignOut className={classes.icon} />
-                  )}
+                  {"Our Work"}
                 </Button>
-              </MuiTooltip>
-            </ButtonGroup>
+                <Button
+                  color="inherit"
+                  component="a"
+                  className={classes.rightLink}
+                  onClick={handleClick ? handleClick.about : ""}
+                >
+                  {"About Us"}
+                </Button>
+                <Button
+                  color="inherit"
+                  component="a"
+                  className={classes.rightLink}
+                  onClick={handleClick ? handleClick.contact : ""}
+                >
+                  {"Contact Us"}
+                </Button>
+                <Button
+                  aria-controls="fade-menu"
+                  color="inherit"
+                  aria-haspopup="true"
+                  className={classes.rightLinkAlt}
+                  onClick={handleAppClick}
+                >
+                  Demos
+                </Button>
+              </ButtonGroup>
+            )}
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={() => {
+                setAnchorEl(null);
+              }}
+              TransitionComponent={Fade}
+            >
+              <MenuLink
+                title="Data Portal"
+                session={session}
+                loading={loading}
+                classes={classes}
+              />
+              <MenuLink
+                title="Stripe Integration Flow"
+                session={session}
+                loading={loading}
+                classes={classes}
+              />
+            </Menu>
+            <MuiTooltip text={!session && !loading ? "Sign In" : "Sign Out"}>
+              <Button
+                color="inherit"
+                component="a"
+                className={clsx(classes.rightLink, classes.linkSecondary)}
+                onClick={!session ? signIn : signOut}
+              >
+                {!session && !loading ? (
+                  "Sign In"
+                ) : (
+                  <SignOut className={classes.icon} />
+                )}
+              </Button>
+            </MuiTooltip>
           </div>
         </Toolbar>
         {sections && subHeaderVisible ? (

@@ -46,9 +46,9 @@ function ProductHero(props) {
       />
       <Typography color="inherit" align="center" variant="h2" marked="center">
         A modern approach to data for your
-        <Typography className={classes.typer} align="center" variant="h2">
+        <div className={classes.typer}>
           <Typer options={typerOptions} />
-        </Typography>
+        </div>
       </Typography>
 
       <Typography
@@ -76,7 +76,7 @@ function ProductHero(props) {
         color="inherit"
         className={classes.more}
       >
-        Let's partner together and engineer your next game-changing idea.
+        {"Let's partner together and engineer your next game-changing idea."}
       </Typography>
     </ProductHeroLayout>
   );

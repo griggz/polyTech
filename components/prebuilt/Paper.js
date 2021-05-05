@@ -30,7 +30,7 @@ function Paper(props) {
   } = props;
   return (
     <MuiPaper
-      elevation={0}
+      elevation={4}
       square
       className={clsx(
         classes[`background${capitalize(background)}`],
