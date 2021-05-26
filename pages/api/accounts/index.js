@@ -18,7 +18,6 @@ export default async (req, res) => {
         include: {
           groups: true,
           account: true,
-          session: true,
         },
       });
       res.status(200).send(accounts);

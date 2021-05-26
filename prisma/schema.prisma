@@ -75,7 +75,6 @@ model Session {
   createdAt    DateTime @default(now()) @map(name: "created_at")
   updatedAt    DateTime @default(now()) @map(name: "updated_at")
 
-  User User @relation(fields: [userId], references: [id])
   @@map(name: "sessions")
 }
 
@@ -92,7 +91,6 @@ model User {
   groups        Groups[]
   posts         Posts[]
   account       Account[]
-  session       Session[]
 
   @@map(name: "users")
 }
