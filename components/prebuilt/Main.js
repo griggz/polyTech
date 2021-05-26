@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
     display: "flex",
+    whiteSpace: "pre-wrap",
   },
   adminContent: {
     margin: 0,

@@ -16,8 +16,17 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Fade from "@material-ui/core/Fade";
 import Slide from "@material-ui/core/Slide";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import useBoop from "../hooks/useBoop";
+import { animated } from "react-spring";
+
+const drawerWidth = 240;
 
 const styles = (theme) => ({
+  root: {
+    display: "flex",
+  },
   title: {
     fontSize: 24,
     fontFamily: "Permanent Marker",
@@ -82,9 +91,6 @@ const styles = (theme) => ({
       width: 20,
     },
   },
-  toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
   toolbarTitle: {
     flex: 1,
   },
@@ -95,6 +101,21 @@ const styles = (theme) => ({
   toolbarLink: {
     padding: theme.spacing(1),
     flexShrink: 0,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
 });
 
@@ -125,19 +146,56 @@ const MenuLink = ({ title, session, loading, classes }) => {
 };
 
 function AppAppBar(props) {
-  const { classes, sections, subHeaderVisible, handleClick, hideMenu } = props;
+  const {
+    classes,
+    sections,
+    subHeaderVisible,
+    handleClick,
+    hideMenu,
+    collapse,
+    handleDrawer,
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [session, loading] = useSession();
+  const [style, trigger] = useBoop({ y: 10 });
 
   const handleAppClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   return (
-    <div>
-      <AppBar position="fixed">
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        className={
+          collapse &&
+          clsx(classes.appBar, {
+            [classes.appBarShift]: false,
+          })
+        }
+      >
         <Toolbar className={classes.toolbar}>
+          {collapse && (
+            <>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={function (e) {
+                  trigger();
+                  handleDrawer();
+                }}
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: false,
+                })}
+              >
+                <animated.span style={style}>
+                  <MenuIcon />
+                </animated.span>
+              </IconButton>
+            </>
+          )}
           <div className={classes.left} />
           <Link
             variant="h6"

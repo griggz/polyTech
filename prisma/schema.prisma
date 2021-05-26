@@ -37,11 +37,12 @@ model Solution {
 }
 
 model Subscribe {
-  id     Int     @id @default(autoincrement())
-  email  String
-  active Boolean @default(false)
-  User   User?   @relation(fields: [userId], references: [id])
-  userId Int?
+  id        Int      @id @default(autoincrement())
+  email     String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  active    Boolean  @default(false)
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model Account {
@@ -58,6 +59,7 @@ model Account {
   updatedAt          DateTime  @default(now()) @map(name: "updated_at")
 
 
+  User User @relation(fields: [userId], references: [id])
   @@index([providerAccountId], name: "providerAccountId")
   @@index([providerId], name: "providerId")
   @@index([userId], name: "userId")
@@ -73,6 +75,7 @@ model Session {
   createdAt    DateTime @default(now()) @map(name: "created_at")
   updatedAt    DateTime @default(now()) @map(name: "updated_at")
 
+  User User @relation(fields: [userId], references: [id])
   @@map(name: "sessions")
 }
 
@@ -88,6 +91,8 @@ model User {
   updatedAt     DateTime    @default(now()) @map(name: "updated_at")
   groups        Groups[]
   posts         Posts[]
+  account       Account[]
+  session       Session[]
 
   @@map(name: "users")
 }
