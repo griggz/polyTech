@@ -37,7 +37,6 @@
     "d3-scale": "latest",
     "date-and-time": "^0.14.2",
     "dotenv": "^8.2.0",
-    "faker": "^5.4.0",
     "final-form": "^4.20.1",
     "i18next": "^20.1.0",
     "i18next-xhr-backend": "^3.2.2",

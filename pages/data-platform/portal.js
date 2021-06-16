@@ -1,7 +1,5 @@
 import React from "react";
-import BaseLayout from "../../../apps/data-platform/components/prebuilt/BaseLayout";
 import { useRouter, withRouter } from "next/router";
-import Dashboard from "../../../apps/data-platform/components/views/dashboard/Dashboard";
 import { useSession } from "next-auth/client";
 
 function DashboardPage() {
@@ -15,9 +13,13 @@ function DashboardPage() {
   }
 
   return (
-    <BaseLayout>
-      <Dashboard />
-    </BaseLayout>
+    <iframe
+      width="100%"
+      height="1000px"
+      frameBorder="0"
+      className="responsive-iframe"
+      src={`https://datadash.vercel.app/?token=${process.env.DATA_PLATFORM_URL_TOKEN}`}
+    ></iframe>
   );
 }
 
