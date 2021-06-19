@@ -16,12 +16,9 @@ module.exports = {
     AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
     AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
-    // Stripe-Donate App
-    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
-    STRIPE_API_AUTH_TOKEN: process.env.STRIPE_API_AUTH_TOKEN,
-    EXCHANGE_API_KEY: process.env.EXCHANGE_API_KEY,
     // EXTERNAL APP TOKENS
     DATA_PLATFORM_URL_TOKEN: process.env.DATA_PLATFORM_URL_TOKEN,
+    SRIPE_FORM_URL_TOKEN: process.env.SRIPE_FORM_URL_TOKEN,
   },
   images: {
     domains: ["images.unsplash.com", "source.unsplash.com"],
